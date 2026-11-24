@@ -474,6 +474,34 @@ _sys.path.insert(0, HERE)
 import trophies as _tro
 TRO = _tro.build(None, at)
 
+from missions_it import it_name
+import re as _re
+for k, v in mdb.items():
+    t = it_name(k)
+    if t: v["it"] = t
+# nomi inglesi nelle descrizioni -> titolo italiano
+_SKIP = {"Moses", "Sunset", "Ocean Beach", "Peach!", "Check Out", "Power Play", "Team Building", "Safe Word", "Cooties", "Slam Dunk", "Feng Shui", "Island Dreams", "Crosstown Traffic", "VC Baby", "Doggie Bag"}
+_pairs = {}
+for k, v in mdb.items():
+    if not v.get("it"): continue
+    base = _re.split(r" \(| – ", v["n"])[0].strip()
+    if base in _SKIP or len(base) < 6 or base == v["it"]: continue
+    _pairs[base] = v["it"]
+_pairs.update({"Gear Up": "Armi in spalla", "Buck Me": "Tasche Buckate", "That's Where The Money Is": "Il profumo dei soldi", "Clonin' Keys, Makin' GS": "Chiavi clonate, soldi a palate", "Clonin' Keys, Makin' Gs": "Chiavi clonate, soldi a palate"})
+_rx = _re.compile(r"(«?)\b(" + "|".join(_re.escape(b) for b in sorted(_pairs, key=len, reverse=True)) + r")(?![\w'])(»?)")
+def _it(s):
+    return _rx.sub(lambda m: (m.group(1) + _pairs[m.group(2)] + m.group(3)) if m.group(1) else "«" + _pairs[m.group(2)] + "»" + m.group(3), s)
+def _walk(o, key=None):
+    if isinstance(o, tuple): o = list(o)
+    if isinstance(o, str): return o if key in ("n", "u", "id", "url") else _it(o)
+    if isinstance(o, list): return [o[0] if (len(o) == 2 and isinstance(o[1], str) and o[1].startswith("http") and i == 1) else _walk(x, key) for i, x in enumerate(o)] if not (len(o) == 2 and all(isinstance(x, str) for x in o) and o[1].startswith("http")) else [_it(o[0]), o[1]]
+    if isinstance(o, dict): return {k: _walk(v, k) for k, v in o.items()}
+    return o
+chapters = _walk(chapters); always = _walk(always); unlocks = {k: _walk(v) for k, v in unlocks.items()}; cars = _walk(cars); eggs = _walk(eggs)
+for t in TRO["trophies"]:
+    for f in ("d", "tip"): t[f] = _it(t[f])
+    if t.get("links"): t["links"] = _walk(t["links"])
+for h in TRO["hundred"]: h["n"] = _it(h["n"])
 data = {"tro": TRO, "unlocks": unlocks, "missions": {"ch": mission_ch, "sf": sf, "db": mdb}, "cats": cats, "pois": pois, "cars": cars, "chapters": chapters, "always": always, "eggs": eggs, "search": search}
 json.dump(data, open(out, "w"), ensure_ascii=False, separators=(",", ":"))
 print(len(pois), len(search), len(cars), sum(len(c["items"]) for c in chapters))

@@ -804,6 +804,7 @@ details.ch>summary span{font:400 15px var(--sf);color:var(--mute);margin-left:6p
 details.ch>.links{padding-bottom:12px}
 .mrow{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:4px 12px;align-items:center;padding:10px 0;border-top:.5px solid var(--sep)}
 .mrow .nm{font-size:16px;line-height:1.3}
+.en{font-size:12.5px;color:var(--mute);margin-top:1px;font-style:italic}
 .mrow.done .nm{text-decoration:line-through;color:var(--mute)}
 .mrow .act{display:flex;gap:5px}
 .mrow .act a,.mrow .act button{font:600 13px var(--sf);padding:5px 11px;border-radius:999px;border:0;background:var(--fill);color:var(--tint);text-decoration:none;cursor:pointer;min-height:30px;display:inline-flex;align-items:center}
@@ -1239,7 +1240,7 @@ function drawMisMap() {
   for (const [id, m] of Object.entries(D.missions.db)) {
     const p = misPos(id); if (!p || !visibleCh(m.ch)) continue;
     const st = S.mis[id] || {};
-    const mk = L.marker(ll(p), {icon: misIcon(st.done), draggable: !!st.edit}).bindPopup(() => '<b>' + esc(m.n) + '</b><br><span class="muted">' + (m.ch ? "Capitolo " + m.ch : "Qualsiasi capitolo") + (m.w ? " · " + esc(m.w) : "") + '</span><br><label class="ck"><input type="checkbox" data-mis="' + esc(id) + '"' + (st.done ? " checked" : "") + '> Fatta</label>' + lk([["Guida (PowerPyx)", m.u]]));
+    const mk = L.marker(ll(p), {icon: misIcon(st.done), draggable: !!st.edit}).bindPopup(() => '<b>' + esc(m.it || m.n) + '</b>' + (m.it ? '<div class="en">' + esc(m.n) + "</div>" : "<br>") + '<span class="muted">' + (m.ch ? "Capitolo " + m.ch : "Qualsiasi capitolo") + (m.w ? " · " + esc(m.w) : "") + '</span><br><label class="ck"><input type="checkbox" data-mis="' + esc(id) + '"' + (st.done ? " checked" : "") + '> Fatta</label>' + lk([["Guida (PowerPyx)", m.u]]));
     mk.on("dragend", () => { S.mis[id] = Object.assign(S.mis[id] || {}, {p: back(mk.getLatLng()), edit: false}); save(); drawMis(); });
     mk.addTo(misLayer); misMarkers[id] = mk;
   }
@@ -1248,7 +1249,7 @@ function drawMisMap() {
 function mrow(x) {
   const m = D.missions.db[x.id], st = S.mis[x.id] || {}, pos = misPos(x.id);
   const tags = x.f.map(f => TAGS[f] ? '<span class="tag ' + TAGS[f][0] + '">' + TAGS[f][1] + "</span>" : "").join("");
-  return '<div class="mrow' + (st.done ? " done" : "") + '"><input type="checkbox" aria-label="Fatta" data-mid="' + esc(x.id) + '"' + (st.done ? " checked" : "") + '><div class="nm">' + esc(x.n) + tags + (m.w ? '<div class="muted">' + esc(m.w) + (m.prec === "zona" ? " (zona)" : "") + "</div>" : "") + '</div><div class="act"><a href="' + esc(m.u) + '" target="_blank" rel="noopener">Guida</a>' +
+  return '<div class="mrow' + (st.done ? " done" : "") + '"><input type="checkbox" aria-label="Fatta" data-mid="' + esc(x.id) + '"' + (st.done ? " checked" : "") + '><div class="nm">' + esc(m.it || x.n) + tags + (m.it ? '<div class="en">' + esc(x.n) + "</div>" : "") + (m.w ? '<div class="muted">' + esc(m.w) + (m.prec === "zona" ? " (zona)" : "") + "</div>" : "") + '</div><div class="act"><a href="' + esc(m.u) + '" target="_blank" rel="noopener">Guida</a>' +
     (pos ? '<button data-mgo="' + esc(x.id) + '">Vedi</button>' + (st.edit ? '<button data-mok="' + esc(x.id) + '">Fatto</button>' : '<button data-medit="' + esc(x.id) + '" title="Correggi posizione">Sposta</button>') : "") + "</div></div>";
 }
 function drawMis() {
@@ -1465,7 +1466,7 @@ $("q").oninput = () => {
   if (q.length < 2) { box.style.display = "none"; return; }
   const hits = [];
   D.cars.forEach(c => { if (carPos(c) && avail(c.ch) && norm(c.n + " " + c.zona).includes(q)) hits.push(["Auto: " + c.n, c.zona, carPos(c)]); });
-  Object.entries(D.missions.db).forEach(([id, m]) => { if (visibleCh(m.ch) && misPos(id) && norm(m.n).includes(q)) hits.push(["Missione: " + m.n, m.w || ("Capitolo " + m.ch), misPos(id)]); });
+  Object.entries(D.missions.db).forEach(([id, m]) => { if (visibleCh(m.ch) && misPos(id) && norm(m.n + " " + (m.it || "")).includes(q)) hits.push(["Missione: " + (m.it || m.n), m.w || ("Capitolo " + m.ch), misPos(id)]); });
   D.eggs.forEach(x => { if (eggPos(x) && norm(x.n + " " + x.zona).includes(q)) hits.push(["Segreto: " + x.n, x.zona, eggPos(x)]); });
   D.pois.forEach(p => { if (avail(p.ch, p.to) && norm(p.n + " " + p.t + " " + p.w).includes(q)) hits.push([p.n, p.t + (p.w ? " · " + p.w : ""), p.p]); });
   S.mine.forEach(m => { if (norm(m.n).includes(q)) hits.push([m.n, "Mio pin", m.p]); });
