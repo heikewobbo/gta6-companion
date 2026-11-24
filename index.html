@@ -2,26 +2,40 @@
 <html lang="it">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="theme-color" content="#0e3b40">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Leonida">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="format-detection" content="telephone=no">
+<meta name="theme-color" content="#f2f2f7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
 <link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 440px) and (device-height: 956px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="icons/splash/splash-1320x2868.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 402px) and (device-height: 874px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="icons/splash/splash-1206x2622.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 420px) and (device-height: 912px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="icons/splash/splash-1260x2736.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="icons/splash/splash-1290x2796.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="icons/splash/splash-1179x2556.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="icons/splash/splash-1170x2532.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="icons/splash/splash-1284x2778.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="icons/splash/splash-1125x2436.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="icons/splash/splash-1242x2688.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="icons/splash/splash-828x1792.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="icons/splash/splash-750x1334.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="icons/splash/splash-1242x2208.png">
 <title>Leonida Companion</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
 <style>
-/* VOICE everyday: a tool he keeps open on the phone next to the PS5
-   IDEA the folded road map of Leonida you keep on the couch, with your own marks on it
+/* VOICE everyday: a tool he keeps open on the iPhone next to the PS5
+   IDEA a native iOS app: tab bar, large titles, inset grouped lists, a glass sheet over the map like Apple Maps
    PICTURE the in-game Leonida map itself, full bleed, with coloured pins
-   COLOUR sea teal map, deep lagoon panel at night / white by day, sunset coral accent, sun yellow support
-   TYPE Anton for names and titles, Inter for text
-   LAYOUT laptop: map full screen with a 380px panel on the left; phone: map with a bottom sheet */
-
+   COLOUR iOS system greys, coral tint as the app's accent, teal hero card, sun yellow for numbers
+   TYPE the system font (SF Pro on Apple), Anton only for the brand and big numbers
+   LAYOUT phone: map + sheet or full-screen pages above a tab bar; laptop: 380px sidebar with its own tab bar */
 .leaflet-pane,
 .leaflet-tile,
 .leaflet-marker-icon,
@@ -596,183 +610,311 @@ svg.leaflet-image-layer.leaflet-interactive path {
 		print-color-adjust: exact;
 		}
 	}
-:root{color-scheme:light dark;--bg:light-dark(#ffffff,#0b2427);--panel:light-dark(#ffffff,#0e2f33);--soft:light-dark(#eef6f6,#133d42);--line:light-dark(#d5e3e3,#21545a);--ink:light-dark(#0c1d1f,#eaf6f5);--mute:light-dark(#4b6467,#9fc0c2);--coral:#ff4f6d;--sun:#ffc24b;--sea:#2f90b0;--ok:light-dark(#0b8a5b,#3fd69a)}
-@supports not (color:light-dark(#000,#fff)){:root{--bg:#ffffff;--panel:#ffffff;--soft:#eef6f6;--line:#d5e3e3;--ink:#0c1d1f;--mute:#4b6467;--ok:#0b8a5b}}
-:root[data-theme=light]{color-scheme:light}
-:root[data-theme=dark]{color-scheme:dark}
+:root{color-scheme:light dark;
+--bg:light-dark(#f2f2f7,#000000);--cell:light-dark(#ffffff,#1c1c1e);--fill:light-dark(rgba(118,118,128,.12),rgba(118,118,128,.24));--off:light-dark(#e9e9eb,#39393d);
+--sep:light-dark(rgba(60,60,67,.2),rgba(84,84,88,.6));--ink:light-dark(#000000,#ffffff);--mute:light-dark(#6e6e73,#98989f);--ring:light-dark(#c4c4c7,#5b5b60);
+--tint:light-dark(#e3304f,#ff5c77);--coral:#ff4f6d;--sun:#ffc24b;--sea:#2f90b0;--ok:light-dark(#28a745,#30d158);
+--glass:light-dark(rgba(249,249,251,.82),rgba(30,30,32,.8));--glass2:light-dark(rgba(249,249,251,.97),rgba(30,30,32,.97));--bar:light-dark(rgba(246,246,248,.9),rgba(22,22,24,.88));
+--panel:var(--cell);--soft:var(--fill);--line:var(--sep);
+--sf:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro",system-ui,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+--sfd:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro",system-ui,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+--st:env(safe-area-inset-top,0px);--sb:env(safe-area-inset-bottom,0px);--tab:calc(50px + var(--sb));--sheet:150px;--nbt:0px}
+@supports not (color:light-dark(#000,#fff)){:root{--bg:#f2f2f7;--cell:#fff;--fill:rgba(118,118,128,.12);--off:#e9e9eb;--sep:rgba(60,60,67,.2);--ink:#000;--mute:#6e6e73;--ring:#c4c4c7;--tint:#e3304f;--ok:#28a745;--glass:rgba(249,249,251,.82);--glass2:rgba(249,249,251,.97)}}
 *{box-sizing:border-box;min-width:0}
-html,body{height:100%;margin:0}
-body{background:var(--bg);color:var(--ink);font:15px/1.45 Inter,system-ui,-apple-system,sans-serif;overflow:hidden}
-#map{position:fixed;inset:0;background:#2f90b0}
+[hidden]{display:none!important}
+html,body{height:100%;margin:0;overscroll-behavior:none}
+body{background:var(--bg);color:var(--ink);font:16px/1.4 var(--sf);overflow:hidden;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;text-size-adjust:100%;touch-action:manipulation}
+button,label,summary,.chip,#tabbar,.nb,#grab{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+a{color:var(--tint)}
+#map{position:fixed;inset:0;background:#2f90b0;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
 .leaflet-container{font:inherit;background:#2f90b0}
-.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:var(--panel);color:var(--ink);border-radius:12px}
-.leaflet-popup-content{margin:12px 14px;font-size:14px;line-height:1.4}
-.leaflet-control-attribution{font-size:11px;background:color-mix(in srgb,var(--panel) 85%,transparent)!important;color:var(--mute)}
+.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:var(--glass2);color:var(--ink);box-shadow:0 8px 28px rgba(0,0,0,.22)}
+.leaflet-popup-content-wrapper{border-radius:14px}
+.leaflet-popup-content{margin:12px 14px;font-size:15px;line-height:1.35}
+.leaflet-popup-content .btn{margin-top:6px}
+.leaflet-container a.leaflet-popup-close-button{color:var(--mute);font:400 22px/24px var(--sf);width:28px;height:28px;top:4px;right:4px}
+.leaflet-control-attribution{font-size:10px;background:var(--glass)!important;color:var(--mute);border-radius:6px 0 0 0;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
 .leaflet-control-attribution a{color:var(--mute)}
-.leaflet-bar a{background:var(--panel);color:var(--ink);border-color:var(--line)}
-#panel{position:fixed;z-index:1000;background:var(--panel);display:flex;flex-direction:column;box-shadow:0 0 0 1px var(--line)}
-@media(min-width:760px){#panel{top:12px;left:12px;bottom:12px;width:380px;border-radius:16px;overflow:hidden}.leaflet-left{left:400px}#grab{display:none}}
-@media(max-width:759px){#panel{left:0;right:0;bottom:0;height:calc(178px + env(safe-area-inset-bottom,0px));border-radius:18px 18px 0 0;transition:height .25s ease;padding-bottom:env(safe-area-inset-bottom,0px)}#panel.open{height:58svh}.leaflet-bottom{bottom:calc(178px + env(safe-area-inset-bottom,0px))}}
-@media(prefers-reduced-motion:reduce){#panel{transition:none}}
-#grab{border:0;background:none;padding:8px 0 2px;width:100%;cursor:pointer}
-#grab span{display:block;width:44px;height:5px;border-radius:3px;background:var(--line);margin:0 auto}
-header{padding:10px 16px 8px;display:flex;align-items:center;gap:10px}
-h1{font:400 26px/1.05 Anton,Impact,sans-serif;letter-spacing:.01em;margin:0;flex:1}
-h1 b{color:var(--coral);font-weight:400}
-#q{width:100%;font:16px Inter,sans-serif;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--soft);color:var(--ink)}
-.searchbox{padding:0 16px 8px;position:relative}
-#results{margin-top:6px;background:var(--panel);border:1px solid var(--line);border-radius:10px;max-height:220px;overflow:auto;display:none}
-#results button{display:block;width:100%;text-align:left;padding:10px 12px;border:0;border-bottom:1px solid var(--line);background:none;color:var(--ink);font:14px Inter,sans-serif;cursor:pointer}
-#results small{color:var(--mute)}
-nav{display:flex;gap:2px;padding:0 8px;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
-nav::-webkit-scrollbar{display:none}
-nav button{flex:1 0 auto;border:0;background:none;color:var(--mute);font:600 13.5px Inter,sans-serif;padding:10px 7px 9px;white-space:nowrap;border-bottom:3px solid transparent;cursor:pointer;min-height:44px}
-nav button[aria-selected=true]{color:var(--ink);border-bottom-color:var(--coral)}
-nav i{display:none}
-.tab{flex:1;overflow:auto;padding:12px 16px 24px;display:none}
+.leaflet-bar{border:0!important;box-shadow:0 2px 10px rgba(0,0,0,.18)!important;border-radius:10px!important;overflow:hidden}
+.leaflet-bar a{background:var(--glass2);color:var(--ink);border-color:var(--sep);width:36px;height:36px;line-height:36px;font:400 20px/36px var(--sf)}
+@media(pointer:coarse){.leaflet-control-zoom{display:none}}
+.leaflet-tooltip{font:600 13px var(--sf);border-radius:8px;border:0;box-shadow:0 2px 10px rgba(0,0,0,.2)}
+
+/* status bar scrim, tab bar */
+#scrim{position:fixed;z-index:950;top:0;left:0;right:0;height:var(--st);background:var(--glass);-webkit-backdrop-filter:blur(16px) saturate(180%);backdrop-filter:blur(16px) saturate(180%);pointer-events:none}
+#tabbar{position:fixed;z-index:1100;display:flex;background:var(--bar);-webkit-backdrop-filter:blur(22px) saturate(180%);backdrop-filter:blur(22px) saturate(180%);box-shadow:0 -.5px 0 var(--sep)}
+#tabbar button{flex:1;border:0;background:none;color:#8e8e93;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:3px;font:500 10px/1.1 var(--sf);padding:6px 0 0;cursor:pointer;letter-spacing:.01em}
+#tabbar svg{width:27px;height:27px;flex:none}
+#tabbar .on{display:none}
+#tabbar button[aria-selected=true]{color:var(--tint)}
+#tabbar button[aria-selected=true] .on{display:block}#tabbar button[aria-selected=true] .off{display:none}
+#tabbar button:active{opacity:.6}
+
+/* panel */
+#panel{position:fixed;z-index:1000;display:flex;flex-direction:column;background:var(--bg)}
+#grab{display:none;border:0;background:none;padding:6px 0 4px;width:100%;cursor:grab;touch-action:none;flex:none}
+#grab span{display:block;width:36px;height:5px;border-radius:3px;background:light-dark(rgba(60,60,67,.3),rgba(235,235,245,.3));margin:0 auto}
+@media(min-width:760px){
+  #panel{top:12px;left:12px;bottom:68px;width:380px;border-radius:16px 16px 0 0;overflow:hidden;box-shadow:0 10px 40px rgba(0,0,0,.25)}
+  #tabbar{left:12px;bottom:12px;width:380px;height:56px;border-radius:0 0 16px 16px;background:var(--glass2);box-shadow:0 -.5px 0 var(--sep),0 10px 40px rgba(0,0,0,.25)}
+  #tabbar button{justify-content:center;padding:0}
+  .leaflet-left{left:400px}#scrim{display:none}
+  #pickBar{left:404px!important;right:auto!important;width:360px;bottom:24px!important}
+}
+@media(max-width:759px){
+  :root{--nbt:var(--st)}
+  #tabbar{left:0;right:0;bottom:0;height:var(--tab);padding-bottom:var(--sb)}
+  #panel{left:0;right:0;top:0;bottom:0}
+  body:not(.mapmode) .tab{padding-bottom:calc(var(--tab) + 28px)}
+  body.mapmode #panel{top:auto;bottom:var(--tab);height:var(--sheet);border-radius:14px 14px 0 0;background:var(--glass);-webkit-backdrop-filter:blur(24px) saturate(180%);backdrop-filter:blur(24px) saturate(180%);box-shadow:0 -.5px 0 var(--sep),0 -8px 30px rgba(0,0,0,.16);transition:height .32s cubic-bezier(.2,.9,.25,1)}
+  body.mapmode #panel.open{height:min(62svh,calc(100svh - var(--tab) - var(--st) - 40px))}
+  body.mapmode #grab{display:block}
+  body:not(.mapmode) #scrim{display:none}
+  .leaflet-top{top:var(--st)}
+  .leaflet-bottom{bottom:calc(var(--tab) + var(--sheet));transition:bottom .32s cubic-bezier(.2,.9,.25,1)}
+}
+@media(prefers-reduced-motion:reduce){#panel,.leaflet-bottom{transition:none!important}.tab.push{animation:none!important}}
+
+/* pages */
+.tab{flex:1;overflow:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:0 16px 28px;display:none}
 .tab.on{display:block}
-h2{font:400 20px/1.1 Anton,Impact,sans-serif;margin:14px 0 8px;letter-spacing:.01em}
-h2:first-child{margin-top:2px}
-.chips{display:flex;flex-wrap:wrap;gap:6px}
-.chip{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;padding:7px 11px;font:500 13px Inter,sans-serif;cursor:pointer;min-height:36px}
-.chip[aria-pressed=false]{opacity:.45}
-.dot{width:11px;height:11px;border-radius:50%;flex:none;border:2px solid #fff}
-.muted{color:var(--mute);font-size:13px}
-.card{border:1px solid var(--line);border-radius:12px;padding:11px 12px;margin-bottom:8px;background:var(--panel)}
-.card.done{background:var(--soft)}
-.card h3{margin:0;font:600 15px/1.3 Inter,sans-serif}
-.card.done h3{text-decoration:line-through;text-decoration-color:var(--mute)}
-.card p{margin:4px 0 0;font-size:14px}
-.card .note{color:var(--mute);font-size:13px}
-.row{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;align-items:center}
-.btn{border:1px solid var(--line);background:var(--soft);color:var(--ink);border-radius:8px;padding:7px 10px;font:600 13px Inter,sans-serif;cursor:pointer;min-height:36px}
-.btn.hot{background:var(--coral);border-color:var(--coral);color:#fff}
-.btn[disabled]{opacity:.4}
-label.ck{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;cursor:pointer;min-height:36px;padding-right:6px}
-label.ck input{width:20px;height:20px;accent-color:var(--coral)}
-.tag{display:inline-block;font:600 11px Inter,sans-serif;padding:2px 7px;border-radius:6px;background:var(--sun);color:#3a2a00;margin-left:4px;vertical-align:2px;white-space:nowrap}
+@keyframes pushIn{from{transform:translateX(28%);opacity:.5}to{transform:none;opacity:1}}
+.tab.push{animation:pushIn .3s cubic-bezier(.2,.85,.25,1)}
+.nb{position:sticky;top:0;z-index:6;margin:0 -16px;padding:var(--nbt) 6px 0;height:calc(44px + var(--nbt));display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;transition:background .2s,box-shadow .2s}
+.nb .nbt{font:600 17px var(--sf);opacity:0;transition:opacity .2s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nb.sc{background:var(--bar);-webkit-backdrop-filter:blur(22px) saturate(180%);backdrop-filter:blur(22px) saturate(180%);box-shadow:0 .5px 0 var(--sep)}
+.nb.sc .nbt{opacity:1}
+.nb .slot{justify-self:end;padding-right:10px;display:flex}
+.back{justify-self:start;border:0;background:none;color:var(--tint);font:400 17px var(--sf);display:flex;align-items:center;gap:3px;min-height:44px;padding:0 8px 0 4px;cursor:pointer}
+.back svg{width:13px;height:21px}
+.back:active{opacity:.5}
+.lt{font:700 34px/1.12 var(--sfd);letter-spacing:.008em;margin:0 0 12px}
+.sub{color:var(--mute);font-size:15px;margin:-8px 0 14px}
+.mapHead{position:sticky;top:0;z-index:6;margin:0 -16px;padding:2px 16px 10px;background:var(--glass2)}
+@media(min-width:760px){.mapHead{background:var(--bg);padding-top:12px}}
+.brand{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+h1.app{font:400 25px/1.05 Anton,Impact,var(--sfd);letter-spacing:.01em;margin:0;flex:1}
+h1.app b{color:var(--coral);font-weight:400}
+
+/* search */
+#q{width:100%;font:17px var(--sf);padding:8px 12px 8px 34px;height:38px;border-radius:11px;border:0;background:var(--fill) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238e8e93' stroke-width='2.4' stroke-linecap='round'%3E%3Ccircle cx='10.5' cy='10.5' r='6.5'/%3E%3Cpath d='M15.5 15.5 20 20'/%3E%3C/svg%3E") 10px 50%/17px no-repeat;color:var(--ink);-webkit-appearance:none;appearance:none}
+#q::placeholder{color:#8e8e93}
+#q:focus{outline:none}
+.searchbox{position:relative}
+#results{margin-top:8px;background:var(--cell);border-radius:12px;max-height:240px;overflow:auto;display:none;box-shadow:0 4px 18px rgba(0,0,0,.08)}
+#results button{display:block;width:100%;text-align:left;padding:10px 14px;border:0;background:none;color:var(--ink);font:16px/1.3 var(--sf);cursor:pointer;position:relative}
+#results button+button:before{content:"";position:absolute;top:0;left:14px;right:0;border-top:.5px solid var(--sep)}
+#results button:active{background:var(--fill)}
+#results small{color:var(--mute);font-size:13px}
+
+/* headings and text */
+h2{font:700 20px/1.2 var(--sfd);margin:24px 2px 8px;letter-spacing:.01em}
+h2:first-child{margin-top:4px}
+.muted{color:var(--mute);font-size:13.5px}
+p.muted{margin:6px 4px 10px;line-height:1.4}
+.credits{font-size:12px;color:var(--mute);margin:20px 4px 0;line-height:1.45}
+.credits a{color:inherit}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* grouped lists */
+.group{background:var(--cell);border-radius:12px;overflow:hidden;margin:0 0 10px}
+.cell{display:flex;align-items:center;gap:12px;width:100%;min-height:46px;padding:7px 16px;border:0;background:none;color:var(--ink);font:17px/1.25 var(--sf);text-align:left;cursor:pointer;position:relative;text-decoration:none}
+.cell+.cell:before{content:"";position:absolute;top:0;right:0;left:58px;border-top:.5px solid var(--sep)}
+.group.noi .cell+.cell:before{left:16px}
+button.cell:active,a.cell:active{background:var(--fill)}
+.cell .ico{width:30px;height:30px;border-radius:7px;display:grid;place-items:center;flex:none;color:#fff}
+.cell .ico svg{width:19px;height:19px}
+.cl{flex:1}
+.cl small{display:block;font-size:13px;color:var(--mute);margin-top:1px}
+.cd{color:var(--mute);font-size:16px;white-space:nowrap}
+.chev{width:8px;height:14px;flex:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 14' fill='none' stroke='%23a1a1a6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1.5 1.5 6.5 7l-5 5.5'/%3E%3C/svg%3E") center/contain no-repeat}
+
+/* switches and round checks */
+input.sw{-webkit-appearance:none;appearance:none;width:51px;height:31px;border-radius:16px;background:var(--off);position:relative;flex:none;margin:0;cursor:pointer;transition:background .25s}
+input.sw:before{content:"";position:absolute;top:2px;left:2px;width:27px;height:27px;border-radius:50%;background:#fff;box-shadow:0 3px 8px rgba(0,0,0,.15),0 1px 1px rgba(0,0,0,.16);transition:transform .25s cubic-bezier(.3,.9,.3,1.1)}
+input.sw:checked{background:var(--ok)}
+input.sw:checked:before{transform:translateX(20px)}
+.mrow input[type=checkbox],.thead input[type=checkbox],label.ck input[type=checkbox]{-webkit-appearance:none;appearance:none;width:24px;height:24px;border-radius:50%;border:1.6px solid var(--ring);margin:0;flex:none;background:transparent no-repeat center/13px;cursor:pointer;transition:background-color .15s,border-color .15s}
+.mrow input:checked,.thead input:checked,label.ck input:checked{background-color:var(--tint);border-color:var(--tint);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14' fill='none' stroke='%23fff' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2.5 7.4 5.6 10.4 11.6 3.8'/%3E%3C/svg%3E")}
+.thead input:disabled:checked{background-color:var(--ok);border-color:var(--ok);cursor:default}
+input:focus-visible,button:focus-visible,a:focus-visible,summary:focus-visible,select:focus-visible{outline:2px solid var(--tint);outline-offset:2px}
+
+/* chips, cards, buttons */
+.chips{display:flex;flex-wrap:wrap;gap:7px}
+.chip{display:inline-flex;align-items:center;gap:7px;border:0;background:var(--cell);color:var(--ink);border-radius:999px;padding:7px 12px;font:500 14px var(--sf);cursor:pointer;min-height:34px;box-shadow:0 1px 2px rgba(0,0,0,.06)}
+.chip[aria-pressed=false]{opacity:.42}
+.chip:active{transform:scale(.96)}
+.dot{width:11px;height:11px;border-radius:50%;flex:none;border:2px solid #fff;box-shadow:0 0 0 .5px rgba(0,0,0,.2)}
+.card{border:0;border-radius:12px;padding:12px 16px;margin-bottom:10px;background:var(--cell)}
+.card h3{margin:0;font:600 17px/1.3 var(--sf)}
+.card.done h3{text-decoration:line-through;text-decoration-color:var(--mute);color:var(--mute)}
+.card p{margin:5px 0 0;font-size:15px}
+.card .note{color:var(--mute);font-size:14px}
+.card.locked{opacity:.6;background:transparent;box-shadow:inset 0 0 0 1px var(--sep)}
+.card .why{font-size:13px;font-weight:600;color:var(--tint);margin-top:4px}
+details.card>summary{cursor:pointer;list-style:none;font-size:16px}
+details.card>summary::-webkit-details-marker{display:none}
+.row{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;align-items:center}
+.btn{border:0;background:var(--fill);color:var(--tint);border-radius:10px;padding:8px 14px;font:600 15px var(--sf);cursor:pointer;min-height:36px;display:inline-flex;align-items:center;justify-content:center;text-decoration:none}
+.btn.hot{background:var(--tint);color:#fff}
+.btn:active{opacity:.55}
+.btn[disabled]{opacity:.35}
+label.ck{display:inline-flex;align-items:center;gap:10px;font-size:15px;cursor:pointer;min-height:36px}
+.card label.ck{display:flex;font-size:16px}
+.card label.ck b{font-weight:600}
+.tag{display:inline-block;font:600 11px var(--sf);padding:2px 7px;border-radius:5px;background:var(--sun);color:#3a2a00;margin-left:5px;vertical-align:2px;white-space:nowrap}
 .tag.trophy{background:var(--coral);color:#fff}
-.src{font-size:12px;color:var(--mute);margin-top:6px}
-.pnr{border-left:4px solid var(--coral);background:color-mix(in srgb,var(--coral) 12%,var(--panel));padding:10px 12px;border-radius:0 10px 10px 0;font-size:14px;margin-bottom:10px}
-.bar{height:8px;border-radius:4px;background:var(--soft);overflow:hidden;margin:6px 0 2px}
-.bar span{display:block;height:100%;background:var(--coral)}
-select,input[type=text],textarea{font:16px Inter,sans-serif;padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:var(--soft);color:var(--ink);width:100%}
-textarea{min-height:90px}
+.tag.opt{background:var(--fill);color:var(--mute)}
+.tag.pnr{background:#1c1c1e;color:#fff}
+.tag.sf{background:#0a84ff;color:#fff}
+.src{font-size:12px;color:var(--mute);margin-top:7px}
+.pnr{background:color-mix(in srgb,var(--coral) 13%,var(--cell));padding:12px 14px;border-radius:12px;font-size:15px;margin-bottom:10px}
+.pnr:before{content:"Prima di andare avanti";display:block;font:700 12px var(--sf);text-transform:uppercase;letter-spacing:.04em;color:var(--tint);margin-bottom:4px}
+.bar{height:6px;border-radius:3px;background:var(--fill);overflow:hidden;margin:6px 2px 2px}
+.bar span{display:block;height:100%;background:var(--tint);border-radius:3px;transition:width .4s}
+select,input[type=text],input[type=number],textarea{font:17px var(--sf);padding:8px 12px;border-radius:10px;border:0;background:var(--fill);color:var(--ink);width:100%;min-height:40px}
+textarea{min-height:90px;font-size:15px}
 .form{display:grid;gap:8px;margin-top:8px}
+.chapsel{width:auto;font:600 15px var(--sf);padding:6px 30px 6px 13px;border-radius:999px;border:0;background:var(--tint) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 16' fill='none' stroke='%23fff' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 6l3-3 3 3M2 10l3 3 3-3'/%3E%3C/svg%3E") calc(100% - 11px) 50%/9px no-repeat;color:#fff;min-height:32px;-webkit-appearance:none;appearance:none;cursor:pointer}
+
+/* map pins */
 .carpin{width:30px;height:30px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:var(--coral);border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35);display:grid;place-items:center}
-.carpin.got{background:#3fb37f}
+.carpin.got{background:#34c759}
 .carpin svg{transform:rotate(45deg);width:16px;height:16px}
 .minepin{width:22px;height:22px;border-radius:50%;background:var(--sun);border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35)}
-#cross{position:fixed;z-index:900;left:50%;top:40%;width:26px;height:26px;margin:-13px 0 0 -13px;pointer-events:none;display:none}
-#cross:before,#cross:after{content:"";position:absolute;background:var(--coral)}
-#cross:before{left:12px;top:0;width:2px;height:26px}#cross:after{top:12px;left:0;height:2px;width:26px}
-.mrow{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:4px 8px;align-items:center;padding:7px 0;border-bottom:1px solid var(--line)}
-.mrow input{width:20px;height:20px;accent-color:var(--coral)}
-.mrow .nm{font-size:14px;line-height:1.3}
-.mrow.done .nm{text-decoration:line-through;color:var(--mute)}
-.mrow .act{display:flex;gap:4px}
-.mrow .act a,.mrow .act button{font:600 12px Inter,sans-serif;padding:6px 8px;border-radius:7px;border:1px solid var(--line);background:var(--soft);color:var(--ink);text-decoration:none;cursor:pointer;min-height:32px;display:inline-flex;align-items:center}
-.tag.opt{background:var(--soft);color:var(--mute)}
-.tag.pnr{background:#1c1c1c;color:#fff}
-.tag.sf{background:#4d96ff;color:#fff}
-details.ch{margin-top:6px}
-details.ch>summary{cursor:pointer;font:400 19px/1.2 Anton,Impact,sans-serif;padding:8px 0;list-style:none}
+.mispin{width:24px;height:24px;border-radius:7px;background:#0a84ff;border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35);display:grid;place-items:center;font:800 12px var(--sf);color:#fff}
+.mispin.got{background:#34c759}
+.opspin{width:24px;height:24px;border-radius:50%;background:#7b2cbf;border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35);display:grid;place-items:center;font:800 12px var(--sf);color:#fff}
+.eggpin{width:26px;height:26px;border-radius:50%;background:var(--sun);border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35);display:grid;place-items:center;font:700 13px var(--sf);color:#3a2a00}
+.eggpin.got{background:#34c759;color:#fff}
+#cross{position:fixed;z-index:900;left:50%;top:40%;width:34px;height:34px;margin:-17px 0 0 -17px;pointer-events:none;display:none}
+#cross:before,#cross:after{content:"";position:absolute;background:var(--coral);box-shadow:0 0 0 1.5px #fff;border-radius:1px}
+#cross:before{left:16px;top:0;width:2px;height:34px}#cross:after{top:16px;left:0;height:2px;width:34px}
+#pickBar{position:fixed;z-index:1050;left:12px;right:12px;bottom:calc(var(--tab) + var(--sheet) + 12px);display:flex;align-items:center;gap:8px;padding:10px 10px 10px 16px;border-radius:16px;background:var(--glass2);box-shadow:0 8px 30px rgba(0,0,0,.25);font-size:15px}
+#pickBar[hidden]{display:none}
+#pickBar span{flex:1}
+
+/* missions, trophies, lists */
+details.ch{background:var(--cell);border-radius:12px;margin:0 0 10px;padding:0 16px}
+details.ch>summary{cursor:pointer;font:600 17px/1.25 var(--sf);padding:13px 22px 13px 0;list-style:none;position:relative}
 details.ch>summary::-webkit-details-marker{display:none}
-details.ch>summary span{font:500 13px Inter,sans-serif;color:var(--mute);margin-left:6px}
-.mispin{width:24px;height:24px;border-radius:6px;background:#4d96ff;border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35);display:grid;place-items:center;font:800 12px Inter,sans-serif;color:#fff}
-.mispin.got{background:#3fb37f}
-.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
-.chapsel{width:auto;font:600 14px Inter,sans-serif;padding:7px 28px 7px 10px;border-radius:999px;border:0;background:var(--coral);color:#fff;min-height:36px;appearance:none;background-image:linear-gradient(45deg,transparent 50%,#fff 50%),linear-gradient(135deg,#fff 50%,transparent 50%);background-position:calc(100% - 15px) 50%,calc(100% - 10px) 50%;background-size:5px 5px;background-repeat:no-repeat}
-.prog{border-radius:14px;padding:12px 14px;background:linear-gradient(135deg,#0e3b40,#14707a);color:#eaf6f5;margin-bottom:4px}
+details.ch>summary:after{content:"";position:absolute;right:2px;top:50%;width:8px;height:14px;margin-top:-7px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 14' fill='none' stroke='%23a1a1a6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1.5 1.5 6.5 7l-5 5.5'/%3E%3C/svg%3E") center/contain no-repeat;transition:transform .2s}
+details.ch[open]>summary:after{transform:rotate(90deg)}
+details.ch>summary span{font:400 15px var(--sf);color:var(--mute);margin-left:6px}
+details.ch>.links{padding-bottom:12px}
+.mrow{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:4px 12px;align-items:center;padding:10px 0;border-top:.5px solid var(--sep)}
+.mrow .nm{font-size:16px;line-height:1.3}
+.mrow.done .nm{text-decoration:line-through;color:var(--mute)}
+.mrow .act{display:flex;gap:5px}
+.mrow .act a,.mrow .act button{font:600 13px var(--sf);padding:5px 11px;border-radius:999px;border:0;background:var(--fill);color:var(--tint);text-decoration:none;cursor:pointer;min-height:30px;display:inline-flex;align-items:center}
+.mrow .act a:active,.mrow .act button:active{opacity:.55}
+#troList{background:var(--cell);border-radius:12px;padding:0 16px;margin-bottom:10px}
+#troList:empty{display:none}
+.trow{border-bottom:.5px solid var(--sep);padding:12px 0}
+.trow:last-child{border-bottom:0}
+.trow.done .tn{color:var(--mute);text-decoration:line-through}
+.thead{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:start}
+.thead input{margin-top:1px!important}
+.thead>span:first-child{width:24px}
+.tn{font-weight:600;font-size:16px}
+.td{font-size:14px;color:var(--mute);margin-top:2px}
+.trow .note{color:var(--mute);font-size:14px}
+.gr{font:700 11px var(--sf);padding:3px 8px;border-radius:999px;white-space:nowrap}
+.gr.P{background:#9ec7ff;color:#0b2447}.gr.G{background:#ffd34d;color:#3a2a00}.gr.S{background:#d6dde3;color:#2a3138}.gr.B{background:#e0a36b;color:#3b1d00}
+.cnt{display:flex;align-items:center;gap:6px;margin-top:8px}
+.cnt button{width:44px;height:34px;border-radius:9px;border:0;background:var(--fill);color:var(--ink);font:400 22px/1 var(--sf);cursor:pointer}
+.cnt button:active{background:var(--sep)}
+.cnt input{width:100px;text-align:center;padding:6px;min-height:34px;font-size:16px}
+.cnt .of{font-size:14px;color:var(--mute);white-space:nowrap}
+.mini{height:5px;border-radius:3px;background:var(--fill);overflow:hidden;margin-top:7px}
+.mini span{display:block;height:100%;background:var(--tint)}
+.src2{font:600 11px var(--sf);color:var(--ok);margin-left:6px}
+.psn{border-radius:12px;padding:12px 16px;margin-bottom:12px;background:var(--cell)}
+.psn select{margin-top:6px}
+.psn .row select{min-height:40px}
+#hundList{background:var(--cell);border-radius:12px;padding:2px 16px 4px;margin-bottom:10px}
+#hundList h3{margin:14px 0 2px!important;font:700 12px var(--sf)!important;text-transform:uppercase;letter-spacing:.04em;color:var(--mute)}
+#hundList>p.muted{margin:10px 0}
+.hrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 10px;padding:10px 0;border-bottom:.5px solid var(--sep);align-items:center}
+.hrow.done .hn{color:var(--mute);text-decoration:line-through}
+.hn{font-size:15px}
+.hn a{font-size:13px}
+.hv{font:600 14px var(--sf);white-space:nowrap;font-variant-numeric:tabular-nums}
+.links{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+.links a{display:inline-flex;align-items:center;min-height:30px;padding:5px 11px;border-radius:999px;background:var(--fill);color:var(--tint);font:600 13px var(--sf);text-decoration:none;border:0}
+.links a:after{content:"↗";margin-left:5px;opacity:.7}
+.links a:active{opacity:.55}
+
+/* hero progress card and banner */
+.prog{border-radius:16px;padding:14px 16px;background:linear-gradient(135deg,#0e3b40,#14707a);color:#eaf6f5;margin:2px 0 4px}
 .prog h2{margin:0 0 6px;color:#fff}
 .stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:8px 0}
-.stats div{background:rgba(255,255,255,.1);border-radius:10px;padding:6px 4px;text-align:center}
+.stats div{background:rgba(255,255,255,.1);border-radius:11px;padding:7px 4px;text-align:center}
 .stats b{display:block;font:400 22px/1.1 Anton,Impact,sans-serif;color:#ffc24b}
 .stats span{font-size:11.5px}
 .prog ul{margin:6px 0 0;padding-left:18px}
-.prog li{margin:4px 0;font-size:14px}
-.prog li span{color:#bfe0e0;font-size:13px}
-.prog .links a{background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.2)}
-.prog details{margin-top:8px;font-size:13px}
+.prog li{margin:5px 0;font-size:14.5px}
+.prog li span{color:#bfe0e0;font-size:13.5px}
+.prog .links a{background:rgba(255,255,255,.14);color:#fff}
+.prog details{margin-top:8px;font-size:14px}
 .prog summary{cursor:pointer;color:#bfe0e0}
-.lock{color:#bfe0e0;font-size:13px;margin:8px 0 0}
-.card.locked{opacity:.62;border-style:dashed}
-.card .why{font-size:13px;font-weight:600;color:var(--coral);margin-top:4px}
-#toast{position:fixed;z-index:2000;left:50%;top:16px;transform:translateX(-50%);width:min(420px,calc(100% - 24px));background:#0e3b40;color:#eaf6f5;border-radius:16px;padding:14px 16px;box-shadow:0 10px 30px rgba(0,0,0,.35);display:none}
+.lock{color:#bfe0e0;font-size:13.5px;margin:8px 0 0}
+#toast{position:fixed;z-index:2000;left:50%;top:calc(var(--st) + 8px);transform:translateX(-50%);width:min(420px,calc(100% - 16px));background:rgba(28,28,30,.92);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);color:#f2f2f7;border-radius:22px;padding:14px 16px;box-shadow:0 12px 40px rgba(0,0,0,.35);display:none;animation:drop .35s cubic-bezier(.2,.9,.25,1.1)}
+@keyframes drop{from{transform:translate(-50%,-30px);opacity:0}}
 #toast h3{margin:0 0 6px;font:400 22px/1.1 Anton,Impact,sans-serif;color:#ffc24b}
-#toast ul{margin:0;padding-left:18px;font-size:14px}
-#toast button{margin-top:10px}
-.trow{border-bottom:1px solid var(--line);padding:10px 0}
-.trow.done .tn{color:var(--mute);text-decoration:line-through}
-.thead{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:8px;align-items:start}
-.thead input{width:20px;height:20px;accent-color:var(--coral);margin-top:2px}
-.tn{font-weight:700;font-size:14.5px}
-.td{font-size:13.5px;color:var(--mute);margin-top:2px}
-.gr{font:700 11px Inter,sans-serif;padding:3px 7px;border-radius:6px;white-space:nowrap}
-.gr.P{background:#9ec7ff;color:#0b2447}.gr.G{background:#ffd34d;color:#3a2a00}.gr.S{background:#d6dde3;color:#2a3138}.gr.B{background:#e0a36b;color:#3b1d00}
-.cnt{display:flex;align-items:center;gap:6px;margin-top:6px}
-.cnt button{width:36px;height:36px;border-radius:8px;border:1px solid var(--line);background:var(--soft);color:var(--ink);font:700 18px Inter,sans-serif;cursor:pointer}
-.cnt input{width:96px;text-align:center;padding:6px}
-.cnt .of{font-size:13px;color:var(--mute);white-space:nowrap}
-.mini{height:6px;border-radius:3px;background:var(--soft);overflow:hidden;margin-top:6px}
-.mini span{display:block;height:100%;background:var(--coral)}
-.src2{font:600 11px Inter,sans-serif;color:var(--ok);margin-left:6px}
-.psn{border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:10px;background:var(--soft)}
-.psn select{margin-top:6px}
-.hrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 10px;padding:8px 0;border-bottom:1px solid var(--line);align-items:center}
-.hrow.done .hn{color:var(--mute);text-decoration:line-through}
-.hn{font-size:14px}
-.hv{font:600 13px Inter,sans-serif;white-space:nowrap}
-.opspin{width:24px;height:24px;border-radius:50%;background:#7b2cbf;border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35);display:grid;place-items:center;font:800 12px Inter,sans-serif;color:#fff}
-.links{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-.links a{display:inline-flex;align-items:center;min-height:32px;padding:5px 10px;border-radius:8px;background:color-mix(in srgb,var(--sea) 14%,var(--panel));color:var(--ink);font:600 12.5px Inter,sans-serif;text-decoration:none;border:1px solid var(--line)}
-.links a:after{content:"↗";margin-left:5px;color:var(--mute)}
-.eggpin{width:26px;height:26px;border-radius:50%;background:var(--sun);border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35);display:grid;place-items:center;font:700 13px Inter,sans-serif;color:#3a2a00}
-.eggpin.got{background:#3fb37f;color:#fff}
-.credits{font-size:12px;color:var(--mute);margin-top:18px}
-.credits a{color:inherit}
+#toast ul{margin:0;padding-left:18px;font-size:14.5px}
+#toast button{margin-top:10px;width:100%}
 </style>
 </head>
-<body>
+<body class="mapmode">
 <div id="map" role="application" aria-label="Mappa di Leonida"></div>
+<div id="scrim" aria-hidden="true"></div>
 <div id="cross" aria-hidden="true"></div>
+<div id="pickBar" role="status" hidden><span id="pickTxt"></span><button class="btn" id="pickNo">Annulla</button><button class="btn hot" id="pickOk">Metti qui</button></div>
 <div id="toast" role="status"></div>
 <section id="panel" aria-label="Pannello">
   <button id="grab" aria-label="Apri o chiudi il pannello"><span></span></button>
-  <header><h1>Leonida <b>Companion</b></h1><label for="chap" class="vh">Capitolo attuale</label><select id="chap" class="chapsel" title="Il capitolo a cui sei arrivato"><option value="1">Cap. 1</option><option value="2">Cap. 2</option><option value="3">Cap. 3</option><option value="4">Cap. 4</option><option value="5">Cap. 5</option></select></header>
-  <div class="searchbox"><input id="q" type="text" placeholder="Cerca un luogo, un negozio, un'auto…" autocomplete="off" aria-label="Cerca"><div id="results" role="listbox"></div></div>
-  <nav role="tablist">
-    <button role="tab" data-t="mappa" aria-selected="true">Mappa</button>
-    <button role="tab" data-t="trofei" aria-selected="false">Trofei</button>
-    <button role="tab" data-t="auto" aria-selected="false">Auto <i id="carCount"></i></button>
-    <button role="tab" data-t="cap" aria-selected="false">Capitoli</button>
-    <button role="tab" data-t="missioni" aria-selected="false">Missioni <i id="misCount"></i></button>
-    <button role="tab" data-t="segreti" aria-selected="false">Segreti</button>
-    <button role="tab" data-t="miei" aria-selected="false">Pin</button>
-  </nav>
+
   <div class="tab on" id="t-mappa">
+    <div class="mapHead">
+      <div class="brand"><h1 class="app">Leonida <b>Companion</b></h1><span class="slot"><label for="chap" class="vh">Capitolo attuale</label><select id="chap" class="chapsel" title="Il capitolo a cui sei arrivato"><option value="1">Cap. 1</option><option value="2">Cap. 2</option><option value="3">Cap. 3</option><option value="4">Cap. 4</option><option value="5">Cap. 5</option></select></span></div>
+      <div class="searchbox"><input id="q" type="search" enterkeyhint="search" placeholder="Cerca luoghi, negozi, auto…" autocomplete="off" autocorrect="off" spellcheck="false" aria-label="Cerca"><div id="results" role="listbox"></div></div>
+    </div>
+    <div id="homeTip" class="card" hidden><div class="row" style="margin:0;flex-wrap:nowrap;align-items:flex-start"><span class="cl"><b>Mettila nella schermata Home</b><br><span class="muted">In Safari tocca <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px" aria-label="Condividi"><path d="M12 3v12M8 7l4-4 4 4M6 11H5v10h14V11h-1"/></svg> poi «Aggiungi alla schermata Home»: si apre a tutto schermo come un'app.</span></span><button class="btn" id="homeTipX" aria-label="Chiudi" style="min-height:30px;padding:4px 10px">✕</button></div></div>
     <div id="prog"></div>
-    <div class="row"><label class="ck"><input type="checkbox" id="later"> Mostra tutto, anche i capitoli successivi (spoiler)</label></div>
     <h2>Cosa mostrare</h2>
     <div class="chips" id="cats"></div>
-    <p class="muted">Negozi e servizi presi dalla mappa della comunità GTADB: è ancora parziale, il gioco è uscito da pochi giorni. Tocca un punto per segnarlo come visitato; tieni premuto sulla mappa per aggiungere un tuo pin.</p>
+    <p class="muted">Negozi e servizi dalla mappa della comunità GTADB, ancora parziale. Tocca un punto per segnarlo come visitato; tieni premuto sulla mappa per aggiungere un tuo pin.</p>
     <div class="row"><button class="btn" id="allOn">Mostra tutto</button><button class="btn" id="allOff">Nascondi tutto</button></div>
-    <h2>Backup dei progressi</h2>
-    <p class="muted">Le spunte restano salvate in questo browser. Ogni tanto salva un file di backup: lo ricarichi su un altro telefono o browser e ritrovi tutto.</p>
-    <div class="row"><button class="btn hot" id="exp">Salva file di backup</button><label class="btn" for="impFile" style="display:inline-flex;align-items:center">Carica file di backup</label><input type="file" id="impFile" accept=".json,application/json" hidden></div>
-    <p class="muted" id="impMsg" role="status"></p>
-    <details class="muted"><summary>Il file non si salva? Usa il testo</summary><div class="form"><div class="row"><button class="btn" id="expT">Copia come testo</button></div><textarea id="impX" aria-label="Testo del backup" placeholder="Incolla qui il testo del backup"></textarea><div class="row"><button class="btn" id="impGo">Ripristina dal testo</button></div></div></details>
-    <div id="offBox" hidden>
-      <h2>Mappa offline</h2>
-      <p class="muted">L'app funziona anche senza connessione: le zone di mappa che guardi restano salvate. Per averla tutta, salvala ora (circa 18 MB, meglio col Wi-Fi).</p>
-      <div class="row"><button class="btn" id="offGo">Salva la mappa per l'offline</button><span class="muted" id="offMsg"></span></div>
-    </div>
-    <p class="credits">Mappa e luoghi: <a href="https://map.gtadb.org">GTA VI Map Tiles e GTA VI Landmarks Data — map.gtadb.org</a>, gtadb.org e contributori, licenza <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. Grafica della mappa: Rockstar Games. Le tile sono state ricomposte in blocchi più grandi. App non ufficiale, senza legami con Rockstar.</p>
   </div>
+
+  <div class="tab" id="t-cap">
+    <div class="nb"><span></span><span class="nbt">Capitoli</span><span class="slot"></span></div>
+    <h1 class="lt">Capitoli</h1>
+    <p class="sub">Cosa fare prima di andare avanti. Il capitolo si cambia in alto a destra.</p>
+    <div id="chapters"></div>
+    <h2>Sempre valido</h2>
+    <div id="always"></div>
+  </div>
+
+  <div class="tab" id="t-missioni">
+    <div class="nb"><span></span><span class="nbt">Missioni</span><span class="slot"></span></div>
+    <h1 class="lt">Missioni</h1>
+    <div class="group noi"><label class="cell"><span class="cl">Missioni con pin sulla mappa</span><input type="checkbox" id="misLayer" class="sw" checked></label></div>
+    <div class="bar"><span id="misBar"></span></div><p class="muted" id="misTxt"></p><i id="misCount" hidden></i>
+    <p class="muted">Tutte le missioni dalla guida di PowerPyx, fino al capitolo scelto in alto (le altre restano nascoste per gli spoiler). Hanno un pin solo quelle che partono da un punto fisso; per le altre segui l'indicatore del gioco.</p>
+    <div id="misList"></div>
+    <h2>Strangers &amp; Freaks</h2>
+    <p class="muted">Per il trofeo servono 8 catene complete. «Conta» = vale per il trofeo secondo PowerPyx.</p>
+    <div id="sfList"></div>
+  </div>
+
   <div class="tab" id="t-trofei">
+    <div class="nb"><span></span><span class="nbt">Trofei</span><span class="slot"></span></div>
+    <h1 class="lt">Trofei</h1>
     <div id="psnBox"></div>
     <div class="bar"><span id="troBar"></span></div><p class="muted" id="troTxt"></p>
-    <div class="row" style="margin-top:0"><label class="ck"><input type="checkbox" id="troTodo"> Solo quelli che mi mancano</label></div>
+    <div class="group noi"><label class="cell"><span class="cl">Solo quelli che mi mancano</span><input type="checkbox" id="troTodo" class="sw"></label></div>
     <div id="troList"></div>
     <h2>Rapine alle operazioni illegali</h2>
     <p class="muted">39 operazioni in 9 gruppi: una per gruppo dà il trofeo Pest Control, tutte servono per il 100%. Per ora ha il pin solo il Sunrise RV Park; le altre posizioni sono nella guida.</p>
@@ -780,47 +922,83 @@ details.ch>summary span{font:500 13px Inter,sans-serif;color:var(--mute);margin-
     <h2>Checklist del 100%</h2>
     <p class="muted">Nel gioco si vede solo dopo la storia; qui la tieni d'occhio da subito. I contatori sono gli stessi dei trofei.</p>
     <div id="hundList"></div>
-    <h2>Guide alle posizioni dei collezionabili</h2>
-    <p class="muted">Se vuoi metterli tu sulla mappa: usa la scheda Pin con nomi chiari (per esempio «Meditazione 3» o «WAiNK 12»), poi mandami il file di backup e li integro come pin fissi.</p>
+    <h2>Guide ai collezionabili</h2>
+    <p class="muted">Se vuoi metterli tu sulla mappa: in Altro › I miei pin usa nomi chiari (per esempio «Meditazione 3» o «WAiNK 12»), poi mandami il file di backup e li integro come pin fissi.</p>
     <div id="guideList" class="links"></div>
   </div>
+
+  <div class="tab" id="t-altro">
+    <div class="nb"><span></span><span class="nbt">Altro</span><span></span></div>
+    <h1 class="lt">Altro</h1>
+    <div class="group">
+      <button class="cell" data-push="auto"><span class="ico" style="background:#ff4f6d"><svg viewBox="0 0 24 24" fill="#fff"><path d="M5 11l1.6-4.2A2 2 0 0 1 8.5 5.5h7a2 2 0 0 1 1.9 1.3L19 11a2 2 0 0 1 1.5 2v4h-2v2h-3v-2h-7v2h-3v-2h-2v-4A2 2 0 0 1 5 11zm2.2 0h9.6l-1.2-3.4a.6.6 0 0 0-.6-.4H9a.6.6 0 0 0-.6.4zM6.5 15a1.2 1.2 0 1 0 0-2.4 1.2 1.2 0 0 0 0 2.4zm11 0a1.2 1.2 0 1 0 0-2.4 1.2 1.2 0 0 0 0 2.4z"/></svg></span><span class="cl">Auto rare</span><span class="cd" id="carCount"></span><span class="chev"></span></button>
+      <button class="cell" data-push="segreti"><span class="ico" style="background:#ff9f0a"><svg viewBox="0 0 24 24" fill="#fff"><path d="M12 3.2l2.7 5.5 6 .9-4.4 4.2 1.1 6L12 17l-5.4 2.8 1.1-6-4.4-4.2 6-.9z"/></svg></span><span class="cl">Segreti ed Easter egg</span><span class="cd" id="eggCount"></span><span class="chev"></span></button>
+      <button class="cell" data-push="miei"><span class="ico" style="background:#34c759"><svg viewBox="0 0 24 24" fill="#fff" fill-rule="evenodd"><path d="M12 2.6a6.6 6.6 0 0 0-6.6 6.6c0 4.8 6.6 12.2 6.6 12.2s6.6-7.4 6.6-12.2A6.6 6.6 0 0 0 12 2.6zm0 9.2a2.6 2.6 0 1 1 0-5.2 2.6 2.6 0 0 1 0 5.2z"/></svg></span><span class="cl">I miei pin</span><span class="cd" id="mineCount"></span><span class="chev"></span></button>
+    </div>
+    <h2>Impostazioni</h2>
+    <div class="group">
+      <label class="cell"><span class="ico" style="background:#5856d6"><svg viewBox="0 0 24 24" fill="#fff" fill-rule="evenodd"><path d="M12 5.5c-5.2 0-8.7 4.5-9.5 6.5.8 2 4.3 6.5 9.5 6.5s8.7-4.5 9.5-6.5c-.8-2-4.3-6.5-9.5-6.5zm0 10.3a3.8 3.8 0 1 1 0-7.6 3.8 3.8 0 0 1 0 7.6zm0-2a1.8 1.8 0 1 0 0-3.6 1.8 1.8 0 0 0 0 3.6z"/></svg></span><span class="cl">Mostra i capitoli successivi<small>Spoiler: anche ciò che si sblocca più avanti</small></span><input type="checkbox" id="later" class="sw"></label>
+      <button class="cell" data-push="dati"><span class="ico" style="background:#0a84ff"><svg viewBox="0 0 24 24" fill="#fff" fill-rule="evenodd"><path d="M3.5 4.5h17v4.2h-17zM4.8 10h14.4v8.8a1.2 1.2 0 0 1-1.2 1.2H6a1.2 1.2 0 0 1-1.2-1.2zm4.6 2.4h5.2v1.8H9.4z"/></svg></span><span class="cl">Backup e mappa offline</span><span class="chev"></span></button>
+    </div>
+    <p class="muted" id="installTip" hidden>Per averla come app: in Safari tocca Condividi, poi «Aggiungi alla schermata Home».</p>
+    <p class="credits">Mappa e luoghi: <a href="https://map.gtadb.org">GTA VI Map Tiles e GTA VI Landmarks Data — map.gtadb.org</a>, gtadb.org e contributori, licenza <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. Grafica della mappa: Rockstar Games. Le tile sono state ricomposte in blocchi più grandi. App non ufficiale, senza legami con Rockstar.</p>
+  </div>
+
   <div class="tab" id="t-auto">
-    <div class="row" style="margin-top:0"><label class="ck"><input type="checkbox" id="carLayer" checked> Mostra le auto sulla mappa</label></div>
+    <div class="nb"><button class="back" data-back><svg viewBox="0 0 12 20" aria-hidden="true"><path d="M10 2 2 10l8 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Altro</button><span class="nbt">Auto rare</span><span class="slot"></span></div>
+    <h1 class="lt">Auto rare</h1>
+    <div class="group noi"><label class="cell"><span class="cl">Auto sulla mappa</span><input type="checkbox" id="carLayer" class="sw" checked></label></div>
     <div class="bar"><span id="carBar"></span></div><p class="muted" id="carTxt"></p>
-    <p class="muted">Posizioni dalle guide uscite nei primi giorni: molte sono indicate solo per zona e alcune fonti non sono d'accordo. Quando trovi un'auto, usa «Correggi posizione» e trascina il pin dove si trova davvero.</p>
+    <p class="muted">Posizioni dalle guide dei primi giorni: molte sono indicate solo per zona e alcune fonti non sono d'accordo. Quando trovi un'auto, usa «Correggi posizione» e trascina il pin dove si trova davvero.</p>
     <div id="cars"></div>
   </div>
-  <div class="tab" id="t-cap">
-    <p class="muted" style="margin-top:0">Il capitolo a cui sei arrivato si sceglie in alto, accanto al titolo.</p>
-    <div id="chapters"></div>
-    <h2>Sempre valido</h2>
-    <div id="always"></div>
-  </div>
-  <div class="tab" id="t-missioni">
-    <div class="row" style="margin-top:0"><label class="ck"><input type="checkbox" id="misLayer" checked> Mostra le missioni con pin sulla mappa</label></div>
-    <div class="bar"><span id="misBar"></span></div><p class="muted" id="misTxt"></p>
-    <p class="muted">Tutte le missioni dalla guida di PowerPyx, fino al capitolo scelto nella scheda Capitoli (gli altri restano nascosti per gli spoiler). Hanno un pin solo le missioni che partono da un punto fisso indicato dalle guide; per le altre segui l'indicatore del gioco.</p>
-    <div id="misList"></div>
-    <h2>Strangers &amp; Freaks</h2>
-    <p class="muted">Per il trofeo servono 8 catene complete. «Conta» = vale per il trofeo secondo PowerPyx.</p>
-    <div id="sfList"></div>
-  </div>
+
   <div class="tab" id="t-segreti">
-    <div class="row" style="margin-top:0"><label class="ck"><input type="checkbox" id="eggLayer" checked> Mostra i segreti sulla mappa</label></div>
+    <div class="nb"><button class="back" data-back><svg viewBox="0 0 12 20" aria-hidden="true"><path d="M10 2 2 10l8 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Altro</button><span class="nbt">Segreti</span><span class="slot"></span></div>
+    <h1 class="lt">Segreti</h1>
+    <div class="group noi"><label class="cell"><span class="cl">Segreti sulla mappa</span><input type="checkbox" id="eggLayer" class="sw" checked></label></div>
     <p class="muted">Easter egg e segreti trovati dai giocatori nei primi giorni. Dove le guide danno solo la zona il pin è indicativo: spostalo quando lo trovi.</p>
     <div id="eggs"></div>
   </div>
+
   <div class="tab" id="t-miei">
-    <p class="muted" style="margin-top:0">Tieni premuto sulla mappa, oppure centra la mappa sul mirino e premi il pulsante.</p>
-    <div class="row" style="margin-top:0"><button class="btn hot" id="addC">Aggiungi pin al centro</button></div>
-    <div class="form" id="mineF" hidden>
+    <div class="nb"><button class="back" data-back><svg viewBox="0 0 12 20" aria-hidden="true"><path d="M10 2 2 10l8 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Altro</button><span class="nbt">I miei pin</span><span></span></div>
+    <h1 class="lt">I miei pin</h1>
+    <p class="muted">Tieni premuto sulla mappa, oppure usa il mirino.</p>
+    <div class="row" style="margin:0 0 12px"><button class="btn hot" id="addC">Aggiungi un pin col mirino</button></div>
+    <div class="form card" id="mineF" hidden>
       <input type="text" id="mName" placeholder="Nome (es. Garage con Infernus)" aria-label="Nome del pin">
       <input type="text" id="mNote" placeholder="Nota (facoltativa)" aria-label="Nota">
-      <div class="row"><button class="btn hot" id="mSave">Salva</button><button class="btn" id="mCancel">Annulla</button></div>
+      <div class="row" style="margin-top:2px"><button class="btn hot" id="mSave">Salva</button><button class="btn" id="mCancel">Annulla</button></div>
     </div>
-    <div id="mine" style="margin-top:10px"></div>
+    <div id="mine"></div>
+  </div>
+
+  <div class="tab" id="t-dati">
+    <div class="nb"><button class="back" data-back><svg viewBox="0 0 12 20" aria-hidden="true"><path d="M10 2 2 10l8 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Altro</button><span class="nbt">Backup</span><span></span></div>
+    <h1 class="lt">Backup e offline</h1>
+    <div class="card">
+      <h3>Backup dei progressi</h3>
+      <p class="note">Le spunte restano salvate su questo telefono. Ogni tanto salva un file di backup: lo ricarichi su un altro telefono o browser e ritrovi tutto.</p>
+      <div class="row"><button class="btn hot" id="exp">Salva file di backup</button><label class="btn" for="impFile">Carica file di backup</label><input type="file" id="impFile" accept=".json,application/json" hidden></div>
+      <p class="muted" id="impMsg" role="status" style="margin:8px 0 0"></p>
+    </div>
+    <details class="card"><summary>Il file non si salva? Usa il testo</summary><div class="form"><div class="row"><button class="btn" id="expT">Copia come testo</button></div><textarea id="impX" aria-label="Testo del backup" placeholder="Incolla qui il testo del backup"></textarea><div class="row" style="margin-top:0"><button class="btn" id="impGo">Ripristina dal testo</button></div></div></details>
+    <div id="offBox" class="card" hidden>
+      <h3>Mappa offline</h3>
+      <p class="note">L'app funziona anche senza connessione: le zone di mappa che guardi restano salvate. Per averla tutta, salvala ora (circa 18 MB, meglio col Wi-Fi).</p>
+      <div class="row"><button class="btn" id="offGo">Salva la mappa per l'offline</button><span class="muted" id="offMsg"></span></div>
+    </div>
   </div>
 </section>
+<nav id="tabbar" role="tablist" aria-label="Sezioni">
+  <button role="tab" data-t="mappa" aria-selected="true"><svg class="off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M3.5 6.3 8.8 4.2l6.4 2.3 5.3-2.1v13.3l-5.3 2.1-6.4-2.3-5.3 2.1zM8.8 4.2v13.3M15.2 6.5v13.3"/></svg><svg class="on" viewBox="0 0 24 24" fill="currentColor"><path d="M2.8 6.1 8 4v13.6l-5.2 2.1zM9.6 4.1l4.8 1.7v13.6l-4.8-1.7zM16 5.9l5.2-2v13.6L16 19.6z"/></svg>Mappa</button>
+  <button role="tab" data-t="cap" aria-selected="false"><svg class="off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M12 6.2C10 4.8 7 4.4 3.8 5v13.4c3.2-.6 6.2-.2 8.2 1.2 2-1.4 5-1.8 8.2-1.2V5C17 4.4 14 4.8 12 6.2zM12 6.2v13.4"/></svg><svg class="on" viewBox="0 0 24 24" fill="currentColor"><path d="M11.2 5.6C9.2 4.3 6.4 3.9 3.2 4.5v14.2c3-.5 5.8-.1 8 1.1zM12.8 5.6c2-1.3 4.8-1.7 8-1.1v14.2c-3-.5-5.8-.1-8 1.1z"/></svg>Capitoli</button>
+  <button role="tab" data-t="missioni" aria-selected="false"><svg class="off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 21V3.8M5.5 4.6c2.2-1.2 4.4-1.2 6.6 0s4.4 1.2 6.4 0v9.2c-2 1.2-4.2 1.2-6.4 0s-4.4-1.2-6.6 0"/></svg><svg class="on" viewBox="0 0 24 24" fill="currentColor"><path d="M5.5 21V3.8" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" fill="none"/><path d="M5.5 4.6c2.2-1.2 4.4-1.2 6.6 0s4.4 1.2 6.4 0v9.2c-2 1.2-4.2 1.2-6.4 0s-4.4-1.2-6.6 0z"/></svg>Missioni</button>
+  <button role="tab" data-t="trofei" aria-selected="false"><svg class="off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 4h9v5.5a4.5 4.5 0 0 1-9 0zM7.5 6H4.5v1.2a3.3 3.3 0 0 0 3.3 3.3M16.5 6h3v1.2a3.3 3.3 0 0 1-3.3 3.3M12 14v3.5M8.5 20.5h7M9.6 20.5l.4-3h4l.4 3"/></svg><svg class="on" viewBox="0 0 24 24" fill="currentColor"><path d="M7 3.5h10v6a5 5 0 0 1-10 0zM11 13.8h2v3.4h-2zM9.9 17h4.2l.5 3h1.5v1.3H7.9V20h1.5z"/><path d="M7.3 6H4.5v1.2a3.3 3.3 0 0 0 3.3 3.3M16.7 6h2.8v1.2a3.3 3.3 0 0 1-3.3 3.3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Trofei</button>
+  <button role="tab" data-t="altro" aria-selected="false"><svg class="off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><g fill="currentColor" stroke="none"><circle cx="7.8" cy="12" r="1.35"/><circle cx="12" cy="12" r="1.35"/><circle cx="16.2" cy="12" r="1.35"/></g></svg><svg class="on" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.6" fill="currentColor"/><g style="fill:light-dark(#fff,#1e1e20)"><circle cx="7.8" cy="12" r="1.45"/><circle cx="12" cy="12" r="1.45"/><circle cx="16.2" cy="12" r="1.45"/></g></svg>Altro</button>
+</nav>
+
 <script src="leaflet.js"></script>
 <script>
 {
@@ -850,23 +1028,91 @@ let D = null, poiMarkers = {}, carMarkers = {}, eggMarkers = {}, tmp = null;
 const avail = (ch, to) => S.later || ((ch || 1) <= S.chapter && (!to || S.chapter <= to));
 const lk = a => a && a.length ? '<div class="links">' + a.map(l => '<a href="' + esc(l[1]) + '" target="_blank" rel="noopener">' + esc(l[0]) + "</a>").join("") + "</div>" : "";
 
-const panel = $("panel");
-$("grab").onclick = () => { panel.classList.toggle("open"); placeCross(); };
-const panelH = () => panel.classList.contains("open") ? innerHeight * .58 : 178;
-const aimPoint = () => { const sz = map.getSize(); return innerWidth >= 760 ? L.point((404 + sz.x) / 2, sz.y / 2) : L.point(sz.x / 2, Math.max(60, (sz.y - panelH()) / 2)); };
+const panel = $("panel"), PARENT = {auto: "altro", segreti: "altro", miei: "altro", dati: "altro"};
+const IOS = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+const STANDALONE = navigator.standalone === true || matchMedia("(display-mode: standalone)").matches;
+const hap = () => {
+  try {
+    if (navigator.vibrate) { navigator.vibrate(8); return; }
+    if (!IOS) return;
+    const l = document.createElement("label"), i = document.createElement("input");
+    i.type = "checkbox"; i.setAttribute("switch", ""); l.appendChild(i); l.style.display = "none"; l.setAttribute("aria-hidden", "true");
+    document.head.appendChild(l); l.click(); l.remove();
+  } catch (e) {}
+};
+document.addEventListener("change", e => { if (e.isTrusted && e.target.type === "checkbox") hap(); }, true);
+document.addEventListener("gesturestart", e => { if (!(e.target.closest && e.target.closest("#map"))) e.preventDefault(); }, {passive: false});
+const wide = () => innerWidth >= 760;
+let cur = "mappa"; const mem = {};
+const SHEET = 150;
+const safeTop = () => $("scrim").offsetHeight || 0;
+const tabH = () => wide() ? 0 : $("tabbar").offsetHeight;
+const sheetH = () => panel.classList.contains("open") ? Math.min(innerHeight * .62, innerHeight - tabH() - safeTop() - 40) : SHEET;
+const aimPoint = () => { const sz = map.getSize(); return wide() ? L.point((404 + sz.x) / 2, sz.y / 2) : L.point(sz.x / 2, Math.max(safeTop() + 40, (safeTop() + sz.y - tabH() - sheetH()) / 2)); };
 const aim = () => back(map.containerPointToLatLng(aimPoint()));
 const placeCross = () => { const q = aimPoint(), c = $("cross"); c.style.left = q.x + "px"; c.style.top = q.y + "px"; };
 addEventListener("resize", placeCross); panel.addEventListener("transitionend", placeCross);
-const openPanel = () => { if (innerWidth < 760) panel.classList.add("open"); };
-const closePanel = () => { if (innerWidth < 760) panel.classList.remove("open"); };
-document.querySelectorAll("nav button").forEach(b => b.onclick = () => {
-  document.querySelectorAll("nav button").forEach(x => x.setAttribute("aria-selected", x === b));
-  document.querySelectorAll(".tab").forEach(t => t.classList.toggle("on", t.id === "t-" + b.dataset.t));
-  $("cross").style.display = b.dataset.t === "miei" ? "block" : "none";
-  openPanel(); placeCross();
+const openPanel = () => { if (!wide() && cur === "mappa") panel.classList.add("open"); };
+const closePanel = () => { if (!wide()) panel.classList.remove("open"); };
+$("grab").onclick = () => { panel.classList.toggle("open"); hap(); placeCross(); };
+const nbs = el => { const n = el.querySelector(".nb"); if (n) n.classList.toggle("sc", el.scrollTop > 30); };
+document.querySelectorAll("#panel .tab").forEach(el => el.addEventListener("scroll", () => nbs(el), {passive: true}));
+function show(t, o = {}) {
+  if (pickCb && t !== "mappa") endPick(false);
+  const el = $("t-" + t);
+  if (t === cur) { el.scrollTo({top: 0, behavior: "smooth"}); return; }
+  mem[cur] = $("t-" + cur).scrollTop;
+  document.querySelectorAll("#panel .tab").forEach(x => x.classList.toggle("on", x === el));
+  el.scrollTop = o.push ? 0 : (mem[t] || 0);
+  const tb = PARENT[t] || t;
+  document.querySelectorAll("#tabbar button").forEach(b => b.setAttribute("aria-selected", String(b.dataset.t === tb)));
+  document.body.classList.toggle("mapmode", t === "mappa");
+  el.classList.remove("push"); if (o.push) { void el.offsetWidth; el.classList.add("push"); }
+  const slot = el.querySelector(".slot"); if (slot) slot.appendChild($("chap"));
+  cur = t; nbs(el); placeCross();
+}
+document.querySelectorAll("#tabbar button").forEach(b => b.onclick = () => { hap(); show(b.dataset.t); });
+document.addEventListener("click", e => {
+  if (!e.isTrusted) return;
+  const p = e.target.closest("[data-push]"); if (p) { hap(); show(p.dataset.push, {push: true}); return; }
+  if (e.target.closest("[data-back]")) { hap(); show(PARENT[cur] || "altro"); }
 });
+// sheet drag (map) and edge swipe back (sub pages)
+let tY = null, tX = null;
+panel.addEventListener("touchstart", e => {
+  const t = e.target, p = e.touches[0]; tY = tX = null;
+  if (PARENT[cur] && p.clientX < 28) { tX = p.clientX; return; }
+  if (cur !== "mappa" || wide() || t.closest("input,select,#results,button.chip")) return;
+  if (t.closest("#grab,.mapHead") || (panel.classList.contains("open") && $("t-mappa").scrollTop <= 0)) tY = p.clientY;
+}, {passive: true});
+panel.addEventListener("touchend", e => {
+  const p = e.changedTouches[0];
+  if (tX !== null) { if (p.clientX - tX > 70) { hap(); show(PARENT[cur]); } tX = null; return; }
+  if (tY === null) return; const dy = p.clientY - tY; tY = null;
+  if (dy < -28 && !panel.classList.contains("open")) { panel.classList.add("open"); hap(); }
+  else if (dy > 28 && panel.classList.contains("open")) { panel.classList.remove("open"); $("q").blur(); hap(); }
+  placeCross();
+}, {passive: true});
+// map picking: a floating bar over the map, used for the crosshair and for dragging pins
+let pickCb = null, pickNoCb = null, pickFrom = null;
+function startPick(text, okLabel, cb, o = {}) {
+  pickFrom = cur; pickCb = cb; pickNoCb = o.no || null;
+  $("pickTxt").textContent = text; $("pickOk").textContent = okLabel; $("pickNo").hidden = !!o.noCancel;
+  $("cross").style.display = o.cross === false ? "none" : "block"; $("pickBar").hidden = false;
+  show("mappa"); closePanel(); placeCross();
+}
+function endPick(ok) {
+  const cb = ok ? pickCb : pickNoCb, from = pickFrom; pickCb = pickNoCb = null;
+  $("pickBar").hidden = true; $("cross").style.display = "none";
+  if (cb) cb();
+  if (pickCb) { pickFrom = from; return; }
+  if (from && from !== "mappa" && from !== cur) show(from);
+}
+$("pickOk").onclick = () => { hap(); endPick(true); };
+$("pickNo").onclick = () => endPick(false);
 const fly = (p, z = 4.5) => {
-  closePanel(); const zz = Math.max(map.getZoom(), z);
+  if (!wide()) { show("mappa"); closePanel(); }
+  const zz = Math.max(map.getZoom(), z);
   const off = map.getSize().divideBy(2).subtract(aimPoint());
   map.flyTo(map.unproject(map.project(L.latLng(ll(p)), zz).add(off), zz), zz, {duration: .6});
 };
@@ -943,9 +1189,13 @@ function drawCarList() {
 $("cars").onclick = e => {
   const t = e.target;
   if (t.dataset.go) { const c = D.cars.find(x => x.id === t.dataset.go); fly(carPos(c)); setTimeout(() => carMarkers[c.id]?.openPopup(), 700); }
-  if (t.dataset.edit) { const st = S.cars[t.dataset.edit] = S.cars[t.dataset.edit] || {}; st.edit = !st.edit; save(); drawCars(); drawCarList(); if (st.edit) fly(carPos(D.cars.find(x => x.id === t.dataset.edit))); }
-  if (t.dataset.place) { S.cars[t.dataset.place] = Object.assign(S.cars[t.dataset.place] || {}, {p: aim(), edit: true}); save(); drawCars(); drawCarList(); }
+  if (t.dataset.edit) { const id = t.dataset.edit, st = S.cars[id] = S.cars[id] || {}; st.edit = !st.edit; save(); drawCars(); drawCarList(); if (st.edit) carEdit(id); }
+  if (t.dataset.place) { const id = t.dataset.place; startPick("Centra il mirino dove si trova l'auto", "Metti qui", () => { S.cars[id] = Object.assign(S.cars[id] || {}, {p: aim(), edit: true}); save(); drawCars(); drawCarList(); carEdit(id); }); }
 };
+function carEdit(id) {
+  startPick("Trascina il pin dove si trova davvero", "Fatto", () => { (S.cars[id] || {}).edit = false; save(); drawCars(); drawCarList(); }, {cross: false, noCancel: true});
+  fly(carPos(D.cars.find(x => x.id === id)));
+}
 $("cars").onchange = e => { const i = e.target; if (i.dataset.cid) setCar(i.dataset.cid, i.dataset.k, i.checked); };
 $("carLayer").onchange = e => { S.carLayer = e.target.checked; save(); drawCars(); };
 
@@ -972,10 +1222,11 @@ function drawEggs() {
 $("eggs").onclick = e => {
   const t = e.target, D2 = id => D.eggs.find(x => x.id === id);
   if (t.dataset.ego) { fly(eggPos(D2(t.dataset.ego))); setTimeout(() => eggMarkers[t.dataset.ego]?.openPopup(), 700); }
-  if (t.dataset.eedit) { const st = S.eggs[t.dataset.eedit] = S.eggs[t.dataset.eedit] || {}; st.edit = !st.edit; save(); drawEggs(); if (st.edit) fly(eggPos(D2(t.dataset.eedit))); }
-  if (t.dataset.eplace) { S.eggs[t.dataset.eplace] = Object.assign(S.eggs[t.dataset.eplace] || {}, {p: aim(), edit: true}); save(); drawEggs(); }
+  const eEdit = id => { startPick("Trascina il pin dove si trova davvero", "Fatto", () => { (S.eggs[id] || {}).edit = false; save(); drawEggs(); }, {cross: false, noCancel: true}); fly(eggPos(D2(id))); };
+  if (t.dataset.eedit) { const st = S.eggs[t.dataset.eedit] = S.eggs[t.dataset.eedit] || {}; st.edit = !st.edit; save(); drawEggs(); if (st.edit) eEdit(t.dataset.eedit); }
+  if (t.dataset.eplace) { const id = t.dataset.eplace; startPick("Centra il mirino sul segreto", "Metti qui", () => { S.eggs[id] = Object.assign(S.eggs[id] || {}, {p: aim(), edit: true}); save(); drawEggs(); eEdit(id); }); }
 };
-$("eggs").onchange = e => { const i = e.target; if (i.dataset.eid) { S.eggs[i.dataset.eid] = Object.assign(S.eggs[i.dataset.eid] || {}, {seen: i.checked}); save(); drawEggs(); } };
+$("eggs").onchange = e => { const i = e.target; if (i.dataset.eid) { S.eggs[i.dataset.eid] = Object.assign(S.eggs[i.dataset.eid] || {}, {seen: i.checked}); save(); drawEggs(); drawCounts(); } };
 $("eggLayer").onchange = e => { S.eggLayer = e.target.checked; save(); drawEggs(); };
 
 const misPos = id => D.missions.db[id].p ? ((S.mis[id] && S.mis[id].p) || D.missions.db[id].p) : null;
@@ -1008,7 +1259,7 @@ function drawMis() {
   $("misList").innerHTML = D.missions.ch.filter(c => visibleCh(c.n)).map(c => {
     const d = c.m.filter(x => (S.mis[x.id] || {}).done).length;
     return '<details class="ch"' + (c.n === +S.chapter ? " open" : "") + '><summary>' + esc(c.t) + "<span>" + d + "/" + c.m.length + "</span></summary>" + c.m.map(mrow).join("") + "</details>";
-  }).join("") + (S.later ? "" : '<p class="muted">Capitoli successivi nascosti. Si sbloccano cambiando capitolo nella scheda Capitoli.</p>');
+  }).join("") + (S.later ? "" : '<p class="muted">Capitoli successivi nascosti. Si sbloccano cambiando capitolo in alto.</p>');
   $("sfList").innerHTML = D.missions.sf.filter(g => visibleCh(g.ch)).map(g => {
     const d = g.m.filter(x => (S.mis[x.id] || {}).done).length, tag = g.conta === "si" ? '<span class="tag sf">conta</span>' : g.conta === "no" ? '<span class="tag opt">non conta</span>' : '<span class="tag opt">non si sa</span>';
     return '<details class="ch"><summary>' + esc(g.g) + "<span>" + (g.ch ? "cap. " + g.ch : "qualsiasi cap.") + " · " + d + "/" + g.m.length + "</span> " + tag + "</summary>" + g.m.map(x => mrow({id: x.id, n: x.n, f: []})).join("") + "</details>";
@@ -1021,7 +1272,7 @@ for (const box of ["misList", "sfList"]) {
   $(box).onclick = e => {
     const t = e.target.closest("button"); if (!t) return; const d = t.dataset;
     if (d.mgo) { fly(misPos(d.mgo)); setTimeout(() => misMarkers[d.mgo]?.openPopup(), 700); }
-    if (d.medit) { S.mis[d.medit] = Object.assign(S.mis[d.medit] || {}, {edit: true}); save(); drawMis(); fly(misPos(d.medit)); }
+    if (d.medit) { const id = d.medit; S.mis[id] = Object.assign(S.mis[id] || {}, {edit: true}); save(); drawMis(); startPick("Trascina il pin dove parte davvero", "Fatto", () => { (S.mis[id] || {}).edit = false; save(); drawMis(); }, {cross: false, noCancel: true}); fly(misPos(id)); }
     if (d.mok) { S.mis[d.mok].edit = false; save(); drawMis(); }
   };
   $(box).onchange = e => { const i = e.target; if (i.dataset.mid) { S.mis[i.dataset.mid] = Object.assign(S.mis[i.dataset.mid] || {}, {done: i.checked}); save(); drawMis(); } };
@@ -1072,12 +1323,12 @@ function drawTro() {
   const todo = $("troTodo").checked;
   $("troList").innerHTML = T.filter(t => !todo || !tState(t)).map(t => {
     const st = tState(t), hidden = t.h && t.ch > S.chapter && !S.later, pr = tProg(t);
-    if (hidden) return '<div class="trow"><div class="thead"><span></span><div><div class="tn">Trofeo nascosto</div><div class="td">Si scopre nel capitolo ' + t.ch + ' (oppure attiva «Mostra tutto» nella scheda Mappa).</div></div><span class="gr ' + t.g + '">' + GR[t.g] + "</span></div></div>";
+    if (hidden) return '<div class="trow"><div class="thead"><span></span><div><div class="tn">Trofeo nascosto</div><div class="td">Si scopre nel capitolo ' + t.ch + ' (oppure attiva «Mostra i capitoli successivi» in Altro).</div></div><span class="gr ' + t.g + '">' + GR[t.g] + "</span></div></div>";
     return '<div class="trow' + (st ? " done" : "") + '"><div class="thead"><input type="checkbox" data-tro="' + t.id + '"' + (st ? " checked" : "") + (st === "psn" || st === "auto" ? " disabled" : "") + ' aria-label="Ottenuto"><div><div class="tn">' + esc(t.n) + (st === "psn" ? '<span class="src2">' + (S.plat === "xbox" ? "da Xbox" : "dal PSN") + '</span>' : st === "auto" ? '<span class="src2">automatico</span>' : "") + '</div><div class="td">' + esc(t.d) + "</div></div>" + '<span class="gr ' + t.g + '">' + GR[t.g] + "</span></div>" +
-      '<p class="note" style="margin:6px 0 0 28px">' + esc(t.tip) + "</p>" +
-      (t.cnt && !st ? '<div style="margin-left:28px">' + counter(t.cnt, t.t) + "</div>" : "") +
-      (pr && !t.cnt && !st && pr[1] > 1 ? '<p class="muted" style="margin:4px 0 0 28px">' + pr[0] + " su " + pr[1] + "</p>" : "") +
-      '<div style="margin-left:28px">' + lk(t.links) + "</div></div>";
+      '<p class="note" style="margin:6px 0 0 34px">' + esc(t.tip) + "</p>" +
+      (t.cnt && !st ? '<div style="margin-left:34px">' + counter(t.cnt, t.t) + "</div>" : "") +
+      (pr && !t.cnt && !st && pr[1] > 1 ? '<p class="muted" style="margin:4px 0 0 34px">' + pr[0] + " su " + pr[1] + "</p>" : "") +
+      '<div style="margin-left:34px">' + lk(t.links) + "</div></div>";
   }).join("");
   $("opsList").innerHTML = D.tro.gangops.map(g => { const d = g.ops.filter(o => S.ops[o.id]).length; return '<details class="ch"><summary>' + esc(g.g) + "<span>" + d + "/" + g.ops.length + "</span></summary>" + g.ops.map(o => '<div class="mrow' + (S.ops[o.id] ? " done" : "") + '"><input type="checkbox" data-op="' + o.id + '"' + (S.ops[o.id] ? " checked" : "") + ' aria-label="Rapinata"><div class="nm">' + esc(o.n) + '</div><div class="act">' + (o.p ? '<button data-opgo="' + o.id + '">Vedi</button>' : "") + "</div></div>").join("") + "</details>"; }).join("") + lk([["Posizioni delle 39 operazioni (PowerPyx)", "https://www.powerpyx.com/gta-6-all-illegal-gang-operations-locations/"]]);
   let sec = "";
@@ -1179,12 +1430,13 @@ $("chapters").onchange = e => { const t = e.target; if (!t.dataset.item) return;
 let pending = null;
 function drawMine() {
   mineLayer.clearLayers();
+  $("mineCount").textContent = S.mine.length || "";
   S.mine.forEach((m, k) => L.marker(ll(m.p), {icon: mineIcon}).bindPopup("<b>" + esc(m.n) + "</b>" + (m.note ? "<br>" + esc(m.note) : "")).addTo(mineLayer));
   $("mine").innerHTML = S.mine.length ? S.mine.map((m, k) => '<div class="card"><h3>' + esc(m.n) + "</h3>" + (m.note ? '<p class="note">' + esc(m.note) + "</p>" : "") + '<div class="row"><button class="btn" data-mgo="' + k + '">Vedi</button><button class="btn" data-mdel="' + k + '">Elimina</button></div></div>').join("") : '<p class="muted">Nessun pin ancora.</p>';
 }
-const askPin = p => { pending = p; $("mineF").hidden = false; $("mName").value = ""; $("mNote").value = ""; document.querySelector('nav button[data-t=miei]').click(); setTimeout(() => $("mName").focus(), 50); };
+const askPin = p => { pending = p; $("mineF").hidden = false; $("mName").value = ""; $("mNote").value = ""; show("miei", {push: cur !== "miei"}); setTimeout(() => $("mName").focus(), 50); };
 map.on("contextmenu", e => askPin(back(e.latlng)));
-$("addC").onclick = () => askPin(aim());
+$("addC").onclick = () => startPick("Sposta la mappa: il pin va sul mirino", "Metti qui", () => askPin(aim()));
 $("mCancel").onclick = () => { pending = null; $("mineF").hidden = true; };
 $("mSave").onclick = () => { if (!pending) return; S.mine.push({n: $("mName").value.trim() || "Pin", note: $("mNote").value.trim(), p: pending}); pending = null; $("mineF").hidden = true; save(); drawMine(); };
 $("mine").onclick = e => { const t = e.target; if (t.dataset.mgo) fly(S.mine[+t.dataset.mgo].p); if (t.dataset.mdel) { S.mine.splice(+t.dataset.mdel, 1); save(); drawMine(); } };
@@ -1224,7 +1476,7 @@ $("q").oninput = () => {
 $("results").onclick = e => { const b = e.target.closest("button[data-k]"); if (!b) return; const h = $("results")._hits[+b.dataset.k]; $("results").style.display = "none"; $("q").blur(); flash(h[2], h[0]); };
 $("q").onfocus = openPanel;
 document.addEventListener("click", e => { if (!e.target.closest(".searchbox")) $("results").style.display = "none"; });
-$("q").onkeydown = e => { if (e.key === "Escape") { $("results").style.display = "none"; $("q").blur(); } };
+$("q").onkeydown = e => { if (e.key === "Enter") $("q").blur(); if (e.key === "Escape") { $("results").style.display = "none"; $("q").blur(); } };
 map.on("movestart", () => { $("results").style.display = "none"; });
 
 if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost") && !/claude|anthropic/.test(location.hostname)) {
@@ -1242,7 +1494,12 @@ $("offGo").onclick = async () => {
   } catch (e) { $("offMsg").textContent = "Non riuscito: riprova con una connessione stabile."; }
   $("offGo").disabled = false;
 };
-function render() { S.tro = S.tro || {}; S.cnt = S.cnt || {}; S.ops = S.ops || {}; S.mis = S.mis || {}; { let ch = false; for (const [k, v] of Object.entries(S.mis)) if (v && v.p && !(D.missions.db[k] || {}).p) { delete v.p; delete v.edit; ch = true; } if (ch) save(); } S.items = S.items || {}; syncItems(); S.chapter = +S.chapter || 1; $("chap").value = S.chapter; $("later").checked = !!S.later; drawProg(); S.eggs = S.eggs || {}; S.mis = S.mis || {}; if (S.misLayer === undefined) S.misLayer = true; $("misLayer").checked = S.misLayer; drawMis(); drawCats(); drawPois(); drawCars(); drawCarList(); drawEggs(); drawChapters(); drawMine(); $("carLayer").checked = S.carLayer; $("eggLayer").checked = S.eggLayer !== false; }
+function drawCounts() { $("eggCount").textContent = D.eggs.filter(e => (S.eggs[e.id] || {}).seen).length + "/" + D.eggs.length; }
+if (IOS && !STANDALONE) { $("installTip").hidden = false; if (!S.homeTipX) $("homeTip").hidden = false; }
+$("homeTipX").onclick = () => { S.homeTipX = true; save(); $("homeTip").hidden = true; };
+document.documentElement.classList.toggle("standalone", STANDALONE);
+addEventListener("keydown", e => { if (e.key === "Escape" && pickCb) endPick(false); });
+function render() { S.tro = S.tro || {}; S.cnt = S.cnt || {}; S.ops = S.ops || {}; S.mis = S.mis || {}; { let ch = false; for (const [k, v] of Object.entries(S.mis)) if (v && v.p && !(D.missions.db[k] || {}).p) { delete v.p; delete v.edit; ch = true; } if (ch) save(); } S.items = S.items || {}; syncItems(); S.chapter = +S.chapter || 1; $("chap").value = S.chapter; $("later").checked = !!S.later; drawProg(); S.eggs = S.eggs || {}; S.mis = S.mis || {}; if (S.misLayer === undefined) S.misLayer = true; $("misLayer").checked = S.misLayer; drawMis(); drawCats(); drawPois(); drawCars(); drawCarList(); drawEggs(); drawChapters(); drawMine(); drawCounts(); $("carLayer").checked = S.carLayer; $("eggLayer").checked = S.eggLayer !== false; }
 function start(data) {
   D = data; if (PSN_PLAYERS || PSN_API) setTimeout(loadPsn, 0);
   OFF_BY_DEFAULT.forEach(c => { if (!(c in S.cats)) S.cats[c] = false; });
