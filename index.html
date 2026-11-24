@@ -900,10 +900,13 @@ $("mSave").onclick = () => { if (!pending) return; S.mine.push({n: $("mName").va
 $("mine").onclick = e => { const t = e.target; if (t.dataset.mgo) fly(S.mine[+t.dataset.mgo].p); if (t.dataset.mdel) { S.mine.splice(+t.dataset.mdel, 1); save(); drawMine(); } };
 
 const msg = t => { $("impMsg").textContent = t; };
+let dlNS = null;
+try { window.claude?.use?.("downloads")?.then(n => { dlNS = n; }, () => {}); } catch (e) {}
 const fname = () => { const d = new Date(), z = n => String(n).padStart(2, "0"); return "leonida-backup-" + d.getFullYear() + "-" + z(d.getMonth() + 1) + "-" + z(d.getDate()) + ".json"; };
 const restore = txt => { const o = JSON.parse(txt); if (!o || typeof o !== "object" || !("poi" in o)) throw 0; S = Object.assign(S, o); save(); render(); };
 $("exp").onclick = async () => {
   const name = fname(), body = JSON.stringify({app: "leonida-companion", saved: new Date().toISOString(), ...S}, null, 1);
+  if (dlNS) { try { await dlNS.save({filename: name, data: body}); msg("Backup salvato: " + name + "."); } catch (e) { msg("Salvataggio annullato o non riuscito: riprova, oppure usa il testo qui sotto."); } return; }
   const file = new File([body], name, {type: "application/json"});
   try { if (navigator.canShare && navigator.canShare({files: [file]})) { await navigator.share({files: [file], title: name}); msg("Backup pronto: salvalo in File o mandalo dove vuoi."); return; } } catch (e) { if (e && e.name === "AbortError") return; }
   try { const url = URL.createObjectURL(file), a = document.createElement("a"); a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 4000); msg("Ho scaricato " + name + ". Se non lo trovi, usa il testo qui sotto."); }
