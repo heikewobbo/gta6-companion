@@ -890,6 +890,7 @@ details.ch>.links{padding-bottom:12px}
 #ask ul{text-align:left;margin:8px 0 0;padding-left:18px;font-size:13.5px;max-height:34vh;overflow:auto}
 #ask button{display:block;width:100%;border:0;border-top:.5px solid var(--sep);background:none;color:var(--tint);font:400 17px var(--sf);padding:11px;min-height:44px;cursor:pointer}
 #ask button.b{font-weight:600}
+#ask button.d{color:#ff3b30}
 #ask button:active{background:var(--fill)}
 #snack{position:fixed;z-index:2500;left:12px;right:12px;bottom:calc(var(--tab) + 12px);display:flex;align-items:center;gap:10px;padding:10px 10px 10px 16px;border-radius:14px;background:rgba(28,28,30,.94);color:#f2f2f7;font-size:15px;box-shadow:0 8px 30px rgba(0,0,0,.3);animation:drop2 .3s cubic-bezier(.2,.9,.25,1.1)}
 body.mapmode #snack{bottom:calc(var(--tab) + var(--sheet) + 12px)}
@@ -975,7 +976,7 @@ body.mapmode #snack{bottom:calc(var(--tab) + var(--sheet) + 12px)}
     <h2>Impostazioni</h2>
     <div class="group">
       <label class="cell"><span class="ico" style="background:#5856d6"><svg viewBox="0 0 24 24" fill="#fff" fill-rule="evenodd"><path d="M12 5.5c-5.2 0-8.7 4.5-9.5 6.5.8 2 4.3 6.5 9.5 6.5s8.7-4.5 9.5-6.5c-.8-2-4.3-6.5-9.5-6.5zm0 10.3a3.8 3.8 0 1 1 0-7.6 3.8 3.8 0 0 1 0 7.6zm0-2a1.8 1.8 0 1 0 0-3.6 1.8 1.8 0 0 0 0 3.6z"/></svg></span><span class="cl">Mostra i capitoli successivi<small>Spoiler: anche ciò che si sblocca più avanti</small></span><input type="checkbox" id="later" class="sw"></label>
-      <button class="cell" data-push="dati"><span class="ico" style="background:#0a84ff"><svg viewBox="0 0 24 24" fill="#fff" fill-rule="evenodd"><path d="M3.5 4.5h17v4.2h-17zM4.8 10h14.4v8.8a1.2 1.2 0 0 1-1.2 1.2H6a1.2 1.2 0 0 1-1.2-1.2zm4.6 2.4h5.2v1.8H9.4z"/></svg></span><span class="cl">Backup e mappa offline</span><span class="chev"></span></button>
+      <button class="cell" data-push="dati"><span class="ico" style="background:#0a84ff"><svg viewBox="0 0 24 24" fill="#fff" fill-rule="evenodd"><path d="M3.5 4.5h17v4.2h-17zM4.8 10h14.4v8.8a1.2 1.2 0 0 1-1.2 1.2H6a1.2 1.2 0 0 1-1.2-1.2zm4.6 2.4h5.2v1.8H9.4z"/></svg></span><span class="cl">Backup e salvataggi</span><span class="chev"></span></button>
     </div>
     <p class="muted" id="installTip" hidden>Per averla come app: in Safari tocca Condividi, poi «Aggiungi alla schermata Home».</p>
     <p class="credits">Mappa e luoghi: <a href="https://map.gtadb.org">GTA VI Map Tiles e GTA VI Landmarks Data — map.gtadb.org</a>, gtadb.org e contributori, licenza <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. Grafica della mappa: Rockstar Games. Le tile sono state ricomposte in blocchi più grandi. App non ufficiale, senza legami con Rockstar.</p>
@@ -1012,8 +1013,8 @@ body.mapmode #snack{bottom:calc(var(--tab) + var(--sheet) + 12px)}
   </div>
 
   <div class="tab" id="t-dati">
-    <div class="nb"><button class="back" data-back><svg viewBox="0 0 12 20" aria-hidden="true"><path d="M10 2 2 10l8 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Altro</button><span class="nbt">Backup</span><span></span></div>
-    <h1 class="lt">Backup e offline</h1>
+    <div class="nb"><button class="back" data-back><svg viewBox="0 0 12 20" aria-hidden="true"><path d="M10 2 2 10l8 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Altro</button><span class="nbt">Salvataggi</span><span></span></div>
+    <h1 class="lt">Salvataggi</h1>
     <div class="card">
       <h3>Backup dei progressi</h3>
       <p class="note">Le spunte restano salvate su questo telefono. Ogni tanto salva un file di backup: lo ricarichi su un altro telefono o browser e ritrovi tutto.</p>
@@ -1026,6 +1027,9 @@ body.mapmode #snack{bottom:calc(var(--tab) + var(--sheet) + 12px)}
       <p class="note">L'app funziona anche senza connessione: le zone di mappa che guardi restano salvate. Per averla tutta, salvala ora (circa 18 MB, meglio col Wi-Fi).</p>
       <div class="row"><button class="btn" id="offGo">Salva la mappa per l'offline</button><span class="muted" id="offMsg"></span></div>
     </div>
+    <h2>Ricomincia da capo</h2>
+    <div class="group noi"><button class="cell" id="wipe" style="color:#ff3b30;justify-content:center">Cancella tutti i salvataggi</button></div>
+    <p class="muted">Cancella da questo dispositivo spunte, contatori, capitolo, i tuoi pin e le posizioni che hai corretto. L'ID PSN o Xbox resta collegato. Se pensi di volerli recuperare, salva prima un file di backup.</p>
   </div>
 </section>
 <nav id="tabbar" role="tablist" aria-label="Sezioni">
@@ -1583,16 +1587,16 @@ function sizeSheet() {
 addEventListener("resize", () => setTimeout(sizeSheet, 50));
 function ask(o) {
   const a = $("ask");
-  a.innerHTML = '<div class="box"><div class="bd"><h3>' + esc(o.title) + "</h3><p>" + esc(o.text) + "</p>" + (o.list && o.list.length ? "<ul>" + o.list.map(x => "<li>" + esc(x) + "</li>").join("") + "</ul>" : "") + "</div>" + o.buttons.map((b, k) => '<button data-k="' + k + '"' + (b.bold ? ' class="b"' : "") + ">" + esc(b.label) + "</button>").join("") + "</div>";
+  a.innerHTML = '<div class="box"><div class="bd"><h3>' + esc(o.title) + "</h3><p>" + esc(o.text) + "</p>" + (o.list && o.list.length ? "<ul>" + o.list.map(x => "<li>" + esc(x) + "</li>").join("") + "</ul>" : "") + "</div>" + o.buttons.map((b, k) => '<button data-k="' + k + '"' + (b.bold ? ' class="b"' : b.danger ? ' class="d"' : "") + ">" + esc(b.label) + "</button>").join("") + "</div>";
   a.hidden = false; hap();
   a.onclick = e => { const b = e.target.closest("button[data-k]"); if (!b) return; a.hidden = true; const f = o.buttons[+b.dataset.k].fn; if (f) f(); };
 }
 let snackT = null;
-function snack(text, undo) {
+function snack(text, undo, ms) {
   const s = $("snack"); clearTimeout(snackT);
   s.innerHTML = "<span>" + esc(text) + "</span>" + (undo ? '<button id="snackU">Annulla</button>' : "");
   s.hidden = false; if (undo) $("snackU").onclick = () => { s.hidden = true; undo(); };
-  snackT = setTimeout(() => { s.hidden = true; }, 5000);
+  snackT = setTimeout(() => { s.hidden = true; }, ms || 5000);
 }
 function lastStory(ch) { const l = STORY.filter(s => s.ch === ch); return l.length ? l[l.length - 1].id : null; }
 function autoChapter() {
@@ -1640,6 +1644,17 @@ $("nextCard").onchange = e => {
   if (t.dataset.pmis) markMis(t.dataset.pmis, t.checked);
   if (t.dataset.pitem) { for (const c of D.chapters) for (const i of c.items) if (i.id === t.dataset.pitem) setItem(i, t.checked); snack("Fatto: " + (t.closest(".mrow").textContent || ""), null); }
 };
+
+const FRESH = () => ({poi: {}, cars: {}, items: {}, eggs: {}, mis: {}, tro: {}, cnt: {}, ops: {}, misLayer: true, chapter: 1, later: false, cats: {}, mine: [], carLayer: true, eggLayer: true});
+function wipe() {
+  const old = JSON.stringify(S);
+  S = Object.assign(FRESH(), {psnId: S.psnId || "", plat: S.plat, homeTipX: S.homeTipX});
+  OFF_BY_DEFAULT.forEach(c => { S.cats[c] = false; });
+  save(); render();
+  snack("Salvataggi cancellati", () => { S = Object.assign(FRESH(), JSON.parse(old)); save(); render(); snack("Ripristinati"); }, 10000);
+}
+$("wipe").onclick = () => ask({title: "Cancellare tutti i salvataggi?", text: "Spunte, contatori, capitolo e pin spariscono da questo dispositivo. I trofei già presi su PSN o Xbox tornano da soli.",
+  buttons: [{label: "Salva prima un backup", fn: () => $("exp").click()}, {label: "Cancella tutto", danger: true, fn: wipe}, {label: "Annulla", bold: true}]});
 function render() { S.tro = S.tro || {}; S.cnt = S.cnt || {}; S.ops = S.ops || {}; S.mis = S.mis || {}; { let ch = false; for (const [k, v] of Object.entries(S.mis)) if (v && v.p && !(D.missions.db[k] || {}).p) { delete v.p; delete v.edit; ch = true; } if (ch) save(); } S.items = S.items || {}; syncItems(); S.chapter = +S.chapter || 1; $("chap").value = S.chapter; $("later").checked = !!S.later; drawProg(); S.eggs = S.eggs || {}; S.mis = S.mis || {}; if (S.misLayer === undefined) S.misLayer = true; $("misLayer").checked = S.misLayer; drawMis(); drawCats(); drawPois(); drawCars(); drawCarList(); drawEggs(); drawChapters(); drawMine(); drawCounts(); $("carLayer").checked = S.carLayer; $("eggLayer").checked = S.eggLayer !== false; }
 function start(data) {
   D = data; buildStory(); if (PSN_PLAYERS || PSN_API) setTimeout(loadPsn, 0);
