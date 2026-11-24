@@ -469,7 +469,12 @@ unlocks = {
  ],
 }
 
-data = {"unlocks": unlocks, "missions": {"ch": mission_ch, "sf": sf, "db": mdb}, "cats": cats, "pois": pois, "cars": cars, "chapters": chapters, "always": always, "eggs": eggs, "search": search}
+import sys as _sys
+_sys.path.insert(0, HERE)
+import trophies as _tro
+TRO = _tro.build(None, at)
+
+data = {"tro": TRO, "unlocks": unlocks, "missions": {"ch": mission_ch, "sf": sf, "db": mdb}, "cats": cats, "pois": pois, "cars": cars, "chapters": chapters, "always": always, "eggs": eggs, "search": search}
 json.dump(data, open(out, "w"), ensure_ascii=False, separators=(",", ":"))
 print(len(pois), len(search), len(cars), sum(len(c["items"]) for c in chapters))
 print({k: v for k, v in A.items()})

@@ -702,6 +702,28 @@ details.ch>summary span{font:500 13px Inter,sans-serif;color:var(--mute);margin-
 #toast h3{margin:0 0 6px;font:400 22px/1.1 Anton,Impact,sans-serif;color:#ffc24b}
 #toast ul{margin:0;padding-left:18px;font-size:14px}
 #toast button{margin-top:10px}
+.trow{border-bottom:1px solid var(--line);padding:10px 0}
+.trow.done .tn{color:var(--mute);text-decoration:line-through}
+.thead{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:8px;align-items:start}
+.thead input{width:20px;height:20px;accent-color:var(--coral);margin-top:2px}
+.tn{font-weight:700;font-size:14.5px}
+.td{font-size:13.5px;color:var(--mute);margin-top:2px}
+.gr{font:700 11px Inter,sans-serif;padding:3px 7px;border-radius:6px;white-space:nowrap}
+.gr.P{background:#9ec7ff;color:#0b2447}.gr.G{background:#ffd34d;color:#3a2a00}.gr.S{background:#d6dde3;color:#2a3138}.gr.B{background:#e0a36b;color:#3b1d00}
+.cnt{display:flex;align-items:center;gap:6px;margin-top:6px}
+.cnt button{width:36px;height:36px;border-radius:8px;border:1px solid var(--line);background:var(--soft);color:var(--ink);font:700 18px Inter,sans-serif;cursor:pointer}
+.cnt input{width:96px;text-align:center;padding:6px}
+.cnt .of{font-size:13px;color:var(--mute);white-space:nowrap}
+.mini{height:6px;border-radius:3px;background:var(--soft);overflow:hidden;margin-top:6px}
+.mini span{display:block;height:100%;background:var(--coral)}
+.src2{font:600 11px Inter,sans-serif;color:var(--ok);margin-left:6px}
+.psn{border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:10px;background:var(--soft)}
+.psn select{margin-top:6px}
+.hrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 10px;padding:8px 0;border-bottom:1px solid var(--line);align-items:center}
+.hrow.done .hn{color:var(--mute);text-decoration:line-through}
+.hn{font-size:14px}
+.hv{font:600 13px Inter,sans-serif;white-space:nowrap}
+.opspin{width:24px;height:24px;border-radius:50%;background:#7b2cbf;border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35);display:grid;place-items:center;font:800 12px Inter,sans-serif;color:#fff}
 .links{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
 .links a{display:inline-flex;align-items:center;min-height:32px;padding:5px 10px;border-radius:8px;background:color-mix(in srgb,var(--sea) 14%,var(--panel));color:var(--ink);font:600 12.5px Inter,sans-serif;text-decoration:none;border:1px solid var(--line)}
 .links a:after{content:"↗";margin-left:5px;color:var(--mute)}
@@ -721,6 +743,7 @@ details.ch>summary span{font:500 13px Inter,sans-serif;color:var(--mute);margin-
   <div class="searchbox"><input id="q" type="text" placeholder="Cerca un luogo, un negozio, un'auto…" autocomplete="off" aria-label="Cerca"><div id="results" role="listbox"></div></div>
   <nav role="tablist">
     <button role="tab" data-t="mappa" aria-selected="true">Mappa</button>
+    <button role="tab" data-t="trofei" aria-selected="false">Trofei</button>
     <button role="tab" data-t="auto" aria-selected="false">Auto <i id="carCount"></i></button>
     <button role="tab" data-t="cap" aria-selected="false">Capitoli</button>
     <button role="tab" data-t="missioni" aria-selected="false">Missioni <i id="misCount"></i></button>
@@ -739,7 +762,27 @@ details.ch>summary span{font:500 13px Inter,sans-serif;color:var(--mute);margin-
     <div class="row"><button class="btn hot" id="exp">Salva file di backup</button><label class="btn" for="impFile" style="display:inline-flex;align-items:center">Carica file di backup</label><input type="file" id="impFile" accept=".json,application/json" hidden></div>
     <p class="muted" id="impMsg" role="status"></p>
     <details class="muted"><summary>Il file non si salva? Usa il testo</summary><div class="form"><div class="row"><button class="btn" id="expT">Copia come testo</button></div><textarea id="impX" aria-label="Testo del backup" placeholder="Incolla qui il testo del backup"></textarea><div class="row"><button class="btn" id="impGo">Ripristina dal testo</button></div></div></details>
+    <div id="offBox" hidden>
+      <h2>Mappa offline</h2>
+      <p class="muted">L'app funziona anche senza connessione: le zone di mappa che guardi restano salvate. Per averla tutta, salvala ora (circa 18 MB, meglio col Wi-Fi).</p>
+      <div class="row"><button class="btn" id="offGo">Salva la mappa per l'offline</button><span class="muted" id="offMsg"></span></div>
+    </div>
     <p class="credits">Mappa e luoghi: <a href="https://map.gtadb.org">GTA VI Map Tiles e GTA VI Landmarks Data — map.gtadb.org</a>, gtadb.org e contributori, licenza <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. Grafica della mappa: Rockstar Games. Le tile sono state ricomposte in blocchi più grandi. App non ufficiale, senza legami con Rockstar.</p>
+  </div>
+  <div class="tab" id="t-trofei">
+    <div id="psnBox"></div>
+    <div class="bar"><span id="troBar"></span></div><p class="muted" id="troTxt"></p>
+    <div class="row" style="margin-top:0"><label class="ck"><input type="checkbox" id="troTodo"> Solo quelli che mi mancano</label></div>
+    <div id="troList"></div>
+    <h2>Rapine alle operazioni illegali</h2>
+    <p class="muted">39 operazioni in 9 gruppi: una per gruppo dà il trofeo Pest Control, tutte servono per il 100%. Per ora ha il pin solo il Sunrise RV Park; le altre posizioni sono nella guida.</p>
+    <div id="opsList"></div>
+    <h2>Checklist del 100%</h2>
+    <p class="muted">Nel gioco si vede solo dopo la storia; qui la tieni d'occhio da subito. I contatori sono gli stessi dei trofei.</p>
+    <div id="hundList"></div>
+    <h2>Guide alle posizioni dei collezionabili</h2>
+    <p class="muted">Se vuoi metterli tu sulla mappa: usa la scheda Pin con nomi chiari (per esempio «Meditazione 3» o «WAiNK 12»), poi mandami il file di backup e li integro come pin fissi.</p>
+    <div id="guideList" class="links"></div>
   </div>
   <div class="tab" id="t-auto">
     <div class="row" style="margin-top:0"><label class="ck"><input type="checkbox" id="carLayer" checked> Mostra le auto sulla mappa</label></div>
@@ -789,7 +832,7 @@ const ll = p => [(p[1] - 16384) / 32, (p[0] + 16384) / 32];
 const back = l => [Math.round(l.lng * 32 - 16384), Math.round(l.lat * 32 + 16384)];
 const $ = id => document.getElementById(id);
 
-let S = {poi:{}, cars:{}, items:{}, eggs:{}, mis:{}, misLayer:true, chapter:1, later:false, cats:{}, mine:[], carLayer:true, eggLayer:true};
+let S = {poi:{}, cars:{}, items:{}, eggs:{}, mis:{}, tro:{}, cnt:{}, ops:{}, psnId:"", misLayer:true, chapter:1, later:false, cats:{}, mine:[], carLayer:true, eggLayer:true};
 try { Object.assign(S, JSON.parse(localStorage.getItem(KEY) || "{}")); } catch (e) {}
 const hd = window.claude?.hot?.data; if (hd && hd.poi) Object.assign(S, hd);
 const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
@@ -802,7 +845,7 @@ L.tileLayer("tiles/{z}/{x}_{y}.jpg", {tileSize: 1024, minZoom: 0, maxZoom: 3.5, 
 L.tileLayer("big/{z}/{x}_{y}.jpg", {tileSize: 2048, minZoom: 4, maxZoom: 6, minNativeZoom: 4, maxNativeZoom: 5, noWrap: true, bounds: WB}).addTo(map);
 map.setView(ll([-600, 0]), 2.5);
 const rend = L.canvas({padding: .3});
-const poiLayer = L.layerGroup().addTo(map), carLayer = L.layerGroup(), eggLayer = L.layerGroup(), misLayer = L.layerGroup(), mineLayer = L.layerGroup().addTo(map);
+const poiLayer = L.layerGroup().addTo(map), carLayer = L.layerGroup(), eggLayer = L.layerGroup(), misLayer = L.layerGroup(), opsLayer = L.layerGroup().addTo(map), mineLayer = L.layerGroup().addTo(map);
 let D = null, poiMarkers = {}, carMarkers = {}, eggMarkers = {}, tmp = null;
 const avail = (ch, to) => S.later || ((ch || 1) <= S.chapter && (!to || S.chapter <= to));
 const lk = a => a && a.length ? '<div class="links">' + a.map(l => '<a href="' + esc(l[1]) + '" target="_blank" rel="noopener">' + esc(l[0]) + "</a>").join("") + "</div>" : "";
@@ -972,6 +1015,7 @@ function drawMis() {
   }).join("");
   drawMisMap();
   if (typeof drawChapters === "function" && $("chapters")) drawChapters();
+  if (D && D.tro) drawTro();
 }
 for (const box of ["misList", "sfList"]) {
   $(box).onclick = e => {
@@ -983,6 +1027,100 @@ for (const box of ["misList", "sfList"]) {
   $(box).onchange = e => { const i = e.target; if (i.dataset.mid) { S.mis[i.dataset.mid] = Object.assign(S.mis[i.dataset.mid] || {}, {done: i.checked}); save(); drawMis(); } };
 }
 $("misLayer").onchange = e => { S.misLayer = e.target.checked; save(); drawMisMap(); };
+
+const fmt = n => Number(n || 0).toLocaleString("it-IT");
+const cnt = k => +(S.cnt[k] || 0);
+const normT = s => String(s).toLowerCase().replace(/[^a-z0-9*]/g, "");
+let PSN = null;
+function psnHas(name) {
+  if (!PSN || !PSN.earned) return false;
+  const n = normT(name), tail = n.includes("*") ? n.split("*").pop() : null;
+  return PSN.earned.some(e => { const m = normT(e); return m === n || (tail && m.endsWith(tail)); });
+}
+function calc(kind) {
+  if (kind === "sf") return D.missions.sf.filter(g => g.conta !== "no" && g.m.every(x => (S.mis[x.id] || {}).done)).length;
+  if (kind === "pest") return D.tro.gangops.filter(g => g.ops.some(o => S.ops[o.id])).length;
+  if (kind === "gangops") return D.tro.gangops.reduce((a, g) => a + g.ops.filter(o => S.ops[o.id]).length, 0);
+  if (kind === "hundred") return D.tro.hundred.filter(hDone).length;
+  return 0;
+}
+const CALC_T = {sf: 8, pest: 9, gangops: 39, hundred: 35};
+function hVal(h) { return h.mis ? ((S.mis[h.mis] || {}).done ? 1 : 0) : h.calc ? calc(h.calc) : cnt(h.cnt); }
+function hDone(h) { return hVal(h) >= h.t; }
+function tProg(t) {
+  if (t.cnt) return [cnt(t.cnt), t.t];
+  if (t.calc) return [calc(t.calc), CALC_T[t.calc]];
+  if (t.mis) return [(S.mis[t.mis] || {}).done ? 1 : 0, 1];
+  return null;
+}
+function tState(t) {
+  if (psnHas(t.n)) return "psn";
+  if (t.id === "vice-got-a-price") { const others = D.tro.trophies.filter(x => x.id !== t.id); if (others.every(x => tState(x))) return "auto"; }
+  const pr = tProg(t); if (pr && pr[0] >= pr[1]) return "auto";
+  return S.tro[t.id] ? "man" : "";
+}
+function counter(key, target) {
+  const v = cnt(key), big = target >= 10000, step = big ? 10000 : 1;
+  return '<div class="cnt"><button data-dec="' + key + '" data-step="' + step + '" aria-label="Meno">−</button><input type="number" inputmode="numeric" min="0" data-cnt="' + key + '" value="' + v + '" aria-label="Valore"><button data-inc="' + key + '" data-step="' + step + '" aria-label="Più">+</button><span class="of">su ' + (big ? "$" : "") + fmt(target) + "</span></div>" +
+    '<div class="mini"><span style="width:' + Math.min(100, v / target * 100) + '%"></span></div>';
+}
+const GR = {P: "Platino", G: "Oro", S: "Argento", B: "Bronzo"};
+function drawTro() {
+  const T = D.tro.trophies, done = T.filter(t => tState(t)).length;
+  $("troBar").style.width = (done / T.length * 100) + "%";
+  $("troTxt").textContent = done + " trofei su " + T.length + (PSN ? " · dal PSN: " + T.filter(t => psnHas(t.n)).length : "");
+  const todo = $("troTodo").checked;
+  $("troList").innerHTML = T.filter(t => !todo || !tState(t)).map(t => {
+    const st = tState(t), hidden = t.h && t.ch > S.chapter && !S.later, pr = tProg(t);
+    if (hidden) return '<div class="trow"><div class="thead"><span></span><div><div class="tn">Trofeo nascosto</div><div class="td">Si scopre nel capitolo ' + t.ch + ' (oppure attiva «Mostra tutto» nella scheda Mappa).</div></div><span class="gr ' + t.g + '">' + GR[t.g] + "</span></div></div>";
+    return '<div class="trow' + (st ? " done" : "") + '"><div class="thead"><input type="checkbox" data-tro="' + t.id + '"' + (st ? " checked" : "") + (st === "psn" || st === "auto" ? " disabled" : "") + ' aria-label="Ottenuto"><div><div class="tn">' + esc(t.n) + (st === "psn" ? '<span class="src2">dal PSN</span>' : st === "auto" ? '<span class="src2">automatico</span>' : "") + '</div><div class="td">' + esc(t.d) + "</div></div>" + '<span class="gr ' + t.g + '">' + GR[t.g] + "</span></div>" +
+      '<p class="note" style="margin:6px 0 0 28px">' + esc(t.tip) + "</p>" +
+      (t.cnt && !st ? '<div style="margin-left:28px">' + counter(t.cnt, t.t) + "</div>" : "") +
+      (pr && !t.cnt && !st && pr[1] > 1 ? '<p class="muted" style="margin:4px 0 0 28px">' + pr[0] + " su " + pr[1] + "</p>" : "") +
+      '<div style="margin-left:28px">' + lk(t.links) + "</div></div>";
+  }).join("");
+  $("opsList").innerHTML = D.tro.gangops.map(g => { const d = g.ops.filter(o => S.ops[o.id]).length; return '<details class="ch"><summary>' + esc(g.g) + "<span>" + d + "/" + g.ops.length + "</span></summary>" + g.ops.map(o => '<div class="mrow' + (S.ops[o.id] ? " done" : "") + '"><input type="checkbox" data-op="' + o.id + '"' + (S.ops[o.id] ? " checked" : "") + ' aria-label="Rapinata"><div class="nm">' + esc(o.n) + '</div><div class="act">' + (o.p ? '<button data-opgo="' + o.id + '">Vedi</button>' : "") + "</div></div>").join("") + "</details>"; }).join("") + lk([["Posizioni delle 39 operazioni (PowerPyx)", "https://www.powerpyx.com/gta-6-all-illegal-gang-operations-locations/"]]);
+  let sec = "";
+  $("hundList").innerHTML = D.tro.hundred.map(h => {
+    const v = hVal(h), ok = v >= h.t, head = h.s !== sec ? '<h3 style="margin:12px 0 2px;font:600 14px Inter,sans-serif">' + esc(h.s) + "</h3>" : ""; sec = h.s;
+    return head + '<div class="hrow' + (ok ? " done" : "") + '"><div class="hn">' + esc(h.n) + (h.links.length ? " " + h.links.map(l => '<a href="' + esc(l[1]) + '" target="_blank" rel="noopener" class="muted">guida</a>').join(" ") : "") + "</div>" +
+      '<div class="hv">' + (h.mis ? (ok ? "fatto" : "da fare") : (h.t >= 10000 ? "$" : "") + fmt(Math.min(v, h.t)) + " / " + (h.t >= 10000 ? "$" : "") + fmt(h.t)) + "</div>" +
+      (h.cnt && !ok ? '<div style="grid-column:1/-1">' + counter(h.cnt, h.t) + "</div>" : "") + "</div>";
+  }).join("") + '<p class="muted">' + calc("hundred") + " requisiti su 35 completati.</p>";
+  $("guideList").innerHTML = D.tro.guides.map(l => '<a href="' + esc(l[1]) + '" target="_blank" rel="noopener">' + esc(l[0]) + "</a>").join("");
+  drawOps(); drawPsn();
+}
+function drawOps() {
+  opsLayer.clearLayers();
+  for (const g of D.tro.gangops) for (const o of g.ops) if (o.p) L.marker(ll(o.p), {icon: L.divIcon({className: "", html: '<div class="opspin">$</div>', iconSize: [24, 24], iconAnchor: [12, 12]})}).bindPopup("<b>" + esc(o.n) + '</b><br><span class="muted">Operazione illegale · ' + esc(g.g) + "</span>").addTo(opsLayer);
+}
+const setCnt = (k, v) => { S.cnt[k] = Math.max(0, Math.round(+v || 0)); save(); drawTro(); };
+$("t-trofei").addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b) return; const d = b.dataset;
+  if (d.inc) setCnt(d.inc, cnt(d.inc) + +d.step);
+  if (d.dec) setCnt(d.dec, cnt(d.dec) - +d.step);
+  if (d.opgo) { for (const g of D.tro.gangops) for (const o of g.ops) if (o.id === d.opgo) fly(o.p); }
+});
+$("t-trofei").addEventListener("change", e => {
+  const t = e.target, d = t.dataset;
+  if (d.cnt) setCnt(d.cnt, t.value);
+  if (d.tro) { if (t.checked) S.tro[d.tro] = true; else delete S.tro[d.tro]; save(); drawTro(); }
+  if (d.op) { if (t.checked) S.ops[d.op] = true; else delete S.ops[d.op]; save(); drawTro(); }
+  if (t.id === "troTodo") drawTro();
+  if (t.id === "psnSel") { S.psnId = t.value; save(); loadPsn(); }
+});
+let PSN_PLAYERS = null;
+function drawPsn() {
+  const box = $("psnBox");
+  if (!PSN_PLAYERS) { box.innerHTML = '<div class="psn"><b>Trofei automatici dal PSN</b><p class="muted" style="margin:4px 0 0">Funzionano solo sul sito su GitHub Pages, quando l\'aggiornamento automatico è attivo. Qui puoi spuntarli a mano: missioni e contatori li segnano da soli.</p></div>'; return; }
+  box.innerHTML = '<div class="psn"><label for="psnSel"><b>Il tuo ID PSN</b></label><select id="psnSel"><option value="">Nessuno (spunto a mano)</option>' + PSN_PLAYERS.map(p => '<option' + (p === S.psnId ? " selected" : "") + ">" + esc(p) + "</option>").join("") + '</select><p class="muted" style="margin:6px 0 0">' + (PSN ? (PSN.error ? "Errore: " + esc(PSN.error) : "Aggiornato " + new Date(PSN.updated).toLocaleString("it-IT") + " · " + (PSN.earned || []).length + " trofei ottenuti") : S.psnId ? "Caricamento…" : "Scegli il tuo ID per prendere i trofei in automatico. Se non ci sei, chiedi di aggiungerti.") + "</p></div>";
+}
+function loadPsn() {
+  PSN = null; drawTro();
+  if (!S.psnId) return;
+  fetch("psn/" + encodeURIComponent(S.psnId) + ".json", {cache: "no-store"}).then(r => r.ok ? r.json() : Promise.reject(r.status)).then(j => { PSN = j; drawTro(); }).catch(() => { PSN = {error: "dati non trovati per " + S.psnId}; drawTro(); });
+}
+fetch("psn/players.json", {cache: "no-store"}).then(r => r.ok ? r.json() : null).then(j => { if (Array.isArray(j) && j.length) { PSN_PLAYERS = j; if (D) loadPsn(); } }).catch(() => {});
 
 const itemDone = i => i.mis ? !!(S.mis[i.mis] || {}).done : !!S.items[i.id];
 function setItem(i, v) {
@@ -1077,9 +1215,24 @@ document.addEventListener("click", e => { if (!e.target.closest(".searchbox")) $
 $("q").onkeydown = e => { if (e.key === "Escape") { $("results").style.display = "none"; $("q").blur(); } };
 map.on("movestart", () => { $("results").style.display = "none"; });
 
-function render() { S.mis = S.mis || {}; { let ch = false; for (const [k, v] of Object.entries(S.mis)) if (v && v.p && !(D.missions.db[k] || {}).p) { delete v.p; delete v.edit; ch = true; } if (ch) save(); } S.items = S.items || {}; syncItems(); S.chapter = +S.chapter || 1; $("chap").value = S.chapter; $("later").checked = !!S.later; drawProg(); S.eggs = S.eggs || {}; S.mis = S.mis || {}; if (S.misLayer === undefined) S.misLayer = true; $("misLayer").checked = S.misLayer; drawMis(); drawCats(); drawPois(); drawCars(); drawCarList(); drawEggs(); drawChapters(); drawMine(); $("carLayer").checked = S.carLayer; $("eggLayer").checked = S.eggLayer !== false; }
+if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost") && !/claude|anthropic/.test(location.hostname)) {
+  try { navigator.serviceWorker.register("sw.js").then(() => { $("offBox").hidden = false; }).catch(() => {}); } catch (e) {}
+}
+$("offGo").onclick = async () => {
+  try {
+    const list = await (await fetch("tiles.json")).json(), c = await caches.open("leonida-tiles-v1");
+    let n = 0; $("offGo").disabled = true;
+    for (let i = 0; i < list.length; i += 6) {
+      await Promise.all(list.slice(i, i + 6).map(async u => { if (!(await c.match(u))) { const r = await fetch(u); if (r.ok) await c.put(u, r); } n++; }));
+      $("offMsg").textContent = Math.round(n / list.length * 100) + "%";
+    }
+    $("offMsg").textContent = "Mappa salvata: funziona anche offline.";
+  } catch (e) { $("offMsg").textContent = "Non riuscito: riprova con una connessione stabile."; }
+  $("offGo").disabled = false;
+};
+function render() { S.tro = S.tro || {}; S.cnt = S.cnt || {}; S.ops = S.ops || {}; S.mis = S.mis || {}; { let ch = false; for (const [k, v] of Object.entries(S.mis)) if (v && v.p && !(D.missions.db[k] || {}).p) { delete v.p; delete v.edit; ch = true; } if (ch) save(); } S.items = S.items || {}; syncItems(); S.chapter = +S.chapter || 1; $("chap").value = S.chapter; $("later").checked = !!S.later; drawProg(); S.eggs = S.eggs || {}; S.mis = S.mis || {}; if (S.misLayer === undefined) S.misLayer = true; $("misLayer").checked = S.misLayer; drawMis(); drawCats(); drawPois(); drawCars(); drawCarList(); drawEggs(); drawChapters(); drawMine(); $("carLayer").checked = S.carLayer; $("eggLayer").checked = S.eggLayer !== false; }
 function start(data) {
-  D = data;
+  D = data; if (PSN_PLAYERS) setTimeout(loadPsn, 0);
   OFF_BY_DEFAULT.forEach(c => { if (!(c in S.cats)) S.cats[c] = false; });
   render();
 }
