@@ -418,9 +418,17 @@ CAR_GATE = {
     "pixel-elegy": (3, "I container gialli Scoop si aprono solo con la smerigliatrice (capitolo 3, Meet the Heders)"),
     "emerus-purple": (3, "Legata a un furto del capitolo 3"),
 }
+CAR_GATE["elegy-drift"] = (3, "Ha il localizzatore: si registra ai Pay 'n' Spray dal capitolo 3")
 for c in cars:
     g = CAR_GATE.get(c["id"])
-    c["ch"], c["g"] = (g if g else (1, ""))
+    c["ch"], c["g"] = (g if g else (2, "Si registrano da Moses dal capitolo 2: nel capitolo 1 puoi guidarle ma non tenerle"))
+# voci dei capitoli collegate alle missioni: una sola spunta
+ITEM_MIS = {"c1-rum": "get-shirleys-rum", "c1-scooter": "steal-the-scooter", "c1-droga": "find-the-lost-drugs",
+            "c1-andy": "get-lucias-clothes", "c1-collana": "buy-lucia-a-necklace", "c3-yago": "race-against-yago",
+            "c4-baddriver": "bad-driver-find-felipe", "c4-call": "this-is-a-free-call-from-pick-up-shayna"}
+for ch in chapters:
+    for it in ch["items"]:
+        if it["id"] in ITEM_MIS: it["mis"] = ITEM_MIS[it["id"]]
 for e in eggs:
     e["ch"] = 1
 S_NE = "nerdism.com"; S_S4 = "space4games.com"; S_BB = "beebom.com"; S_GU = "gamersuniverse.eu"; S_GW = "gta.wiki"; S_BX = "bloxodes.com"

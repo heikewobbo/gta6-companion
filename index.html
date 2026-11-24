@@ -895,7 +895,7 @@ function drawCarList() {
       '<div class="row"><label class="ck"><input type="checkbox" data-cid="' + esc(c.id) + '" data-k="found"' + (st.found ? " checked" : "") + '> Trovata</label><label class="ck"><input type="checkbox" data-cid="' + esc(c.id) + '" data-k="reg"' + (st.reg ? " checked" : "") + '> Registrata</label></div>' +
       '<div class="row">' + (pos ? '<button class="btn" data-go="' + esc(c.id) + '">Vedi sulla mappa</button><button class="btn' + (st.edit ? " hot" : "") + '" data-edit="' + esc(c.id) + '">' + (st.edit ? "Fatto" : "Correggi posizione") + "</button>" : '<button class="btn" data-place="' + esc(c.id) + '">Metti il pin al centro della mappa</button>') + '</div>' +
       (c.g && c.ch > 1 ? '<div class="why">Dal capitolo ' + c.ch + ": " + esc(c.g) + "</div>" : "") + lk(c.links) + (c.src.length ? '<div class="src">Fonti: ' + c.src.map(esc).join(", ") + "</div>" : "") + "</div>";
-  }).join("") + (shut.length ? '<h2>In arrivo</h2><p class="muted">Queste non si possono ancora prendere: compaiono sulla mappa quando arrivi al capitolo giusto.</p>' + shut.map(c => '<div class="card locked"><h3>' + esc(c.n) + '</h3><div class="muted">' + esc(c.zona) + '</div><div class="why">Dal capitolo ' + c.ch + ": " + esc(c.g) + "</div></div>").join("") : "");
+  }).join("") + (shut.length ? '<h2>In arrivo</h2><p class="muted">Non ancora disponibili: compaiono sulla mappa quando arrivi al capitolo in cui si possono prendere e tenere.</p>' + shut.map(c => '<div class="card locked"><h3>' + esc(c.n) + '</h3><div class="muted">' + esc(c.zona) + '</div><div class="why">Dal capitolo ' + c.ch + ": " + esc(c.g) + "</div></div>").join("") : "");
 }
 $("cars").onclick = e => {
   const t = e.target;
@@ -971,6 +971,7 @@ function drawMis() {
     return '<details class="ch"><summary>' + esc(g.g) + "<span>" + (g.ch ? "cap. " + g.ch : "qualsiasi cap.") + " · " + d + "/" + g.m.length + "</span> " + tag + "</summary>" + g.m.map(x => mrow({id: x.id, n: x.n, f: []})).join("") + "</details>";
   }).join("");
   drawMisMap();
+  if (typeof drawChapters === "function" && $("chapters")) drawChapters();
 }
 for (const box of ["misList", "sfList"]) {
   $(box).onclick = e => {
@@ -984,13 +985,22 @@ for (const box of ["misList", "sfList"]) {
 }
 $("misLayer").onchange = e => { S.misLayer = e.target.checked; save(); drawMisMap(); };
 
+const itemDone = i => i.mis ? !!(S.mis[i.mis] || {}).done : !!S.items[i.id];
+function setItem(i, v) {
+  if (i.mis) S.mis[i.mis] = Object.assign(S.mis[i.mis] || {}, {done: v});
+  else if (v) S.items[i.id] = true; else delete S.items[i.id];
+  save(); drawMis();
+}
+function syncItems() {
+  for (const c of D.chapters) for (const i of c.items) if (i.mis && S.items[i.id]) { S.mis[i.mis] = Object.assign(S.mis[i.mis] || {}, {done: true}); delete S.items[i.id]; }
+}
 function drawChapters() {
   $("chap").value = S.chapter; $("later").checked = S.later;
   const list = D.chapters.filter(c => c.n === +S.chapter || (S.later && c.n > S.chapter) || c.n < S.chapter);
   $("chapters").innerHTML = list.map(c => {
-    const done = c.items.filter(i => S.items[i.id]).length;
+    const done = c.items.filter(itemDone).length;
     const past = c.n < S.chapter;
-    const body = '<div class="pnr">' + esc(c.pnr) + lk(c.links) + '</div>' + c.items.map(i => '<div class="card' + (S.items[i.id] ? " done" : "") + '"><label class="ck" style="align-items:flex-start"><input type="checkbox" data-item="' + esc(i.id) + '"' + (S.items[i.id] ? " checked" : "") + '><span><b>' + esc(i.t) + '</b>' + (i.tr ? '<span class="tag trophy">trofei</span>' : "") + '</span></label>' + (i.d ? "<p>" + esc(i.d) + "</p>" : "") + (i.n ? '<p class="note">' + esc(i.n) + "</p>" : "") + lk(i.links) + (i.src.length ? '<div class="src">Fonti: ' + i.src.map(esc).join(", ") + "</div>" : "") + "</div>").join("");
+    const body = '<div class="pnr">' + esc(c.pnr) + lk(c.links) + '</div>' + c.items.map(i => '<div class="card' + (itemDone(i) ? " done" : "") + '"><label class="ck" style="align-items:flex-start"><input type="checkbox" data-item="' + esc(i.id) + '"' + (itemDone(i) ? " checked" : "") + '><span><b>' + esc(i.t) + '</b>' + (i.tr ? '<span class="tag trophy">trofei</span>' : "") + (i.mis ? '<span class="tag opt">anche in Missioni</span>' : "") + '</span></label>' + (i.d ? "<p>" + esc(i.d) + "</p>" : "") + (i.n ? '<p class="note">' + esc(i.n) + "</p>" : "") + lk(i.links) + (i.src.length ? '<div class="src">Fonti: ' + i.src.map(esc).join(", ") + "</div>" : "") + "</div>").join("");
     return past ? '<details class="card"><summary><b>' + esc(c.titolo) + '</b> <span class="muted">' + done + "/" + c.items.length + ' · già passato</span></summary>' + body + "</details>"
       : '<h2>' + esc(c.titolo) + '</h2><div class="bar"><span style="width:' + (done / c.items.length * 100) + '%"></span></div><p class="muted">' + done + " fatte su " + c.items.length + "</p>" + body;
   }).join("");
@@ -1015,7 +1025,7 @@ function toast(c) {
 }
 $("chap").onchange = e => { const old = +S.chapter; S.chapter = +e.target.value; save(); render(); if (S.chapter > old && !S.later) toast(S.chapter); };
 $("later").onchange = e => { S.later = e.target.checked; save(); render(); };
-$("chapters").onchange = e => { const i = e.target; if (i.dataset.item) { if (i.checked) S.items[i.dataset.item] = true; else delete S.items[i.dataset.item]; save(); drawChapters(); } };
+$("chapters").onchange = e => { const t = e.target; if (!t.dataset.item) return; for (const c of D.chapters) for (const i of c.items) if (i.id === t.dataset.item) setItem(i, t.checked); };
 
 let pending = null;
 function drawMine() {
@@ -1068,7 +1078,7 @@ document.addEventListener("click", e => { if (!e.target.closest(".searchbox")) $
 $("q").onkeydown = e => { if (e.key === "Escape") { $("results").style.display = "none"; $("q").blur(); } };
 map.on("movestart", () => { $("results").style.display = "none"; });
 
-function render() { S.chapter = +S.chapter || 1; $("chap").value = S.chapter; $("later").checked = !!S.later; drawProg(); S.eggs = S.eggs || {}; S.mis = S.mis || {}; if (S.misLayer === undefined) S.misLayer = true; $("misLayer").checked = S.misLayer; drawMis(); drawCats(); drawPois(); drawCars(); drawCarList(); drawEggs(); drawChapters(); drawMine(); $("carLayer").checked = S.carLayer; $("eggLayer").checked = S.eggLayer !== false; }
+function render() { S.mis = S.mis || {}; S.items = S.items || {}; syncItems(); S.chapter = +S.chapter || 1; $("chap").value = S.chapter; $("later").checked = !!S.later; drawProg(); S.eggs = S.eggs || {}; S.mis = S.mis || {}; if (S.misLayer === undefined) S.misLayer = true; $("misLayer").checked = S.misLayer; drawMis(); drawCats(); drawPois(); drawCars(); drawCarList(); drawEggs(); drawChapters(); drawMine(); $("carLayer").checked = S.carLayer; $("eggLayer").checked = S.eggLayer !== false; }
 function start(data) {
   D = data;
   OFF_BY_DEFAULT.forEach(c => { if (!(c in S.cats)) S.cats[c] = false; });
