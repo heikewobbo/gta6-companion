@@ -690,9 +690,10 @@ textarea{min-height:90px}
     <p class="muted">Negozi e servizi presi dalla mappa della comunità GTADB: è ancora parziale, il gioco è uscito da pochi giorni. Tocca un punto per segnarlo come visitato; tieni premuto sulla mappa per aggiungere un tuo pin.</p>
     <div class="row"><button class="btn" id="allOn">Mostra tutto</button><button class="btn" id="allOff">Nascondi tutto</button></div>
     <h2>Backup dei progressi</h2>
-    <p class="muted">Le spunte restano salvate in questo browser. Copia il backup ogni tanto, così non le perdi se cambi telefono.</p>
-    <div class="row"><button class="btn" id="exp">Copia backup</button><button class="btn" id="impT">Incolla backup</button></div>
-    <div class="form" id="impF" hidden><textarea id="impX" aria-label="Testo del backup"></textarea><div class="row"><button class="btn hot" id="impGo">Ripristina</button><span class="muted" id="impMsg"></span></div></div>
+    <p class="muted">Le spunte restano salvate in questo browser. Ogni tanto salva un file di backup: lo ricarichi su un altro telefono o browser e ritrovi tutto.</p>
+    <div class="row"><button class="btn hot" id="exp">Salva file di backup</button><label class="btn" for="impFile" style="display:inline-flex;align-items:center">Carica file di backup</label><input type="file" id="impFile" accept=".json,application/json" hidden></div>
+    <p class="muted" id="impMsg" role="status"></p>
+    <details class="muted"><summary>Il file non si salva? Usa il testo</summary><div class="form"><div class="row"><button class="btn" id="expT">Copia come testo</button></div><textarea id="impX" aria-label="Testo del backup" placeholder="Incolla qui il testo del backup"></textarea><div class="row"><button class="btn" id="impGo">Ripristina dal testo</button></div></div></details>
     <p class="credits">Mappa e luoghi: <a href="https://map.gtadb.org">GTA VI Map Tiles e GTA VI Landmarks Data — map.gtadb.org</a>, gtadb.org e contributori, licenza <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. Grafica della mappa: Rockstar Games. Le tile sono state ricomposte in blocchi più grandi. App non ufficiale, senza legami con Rockstar.</p>
   </div>
   <div class="tab" id="t-auto">
@@ -898,9 +899,19 @@ $("mCancel").onclick = () => { pending = null; $("mineF").hidden = true; };
 $("mSave").onclick = () => { if (!pending) return; S.mine.push({n: $("mName").value.trim() || "Pin", note: $("mNote").value.trim(), p: pending}); pending = null; $("mineF").hidden = true; save(); drawMine(); };
 $("mine").onclick = e => { const t = e.target; if (t.dataset.mgo) fly(S.mine[+t.dataset.mgo].p); if (t.dataset.mdel) { S.mine.splice(+t.dataset.mdel, 1); save(); drawMine(); } };
 
-$("exp").onclick = async () => { try { await navigator.clipboard.writeText(JSON.stringify(S)); $("exp").textContent = "Copiato"; } catch (e) { $("impF").hidden = false; $("impX").value = JSON.stringify(S); $("impMsg").textContent = "Copia tu il testo qui sopra."; } };
-$("impT").onclick = () => { $("impF").hidden = !$("impF").hidden; };
-$("impGo").onclick = () => { try { const o = JSON.parse($("impX").value); if (!o || typeof o !== "object" || !("poi" in o)) throw 0; S = Object.assign(S, o); save(); render(); $("impMsg").textContent = "Ripristinato."; } catch (e) { $("impMsg").textContent = "Il testo non è un backup valido."; } };
+const msg = t => { $("impMsg").textContent = t; };
+const fname = () => { const d = new Date(), z = n => String(n).padStart(2, "0"); return "leonida-backup-" + d.getFullYear() + "-" + z(d.getMonth() + 1) + "-" + z(d.getDate()) + ".json"; };
+const restore = txt => { const o = JSON.parse(txt); if (!o || typeof o !== "object" || !("poi" in o)) throw 0; S = Object.assign(S, o); save(); render(); };
+$("exp").onclick = async () => {
+  const name = fname(), body = JSON.stringify({app: "leonida-companion", saved: new Date().toISOString(), ...S}, null, 1);
+  const file = new File([body], name, {type: "application/json"});
+  try { if (navigator.canShare && navigator.canShare({files: [file]})) { await navigator.share({files: [file], title: name}); msg("Backup pronto: salvalo in File o mandalo dove vuoi."); return; } } catch (e) { if (e && e.name === "AbortError") return; }
+  try { const url = URL.createObjectURL(file), a = document.createElement("a"); a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 4000); msg("Ho scaricato " + name + ". Se non lo trovi, usa il testo qui sotto."); }
+  catch (e) { msg("Qui il file non si può salvare: usa il testo qui sotto."); }
+};
+$("impFile").onchange = async e => { const f = e.target.files[0]; if (!f) return; try { restore(await f.text()); msg("Backup caricato da " + f.name + "."); } catch (err) { msg("Questo file non è un backup di Leonida Companion."); } e.target.value = ""; };
+$("expT").onclick = async () => { const t = JSON.stringify(S); try { await navigator.clipboard.writeText(t); $("expT").textContent = "Copiato"; } catch (e) { $("impX").value = t; msg("Copia tu il testo nel riquadro."); } };
+$("impGo").onclick = () => { try { restore($("impX").value); msg("Ripristinato."); } catch (e) { msg("Il testo non è un backup valido."); } };
 
 const norm = s => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
 $("q").oninput = () => {
