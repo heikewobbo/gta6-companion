@@ -1068,12 +1068,12 @@ const GR = {P: "Platino", G: "Oro", S: "Argento", B: "Bronzo"};
 function drawTro() {
   const T = D.tro.trophies, done = T.filter(t => tState(t)).length;
   $("troBar").style.width = (done / T.length * 100) + "%";
-  $("troTxt").textContent = done + " trofei su " + T.length + (PSN ? " · dal PSN: " + T.filter(t => psnHas(t.n)).length : "");
+  $("troTxt").textContent = done + " trofei su " + T.length + (PSN && !PSN.error ? " · " + (S.plat === "xbox" ? "da Xbox" : "dal PSN") + ": " + T.filter(t => psnHas(t.n)).length : "");
   const todo = $("troTodo").checked;
   $("troList").innerHTML = T.filter(t => !todo || !tState(t)).map(t => {
     const st = tState(t), hidden = t.h && t.ch > S.chapter && !S.later, pr = tProg(t);
     if (hidden) return '<div class="trow"><div class="thead"><span></span><div><div class="tn">Trofeo nascosto</div><div class="td">Si scopre nel capitolo ' + t.ch + ' (oppure attiva «Mostra tutto» nella scheda Mappa).</div></div><span class="gr ' + t.g + '">' + GR[t.g] + "</span></div></div>";
-    return '<div class="trow' + (st ? " done" : "") + '"><div class="thead"><input type="checkbox" data-tro="' + t.id + '"' + (st ? " checked" : "") + (st === "psn" || st === "auto" ? " disabled" : "") + ' aria-label="Ottenuto"><div><div class="tn">' + esc(t.n) + (st === "psn" ? '<span class="src2">dal PSN</span>' : st === "auto" ? '<span class="src2">automatico</span>' : "") + '</div><div class="td">' + esc(t.d) + "</div></div>" + '<span class="gr ' + t.g + '">' + GR[t.g] + "</span></div>" +
+    return '<div class="trow' + (st ? " done" : "") + '"><div class="thead"><input type="checkbox" data-tro="' + t.id + '"' + (st ? " checked" : "") + (st === "psn" || st === "auto" ? " disabled" : "") + ' aria-label="Ottenuto"><div><div class="tn">' + esc(t.n) + (st === "psn" ? '<span class="src2">' + (S.plat === "xbox" ? "da Xbox" : "dal PSN") + '</span>' : st === "auto" ? '<span class="src2">automatico</span>' : "") + '</div><div class="td">' + esc(t.d) + "</div></div>" + '<span class="gr ' + t.g + '">' + GR[t.g] + "</span></div>" +
       '<p class="note" style="margin:6px 0 0 28px">' + esc(t.tip) + "</p>" +
       (t.cnt && !st ? '<div style="margin-left:28px">' + counter(t.cnt, t.t) + "</div>" : "") +
       (pr && !t.cnt && !st && pr[1] > 1 ? '<p class="muted" style="margin:4px 0 0 28px">' + pr[0] + " su " + pr[1] + "</p>" : "") +
@@ -1109,18 +1109,30 @@ $("t-trofei").addEventListener("change", e => {
   if (t.id === "troTodo") drawTro();
   if (t.id === "psnSel") { S.psnId = t.value; save(); loadPsn(); }
 });
-let PSN_PLAYERS = null;
+let PSN_PLAYERS = null, PSN_API = "";
 function drawPsn() {
-  const box = $("psnBox");
-  if (!PSN_PLAYERS) { box.innerHTML = '<div class="psn"><b>Trofei automatici dal PSN</b><p class="muted" style="margin:4px 0 0">Funzionano solo sul sito su GitHub Pages, quando l\'aggiornamento automatico è attivo. Qui puoi spuntarli a mano: missioni e contatori li segnano da soli.</p></div>'; return; }
-  box.innerHTML = '<div class="psn"><label for="psnSel"><b>Il tuo ID PSN</b></label><select id="psnSel"><option value="">Nessuno (spunto a mano)</option>' + PSN_PLAYERS.map(p => '<option' + (p === S.psnId ? " selected" : "") + ">" + esc(p) + "</option>").join("") + '</select><p class="muted" style="margin:6px 0 0">' + (PSN ? (PSN.error ? "Errore: " + esc(PSN.error) : "Aggiornato " + new Date(PSN.updated).toLocaleString("it-IT") + " · " + (PSN.earned || []).length + " trofei ottenuti") : S.psnId ? "Caricamento…" : "Scegli il tuo ID per prendere i trofei in automatico. Se non ci sei, chiedi di aggiungerti.") + "</p></div>";
+  const box = $("psnBox"), st = PSN ? (PSN.error ? "Errore: " + esc(PSN.error) : "Aggiornato " + new Date(PSN.updated).toLocaleString("it-IT") + " · " + (PSN.earned || []).length + " trofei ottenuti") : S.psnId ? "Caricamento…" : "";
+  if (PSN_API) {
+    const xb = S.plat === "xbox";
+    box.innerHTML = '<div class="psn"><b>Trofei automatici</b><div class="row" style="margin-top:6px"><select id="platSel" style="width:auto"><option value="psn"' + (xb ? "" : " selected") + '>PlayStation</option><option value="xbox"' + (xb ? " selected" : "") + '>Xbox</option></select><input type="text" id="psnId" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="' + (xb ? "Gamertag" : "ID PSN") + '" placeholder="' + (xb ? "Il tuo gamertag Xbox" : "Il tuo ID PSN") + '" style="flex:1;min-width:140px" value="' + esc(S.psnId || "") + '"></div><div class="row"><button class="btn hot" id="psnGo">Collega</button>' + (S.psnId ? '<button class="btn" id="psnRe">Aggiorna</button>' : "") + '</div><p class="muted" style="margin:6px 0 0">' + (st || (xb ? "Scrivi il tuo gamertag: gli obiettivi si spuntano da soli. Il profilo Xbox deve mostrare a tutti giochi e obiettivi (impostazioni privacy di Xbox)." : "Scrivi il tuo ID PSN: i trofei si spuntano da soli. I trofei devono essere visibili a «Chiunque» nelle impostazioni privacy della PS5.")) + "</p></div>";
+    $("platSel").onchange = e => { S.plat = e.target.value; save(); drawPsn(); };
+    $("psnGo").onclick = () => { S.psnId = $("psnId").value.trim(); S.plat = $("platSel").value; save(); loadPsn(); };
+    if ($("psnRe")) $("psnRe").onclick = () => loadPsn(true);
+    return;
+  }
+  if (!PSN_PLAYERS) { box.innerHTML = '<div class="psn"><b>Trofei automatici dal PSN</b><p class="muted" style="margin:4px 0 0">Funzionano sul sito su GitHub Pages quando il collegamento al PSN è attivo. Qui puoi spuntarli a mano: missioni e contatori li segnano da soli.</p></div>'; return; }
+  box.innerHTML = '<div class="psn"><label for="psnSel"><b>Il tuo ID PSN</b></label><select id="psnSel"><option value="">Nessuno (spunto a mano)</option>' + PSN_PLAYERS.map(p => '<option' + (p === S.psnId ? " selected" : "") + ">" + esc(p) + "</option>").join("") + '</select><p class="muted" style="margin:6px 0 0">' + (st || "Scegli il tuo ID per prendere i trofei in automatico.") + "</p></div>";
 }
-function loadPsn() {
+function loadPsn(fresh) {
   PSN = null; drawTro();
   if (!S.psnId) return;
-  fetch("psn/" + encodeURIComponent(S.psnId) + ".json", {cache: "no-store"}).then(r => r.ok ? r.json() : Promise.reject(r.status)).then(j => { PSN = j; drawTro(); }).catch(() => { PSN = {error: "dati non trovati per " + S.psnId}; drawTro(); });
+  const url = PSN_API ? PSN_API + (PSN_API.includes("?") ? "&" : "?") + (S.plat === "xbox" ? "xbox=" : "id=") + encodeURIComponent(S.psnId) + (fresh ? "&fresh=1" : "") : "psn/" + encodeURIComponent(S.psnId) + ".json";
+  fetch(url, {cache: "no-store"}).then(r => r.json().catch(() => Promise.reject(r.status))).then(j => { PSN = j; drawTro(); }).catch(() => { PSN = {error: "collegamento non riuscito, riprova più tardi"}; drawTro(); });
 }
-fetch("psn/players.json", {cache: "no-store"}).then(r => r.ok ? r.json() : null).then(j => { if (Array.isArray(j) && j.length) { PSN_PLAYERS = j; if (D) loadPsn(); } }).catch(() => {});
+fetch("psn/config.json", {cache: "no-store"}).then(r => r.ok ? r.json() : {}).catch(() => ({})).then(cfg => {
+  if (cfg && /^(https:\/\/|http:\/\/localhost)/.test(cfg.api || "")) { PSN_API = cfg.api; if (D) { drawPsn(); loadPsn(); } return; }
+  return fetch("psn/players.json", {cache: "no-store"}).then(r => r.ok ? r.json() : null).then(j => { if (Array.isArray(j) && j.length) { PSN_PLAYERS = j; if (D) loadPsn(); } });
+}).catch(() => {});
 
 const itemDone = i => i.mis ? !!(S.mis[i.mis] || {}).done : !!S.items[i.id];
 function setItem(i, v) {
@@ -1232,7 +1244,7 @@ $("offGo").onclick = async () => {
 };
 function render() { S.tro = S.tro || {}; S.cnt = S.cnt || {}; S.ops = S.ops || {}; S.mis = S.mis || {}; { let ch = false; for (const [k, v] of Object.entries(S.mis)) if (v && v.p && !(D.missions.db[k] || {}).p) { delete v.p; delete v.edit; ch = true; } if (ch) save(); } S.items = S.items || {}; syncItems(); S.chapter = +S.chapter || 1; $("chap").value = S.chapter; $("later").checked = !!S.later; drawProg(); S.eggs = S.eggs || {}; S.mis = S.mis || {}; if (S.misLayer === undefined) S.misLayer = true; $("misLayer").checked = S.misLayer; drawMis(); drawCats(); drawPois(); drawCars(); drawCarList(); drawEggs(); drawChapters(); drawMine(); $("carLayer").checked = S.carLayer; $("eggLayer").checked = S.eggLayer !== false; }
 function start(data) {
-  D = data; if (PSN_PLAYERS) setTimeout(loadPsn, 0);
+  D = data; if (PSN_PLAYERS || PSN_API) setTimeout(loadPsn, 0);
   OFF_BY_DEFAULT.forEach(c => { if (!(c in S.cats)) S.cats[c] = false; });
   render();
 }
