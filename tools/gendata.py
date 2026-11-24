@@ -490,6 +490,10 @@ for k, v in mdb.items():
 _pairs.update({"Gear Up": "Armi in spalla", "Buck Me": "Tasche Buckate", "That's Where The Money Is": "Il profumo dei soldi", "Clonin' Keys, Makin' GS": "Chiavi clonate, soldi a palate", "Clonin' Keys, Makin' Gs": "Chiavi clonate, soldi a palate"})
 _rx = _re.compile(r"(«?)\b(" + "|".join(_re.escape(b) for b in sorted(_pairs, key=len, reverse=True)) + r")(?![\w'])(»?)")
 def _it(s):
+    r = _it0(s)
+    if r.startswith("«") and r.endswith("»") and r.count("«") == 1 and s != r: r = r[1:-1]
+    return r
+def _it0(s):
     return _rx.sub(lambda m: (m.group(1) + _pairs[m.group(2)] + m.group(3)) if m.group(1) else "«" + _pairs[m.group(2)] + "»" + m.group(3), s)
 def _walk(o, key=None):
     if isinstance(o, tuple): o = list(o)
