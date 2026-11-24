@@ -1,0 +1,56 @@
+#Kirk|1|si
+Search for the Skunk Ape (Skunk Apeology 101) – di notte|search-for-the-skunk-ape
+Search for Tree Effigies|search-for-tree-effigies-locations
+Help Kirk Find Mr. Mangrove – solo Lucia, di notte|help-kirk-find-mr-mangrove
+#Kyle|2|si
+Check Out McKittrick Farm|check-out-mckittrick-farm
+Collect Chemicals for Kyle|collect-chemicals-for-kyle
+Buddy? (Check on Kyle)|buddy-check-on-kyle
+#Alvan|2|si
+Gellhorn's Missing Tourists|gellhorns-missing-tourists
+Missing Person (Return to the Trophy Room)|missing-person-return-to-the-trophy-room
+#Yago|3|si
+Join a Street Race|join-a-street-race
+Bumper to Bumper (Mentor Yago) – solo Jason|bumper-to-bumper-mentor-yago
+Race Against Yago – a tempo, perdibile|race-against-yago
+Brother to Brother (Back Up Yago) – solo Jason|brother-to-brother-back-up-yago
+#Pilot Pete|4|si
+The Last Mile: Passing the Torch – solo Jason|the-last-mile-passing-the-torch-recover-petes-plane
+The Last Mile: Backseat Pilot – solo Jason|the-last-mile-backseat-pilot-deliver-packages
+Pete's Deliveries: Southpoint Airfield / Avery Allen & Co. – solo Jason|petes-deliveries-southpoint-airfield-avery-allen-co
+#Dr. Merle|0|si
+The Final Flush (Meet at Frank's Waffles)|the-final-flush-meet-at-franks-waffles
+#Freddie|0|si
+Retest Freddie's Defenses|retest-freddies-defenses
+#Papa Audacity|3|?
+The Unknown Stuntman|the-unknown-stuntman
+Trial by Tire (Meet the AudaCity Engineer)|trial-by-tire-meet-the-audacity-engineer
+Quit Your Job, Sell Your House|quit-your-job-sell-your-house-help-papa-audacity
+#Bret Vogel|2|?
+Veteran Hunted (Meet Bret) – solo Jason|veteran-hunted-meet-bret
+#Billy|2|no
+Thrillbillies (Check Out the Mud Club)|thrillbillies-check-out-the-mud-club
+Twist Wrist, Smash, Grab|twist-wrist-smash-grab-join-billy-on-a-job
+Mall Rats|mall-rats
+The Impaler (Steal the Impaler)|the-impaler-steal-the-impaler
+Hometown Heroes (trofeo Lone Rider)|hometown-heroes
+#Andy|3|no
+Climbing the Cellerichain (parti 1-3) – solo Lucia|climbing-the-cellerichain
+Pay the Cellerica Fee – solo Lucia|pay-the-cellerica-fee
+Peach! (Join the Cellerica Initiation) – solo Lucia|peach-join-the-cellerica-initiation
+Read the Label (Retrieve the Cellerica Van) – solo Lucia|read-the-label-retrieve-the-cellerica-van
+Puff Puff Pass (trofeo Road to Rehabilitation) – solo Lucia|puff-puff-pass-meet-at-the-warehouse
+#Tyrone|3|no
+Spin On This (Shut Down the Labs) (trofeo Spin On This!)|spin-on-this-shut-down-the-labs
+#Moses|2|no
+Steal Vehicles for Moses|steal-vehicles-for-moses
+Collect Moses' Gift|collect-moses-gift
+#Cal|1|no
+Catch a Bigger Fish|catch-a-bigger-fish
+#Shirley|1|no
+Get Shirley's Rum – perdibile|get-shirleys-rum
+Steal the Scooter – perdibile|steal-the-scooter
+#Eddie Acosta|4|no
+Attend Eddie Acosta's Party|attend-eddie-acostas-party
+#Shayna|4|no
+This is a Free Call From… – solo Lucia, a tempo|this-is-a-free-call-from-pick-up-shayna

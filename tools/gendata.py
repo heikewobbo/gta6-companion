@@ -155,7 +155,7 @@ chapters = [
         {"id": "c1-meditazione", "tr": True, "t": "Meditazione sul balcone di casa di Jason con Lucia",
          "d": "Dopo Down to Earth parla con Lucia finché dice che va a meditare. È uno dei 18 punti di meditazione.",
          "n": "Trofeo Positive Mental Attitude (meditare in tutti i punti). Non è confermato che serva proprio questo punto: fallo comunque.", "src": [S_W, S_M]},
-        {"id": "c1-rum", "t": "Get Shirley's Rum", "d": "Missione facoltativa dopo Unwanted Attention: Shirley chiama Jason mentre va a Pipework.", "n": "Non serve per trofei né 100%. Dà +3% di concentrazione.", "src": [S_W, S_V]},
+        {"id": "c1-rum", "t": "Get Shirley's Rum", "d": "Missione facoltativa dopo Unwanted Attention: Shirley chiama Jason mentre va a Pipework.", "n": "Non serve per trofei né 100% (Shirley non conta per Strangers & Freaks). Dà +3% di concentrazione.", "src": [S_W, S_V, "powerpyx.com"]},
         {"id": "c1-scooter", "t": "Steal the Scooter", "d": "Si apre dopo Get Shirley's Rum.", "n": "Non serve per trofei. Dopo puoi prendere in prestito la Penumbra di Shirley.", "src": [S_W, S_V]},
         {"id": "c1-bell", "t": "Ring the Bell!", "d": "Solo all'inizio di Swamped, mentre vai al porto di Brian: dopo l'SMS di Cal vai al Rusty Anchor e riaccompagnalo a casa.", "n": "Sblocca maglietta e cappellino Rusty Anchor.", "src": [S_W]},
         {"id": "c1-droga", "t": "Find the Lost Drugs", "d": "Dopo Buck Me: quattro pacchi di cocaina nella Mariana County, circa $900 l'uno, da vendere a un ricettatore.", "n": "", "src": [S_W]},
@@ -184,7 +184,7 @@ chapters = [
      "pnr": "Nessun punto di non ritorno indicato con certezza. L'appartamento di Vice City si perde a fine capitolo.",
      "items": [
         {"id": "c3-yago", "tr": True, "t": "Race Against Yago (solo Jason)", "d": "Missione a tempo: falla appena compare.",
-         "n": "Fonti in disaccordo: una dice che può costarti il trofeo Strangers & Freaks, un'altra che non serve. Il primo posto paga $3.800.", "src": [S_T, S_W]},
+         "n": "La catena di Yago conta per il trofeo Strangers & Freaks: servono 8 catene e finora ne sono confermate 7, quindi non rischiare. Arriva per messaggio dopo Bumper to Bumper, con l'icona della clessidra. Il primo posto paga $3.800.", "src": ["powerpyx.com", "alcasthq.com", S_T]},
         {"id": "c3-halifax", "t": "Dubious Provenance, parti 2 e 3", "d": "Le perdi se rifiuti la statua a Halifax e poi non lo richiami.", "n": "Una fonte dice che lo scambio con Halifax scade a fine capitolo 3.", "src": [S_V, S_P]},
         {"id": "c3-riviste", "t": "2 riviste nell'appartamento", "d": "Si trovano anche altrove.", "n": "", "src": [S_W]},
      ]},
@@ -192,7 +192,7 @@ chapters = [
      "pnr": "Punto di non ritorno (secondo una fonte): Sunset. Prima finisci i lavori secondari del capitolo 4 e prendi il biglietto alla reception dello Y Hotel.",
      "items": [
         {"id": "c4-call", "t": "This Is a Free Call From... (solo Lucia)", "d": "Missione a tempo.", "n": "Riportata come non necessaria.", "src": [S_W]},
-        {"id": "c4-baddriver", "t": "Bad Driver!", "d": "Lavoro secondario che sparisce quando inizi Power Play.", "n": "", "src": [S_V]},
+        {"id": "c4-baddriver", "t": "Bad Driver!", "d": "Missione di Yasmani che sparisce quando inizi Power Play (si sblocca dopo Party Hard).", "n": "Yasmani non conta per Strangers & Freaks e il 100% non ha niente di perdibile: non serve al platino, ma è contenuto che perdi.", "src": [S_V, "powerpyx.com", "alcasthq.com"]},
         {"id": "c4-coppia", "t": "Attività di coppia prima di Making Gainz", "d": "Dopo Making Gainz, Jason e Lucia non possono farsi vedere insieme in pubblico fino a VCIA Takedown.", "n": "", "src": [S_V]},
         {"id": "c4-barca", "t": "Barca dell'Ultimate Edition (Washington Beach)", "d": "Usala nel capitolo 4 per sicurezza.", "n": "Non è chiaro se resti disponibile dopo.", "src": [S_W]},
      ]},
@@ -204,8 +204,9 @@ chapters = [
 ]
 always = [
     {"t": "I trucchi disattivano i trofei", "d": "Se attivi un trucco i trofei sono bloccati per quella sessione: ricarica un salvataggio fatto prima del trucco.", "src": [S_T]},
-    {"t": "Platino fattibile anche dopo i titoli", "d": "Secondo le guide quasi tutto resta disponibile dopo il finale; l'unico trofeo davvero a rischio è Positive Mental Attitude (e forse Strangers & Freaks per Race Against Yago).", "src": [S_T, S_W, S_M]},
-    {"t": "Registrare le auto", "d": "Le auto si registrano da Moses a Port Gellhorn a partire dal capitolo 2; la prima registrazione è gratuita.", "src": [S_B]},
+    {"t": "Platino fattibile anche dopo i titoli", "d": "Il 100% (trofeo A Long Road) non ha niente di perdibile e si completa anche in giro libero dopo il finale. I trofei davvero a rischio sono due: Positive Mental Attitude (meditazione del capitolo 1) e Strangers & Freaks (Race Against Yago, a tempo).", "src": ["powerpyx.com", "alcasthq.com", S_T, S_M]},
+    {"t": "Trofeo Strangers & Freaks: quali catene contano", "d": "Servono 8 catene di missioni di sconosciuti. Secondo PowerPyx contano Kirk (Skunk Ape), Kyle, Alvan, Yago, Pilot Pete, Dr. Merle (No Flushers) e Freddie; non contano Shirley, Cal, Moses, Billy, Andy, Yasmani, Tyrone, Eddie e Shayna. Per le altre (Papa Audacity, Bret, Kenton…) non si sa ancora: controlla il contatore del trofeo prima e dopo l'ultima missione di ogni catena. Con solo 7 catene sicure, quella di Yago non va persa.", "src": ["alcasthq.com", "powerpyx.com", S_T]},
+    {"t": "Registrare le auto", "d": "Dal capitolo 2 (missione Moses) registri da Moses a Port Gellhorn le auto senza localizzatore; dal capitolo 3 anche ai Pay 'n' Spray quelle con localizzatore standard. Serve un posto libero in garage e Moses rifiuta le auto rubate troppo vicino alla sua officina. La prima registrazione è gratuita.", "src": ["alcasthq.com", "keengamer.com", "games.gg"]},
     {"t": "Lista di Randy", "d": "Con Clonin' Keys, Makin' Gs nel capitolo 3 sblocchi il Key Cloner e la lista di auto di Randy.", "src": [S_X]},
 ]
 
@@ -248,7 +249,7 @@ links = {
     "c2-vicki": [("Tutti i set di carte (PowerPyx)", PP + "372970"), ("Carte: i set e dove venderle (MetaForge)", "https://metaforge.app/gta-6/gta-6-collectible-cards-all-sets")],
     "c2-victor": [("Tutti i set di carte (PowerPyx)", PP + "372970")],
     "c2-riviste": [L_MISS],
-    "c3-yago": [("Race Against Yago (PowerPyx)", PP + "369805"), ("Race Against Yago (TheClick)", "https://www.theclick.gg/?p=119775")],
+    "c3-yago": [("Race Against Yago (PowerPyx)", PP + "369805"), ("Race Against Yago (TheClick)", "https://www.theclick.gg/?p=119775"), ("Tutti gli Strangers & Freaks (PowerPyx)", PP + "374431")],
     "c3-halifax": [("Dubious Provenance (PowerPyx)", PP + "369784"), ("Scelte con Halifax (eGamers)", "https://egamers.io/?p=130196")],
     "c3-riviste": [L_MISS],
     "c4-call": [L_MISS, L_WALK],
@@ -276,10 +277,17 @@ for c in cars:
         c["note"] = "Quasi tutte le guide la danno su Vespucci Island, in un garage, disponibile da subito; una sola dice Neptune Circle. Se scatta l'allarme usa il pannello sulla parete sinistra."
         c["src"] = [S_X, S_B, "thegta6map.com"]
 
-always[0]["links"] = [("Trofei perdibili (GMTreks)", "https://gmtreks.com/gta6/page/01M7SFBCS2SRZR0S6355H0VN4E")]
-always[1]["links"] = [("Guida ai trofei (GMTreks)", "https://gmtreks.com/gta6/page/01M7Q14ZF65PPK5FFXSY3CJNKQ"), ("Roadmap del platino (KeenGamer)", "https://www.keengamer.com/articles/guides/gta-6-trophy-guide-platinum-roadmap-all-55-trophies/")]
-always[2]["links"] = [L_MOSES, L_REG]
-always[3]["links"] = [L_RANDY, L_KEY]
+L_SF = ("Tutti gli Strangers & Freaks (PowerPyx)", PP + "374431")
+L_SF2 = ("Quali sconosciuti contano (AlcastHQ)", "https://alcasthq.com/?p=87611")
+AL = {
+ "I trucchi disattivano i trofei": [("Trofei perdibili (GMTreks)", "https://gmtreks.com/gta6/page/01M7SFBCS2SRZR0S6355H0VN4E")],
+ "Platino fattibile anche dopo i titoli": [("Checklist del 100% (PowerPyx)", "https://www.powerpyx.com/gta-6-100-completion-checklist/"), ("Roadmap del platino (KeenGamer)", "https://www.keengamer.com/articles/guides/gta-6-trophy-guide-platinum-roadmap-all-55-trophies/"), ("Guida ai trofei (GMTreks)", "https://gmtreks.com/gta6/page/01M7Q14ZF65PPK5FFXSY3CJNKQ")],
+ "Trofeo Strangers & Freaks: quali catene contano": [L_SF, L_SF2],
+ "Registrare le auto": [L_MOSES, L_REG, ("Come tenere le auto rubate (Games.gg)", "https://games.gg/grand-theft-auto-vi/guides/how-to-keep-stolen-cars-in-grand-theft-auto-6/")],
+ "Lista di Randy": [L_RANDY, L_KEY],
+}
+for a in always:
+    a["links"] = AL[a["t"]]
 
 S_RB = "redbull.com"; S_G8 = "game8.co"; S_GT = "gmtreks.com"; S_MF = "metaforge.app"; S_DU = "duuro.net"; S_GS = "gtaside.com"; S_TM = "thegta6map.com"
 L_RB = ("Easter egg (Red Bull)", "https://www.redbull.com/int-en/gta-6-easter-eggs")
@@ -321,7 +329,65 @@ eggs = [
 for e in eggs:
     e.setdefault("note", "")
 
-data = {"cats": cats, "pois": pois, "cars": cars, "chapters": chapters, "always": always, "eggs": eggs, "search": search}
+
+# --- Missioni (elenco PowerPyx) ---
+import os
+HERE = os.path.dirname(os.path.abspath(__file__))
+def pp_url(slug):
+    return "https://www.powerpyx.com/gta-6-" + slug + ("/" if "walkthrough" in slug else "-walkthrough/")
+def leonard_north():
+    pts = [v[1] for v in lm.values() if v[1] and "leonard county" in v[0].lower() and v[1][1] > 4500]
+    return [round(statistics.median(q[0] for q in pts)), round(statistics.median(q[1] for q in pts))]
+MPIN = {
+    "get-shirleys-rum": (at("L266"), "zona", "Fuori da casa di Jason, Key Lento"),
+    "steal-the-scooter": (at("L266"), "zona", "Fuori da casa di Jason, Key Lento"),
+    "find-the-lost-drugs": (at("L3447"), "zona", "Paludi della Mariana County (4 zone di ricerca)"),
+    "day-release-meet-mattia-kat": (at("L325"), "edificio", "The Rusty Anchor, Key Lento"),
+    "moses-take-a-vehicle-to-moses": (A["Port Gellhorn"], "zona", "Officina di Moses, Port Gellhorn"),
+    "daily-driver-steal-the-crawler-for-moses": (A["Port Gellhorn"], "zona", "Port Gellhorn"),
+    "check-out-mckittrick-farm": (at("L304"), "edificio", "Volantino di Kyle fuori dallo Starlet Motel"),
+    "gellhorns-missing-tourists": (at("L304", -60, 0), "edificio", "Manifesto nell'ufficio dello Starlet Motel (altri a Port Gellhorn)"),
+    "race-against-yago": (area("Salton, Vice City"), "zona", "Salton, Vice City"),
+    "bad-driver-find-felipe": (area("Millport"), "zona", "Millport, Lummox County"),
+    "the-last-mile-passing-the-torch-recover-petes-plane": (at("L1566"), "edificio", "Sundown Private Airfield"),
+    "the-final-flush-meet-at-franks-waffles": (area("Tequesta"), "zona", "Tequesta, Vice City (Frank's Waffles)"),
+    "retest-freddies-defenses": (leonard_north(), "zona", "Nord della Leonard County, complesso di Freddie"),
+    "the-unknown-stuntman": (A["Ocean Beach"], "zona", "Ocean Beach, Vice Beach"),
+    "veteran-hunted-meet-bret": (area("Lummox County"), "zona", "Lummox County (solo Jason)"),
+    "search-for-the-skunk-ape": (at("L3748"), "zona", "Parte da un volantino di Kirk; lo Skunk Ape è intorno al Cottonmouth Lake"),
+    "dubious-provenance-visit-the-antique-store": (A["Capri"], "zona", "Negozio di antiquariato a Capri"),
+}
+def parse(path):
+    out, cur = [], None
+    for line in open(os.path.join(HERE, path), encoding="utf-8"):
+        line = line.rstrip("\n")
+        if not line: continue
+        if line.startswith("#"):
+            cur = {"h": line[1:].split("|"), "m": []}; out.append(cur); continue
+        parts = line.split("|")
+        cur["m"].append({"n": parts[0], "id": parts[1], "f": (parts[2].split(",") if len(parts) > 2 else [])})
+    return out
+mission_ch = []
+for sec in parse("missions_src.txt"):
+    mission_ch.append({"n": int(sec["h"][0]), "t": sec["h"][1], "m": sec["m"]})
+sf = []
+for sec in parse("sf_src.txt"):
+    sf.append({"g": sec["h"][0], "ch": int(sec["h"][1]), "conta": sec["h"][2], "m": sec["m"]})
+mdb = {}
+for ch in mission_ch:
+    for m in ch["m"]:
+        mdb[m["id"]] = {"n": m["n"], "ch": ch["n"]}
+for g in sf:
+    for m in g["m"]:
+        mdb.setdefault(m["id"], {"n": m["n"], "ch": g["ch"]})
+for k, v in mdb.items():
+    v["u"] = pp_url(k)
+    if k in MPIN:
+        pnt, prec, where = MPIN[k]; v["p"] = pnt; v["prec"] = prec; v["w"] = where
+missing = [k for k in MPIN if k not in mdb]
+assert not missing, missing
+
+data = {"missions": {"ch": mission_ch, "sf": sf, "db": mdb}, "cats": cats, "pois": pois, "cars": cars, "chapters": chapters, "always": always, "eggs": eggs, "search": search}
 json.dump(data, open(out, "w"), ensure_ascii=False, separators=(",", ":"))
 print(len(pois), len(search), len(cars), sum(len(c["items"]) for c in chapters))
 print({k: v for k, v in A.items()})

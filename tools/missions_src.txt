@@ -1,0 +1,153 @@
+#1|Capitolo 1
+Gone Fishing|gone-fishing
+Gear Up (Pick Up Another Gun)|gear-up-pick-up-another-gun
+Lab Fees (Collect Brian's Rent)|lab-fees-collect-brians-rent
+Just a Scratch (Fix Your Car)|just-a-scratch-fix-your-car
+Unwanted Attention (Go See Cal)|unwanted-attention-go-see-cal
+Pipework (Collect Mandy's Rent)|pipework-collect-mandys-rent
+Get Shirley's Rum|get-shirleys-rum|opt,miss
+Steal the Scooter|steal-the-scooter|opt,miss
+Hey Arnold! (Meet Brian)|hey-arnold-meet-brian
+Island Dreams (Work for Kenton)|island-dreams-work-for-kenton
+Feng Shui (Meet Cal)|feng-shui-meet-cal
+Pick up Groceries & Drop Off Groceries|pick-up-groceries|opt
+Buy Flowers|buy-flowers|opt
+Buy Lucia a Necklace|buy-lucia-a-necklace|opt,miss
+Get The Chop|get-the-chop|opt
+Get Lucia's Clothes|get-lucias-clothes|opt,miss
+Coming Home (Lucia's Release)|coming-home-lucias-release
+Clean Up After Donnie (Donnie's Drop)|clean-up-after-donnie-donnies-drop
+Buck Me (Set Up Bank Account)|buck-me-set-up-bank-account
+Down to Earth (Meet Brian)|down-to-earth
+Deposit Cash Into BuckMe|deposit-cash-into-buckme
+Save for the Future|save-for-the-future
+Find the Lost Drugs|find-the-lost-drugs|opt,miss
+Day Release (Meet Mattia & Kat)|day-release-meet-mattia-kat
+Clock Out|clock-out|opt
+Clear Skies (Join Donnie On A Job)|clear-skies-join-donnie-on-a-job
+Building a Life|building-a-life
+Swamped (Meet Brian)|swamped
+Don Gone (Head to Donnie's Trailer)|don-gone-head-to-donnies-trailer
+Donnie's Lost Drugs|donnies-lost-drugs
+Recalibration (Talk to Lucia)|recalibration-talk-to-lucia
+Tourist Trap (Take Up Mattia's Offer)|tourist-trap-take-up-mattias-offer|pnr
+Home Sweet Home|home-sweet-home
+Discharge Time|discharge-time
+#2|Capitolo 2
+What's in the Bag?|whats-in-the-bag
+Take Care of Jason (Play Nurse)|take-care-of-jason
+Overnight Charges (See Linda, The Manager)|overnight-charges-see-linda-the-manager
+Just Moved In|just-moved-in
+Girl's Trip (Find Painkillers)|girls-trip-find-painkillers
+Pick Up A Gun|pick-up-a-gun|opt
+Moses (Take A Vehicle to Moses)|moses-take-a-vehicle-to-moses
+New Look|new-look
+How Do I Look?|how-do-i-look
+Painkiller Supplier|painkiller-supplier
+Ambulance Chaser (Move the Ambulance)|ambulance-chaser-move-the-ambulance
+Check Out McKittrick Farm (Kyle 1)|check-out-mckittrick-farm|opt,sf
+Behind on Payments|behind-on-payments
+Slam Dunk (Find Painkillers)|slam-dunk
+Collect Chemicals for Kyle (Kyle 2)|collect-chemicals-for-kyle|opt,sf
+Daily Driver (Steal the Crawler for Moses)|daily-driver-steal-the-crawler-for-moses
+Breakfast Run (Check on Jason)|breakfast-run-check-on-jason
+Coffee Break|coffee-break
+Thrillbillies (Check Out the Mud Club) (Billy 1)|thrillbillies-check-out-the-mud-club|opt
+Twist Wrist, Smash, Grab (Billy 2)|twist-wrist-smash-grab-join-billy-on-a-job|opt
+Hit Avery Pawn|hit-avery-pawn|opt
+Hit Kingpin Bowling|hit-kingpin-bowling|opt
+Impounded Vehicle|impounded-vehicle|opt
+Prepare for Vice City|prepare-for-vice-city
+Veteran Hunted (Meet Bret) – solo Jason|veteran-hunted-meet-bret|opt
+Afternoon Delight (Rob Vicki's Boss)|afternoon-delight-rob-vickis-boss
+Checking Out (Move to Vice City)|checking-out-move-to-vice-city|pnr
+#3|Capitolo 3
+Welcome to Vice City|welcome-to-vice-city
+Dealer's Choice (Go See Dre'Quan) – solo Jason|dealers-choice-go-see-drequan
+Dubious Provenance (Visit the Antique Store)|dubious-provenance-visit-the-antique-store
+Mami Knows Best (Catch Up With Mia) – solo Lucia|mami-knows-best-catch-up-with-mia
+Get Your Wheels|get-your-wheels|opt
+Join a Street Race (Yago 1)|join-a-street-race|opt,sf
+Here, Kitty Kitty (Speak with Tyrone) – solo Jason|here-kitty-kitty-speak-with-tyrone
+Send Money to Lorena|send-money-to-lorena
+Encrypted Hard Drive|encrypted-hard-drive
+Boobie Time (Talk to Boobie) – solo Jason|boobie-time-talk-to-boobie
+Buddy? (Check on Kyle) (Kyle, fine)|buddy-check-on-kyle|opt,sf
+Meet the Heders (Meet Brian & Lori)|meet-the-heders
+Yasmani's Jewelry Jobs|yasmanis-jewelry-jobs
+Bumper to Bumper (Mentor Yago) (Yago 2) – solo Jason|bumper-to-bumper-mentor-yago|opt,sf
+Car Service (Steal The Car for Raul) – solo Lucia|car-service-steal-the-car-for-raul
+Send More Money to Lorena|send-more-money-to-lorena
+Top Billing (Watch the Real Dimez)|top-billing-watch-the-real-dimez
+First Impressions (Meeting with Raul)|first-impressions-meeting-with-raul
+Crosstown Traffic (Meet Raul) / Meet Karim|crosstown-traffic-meet-raul
+Credit Check (Meet Raul's Crew)|credit-check-meet-rauls-crew
+Clonin' Keys, Makin' GS (Steal the Zorrusso for Randy)|clonin-keys-makin-gs-steal-the-zorrusso-for-randy
+Ride Or Die (Meet Dre'Quan) – solo Jason|ride-or-die-meet-drequan
+Raul's Next Job|rauls-next-job
+Race Against Yago (Yago 3)|race-against-yago|opt,sf,miss,time
+Sinfrontera National Bank (Scope Out the Bank)|sinfrontera-national-bank-scope-out-the-bank
+Security Expert|security-expert
+Caught Slipping|caught-slipping
+Heist Planning|heist-planning
+Company Property (Meet Brian)|company-property
+Safe Word (Steal the Practice Safe)|safe-word-steal-the-practice-safe
+The Missing Link (Meet Andrea) – solo Lucia|the-missing-link-meet-andrea
+Mall Rats (Billy 3)|mall-rats|opt
+Brother To Brother (Back up Yago) (Yago, fine)|brother-to-brother-back-up-yago|opt,sf
+Cooties (Shoot the Music Video)|cooties-shoot-the-music-video
+Hidden Charges|hidden-charges
+Bricked Up (Return to the Apartment)|bricked-up-return-to-the-apartment
+South Leonida Real Estate (Meet Mia) – solo Lucia|south-leonida-real-estate-meet-mia
+The Cartel Heist|the-cartel-heist
+#4|Capitolo 4
+Ocean Beach|ocean-beach
+Another Life|another-life
+Pool Day|pool-day
+Company Cars (Speak to the Concierge)|company-cars-speak-to-the-concierge
+Lawyer Up (Meet Abe Gonzalez)|lawyer-up-meet-abe-gonzalez
+Heavy Lifting (Bring Raul the Hard Drive)|heavy-lifting-bring-raul-the-hard-drive
+It's A Date!|its-a-date|opt
+Party Hard (Work Personal Security)|party-hard-work-personal-security
+Pay Abe's Fee|pay-abes-fee
+Photo/Shoot (Shoot a Promo)|photoshoot-shoot-a-promo
+Bad Driver! (Find Felipe)|bad-driver-find-felipe|opt,miss
+Attend Eddie Acosta's Party|attend-eddie-acostas-party|opt
+Making Gainz (Meet Raul) – solo Lucia|making-gainz
+Blood Sweat and Gear (Work Out) – solo Lucia|blood-sweat-and-gear-work-out
+Too Much Baggage (Scope Out the Airport) – solo Jason|too-much-baggage-scope-out-the-airport
+Watch It (Meet Dre'Quan) – solo Jason|watch-it
+Amateur Hour (Workout) – solo Lucia|amateur-hour
+Call Nate – solo Lucia|call-nate
+Cash Injections (Hang Out With Nate) – solo Lucia|cash-injections-hang-out-with-nate
+Dirty Work (Deal with Raina)|dirty-work-deal-with-raina
+Nate Will Be in Touch (Help Kordell's Crew)|nate-will-be-in-touch
+Adventures in Babysitting – solo Jason|adventures-in-babysitting-work-security-for-andres
+Rafa's Kidnapping – solo Jason|rafas-kidnapping
+Fresh Evidence (Meet Dre'Quan) – solo Jason|fresh-evidence
+Child's Play (Rescue Rafa from Kidnappers)|childs-play-rescue-rafa-from-kidnappers
+This is a Free Call From… (Pick up Shayna) – solo Lucia|this-is-a-free-call-from-pick-up-shayna|opt,miss,time
+Power Play (Help Kordell's Crew) – solo Lucia|power-play-help-kordells-crew
+Close Surveillance (Spy on the Bodybuilders) – solo Jason|close-surveillance-spy-on-the-bodybuilders
+Delivery Method (Help Andrea) – solo Jason|delivery-method-help-andrea
+Team Building (Meet Kordell) – solo Lucia|team-building-meet-kordell
+Fully Catered (Steal a Catering Truck)|fully-catered-steal-a-catering-truck
+Heist Plans in Place|heist-plans-in-place
+Headliners (Help With The Launch Party)|headliners-help-with-the-launch-party
+VCIA Takedown (Start the Airport Heist)|vcia-takedown
+Tie Up Loose Ends|tie-up-loose-ends
+That's Where The Money Is… (Wait at the Cafe)|thats-where-the-money-is-wait-at-the-cafe|opt
+Call Valentina Back|call-valentina-back
+Sunset (Stop by the Front Desk)|sunset-stop-by-the-front-desk|pnr
+Starting From Zero|starting-from-zero
+#5|Capitolo 5
+Bird in the Hand|bird-in-the-hand
+Taking Liberties|taking-liberties
+Doggie Bag (Meet Vinny)|doggie-bag-meet-vinny
+VC Baby (Talk to Mattia)|vc-baby-talk-to-mattia
+Operation Savage Glory|operation-savage-glory
+Honest Abe (Negotiate a Deal with Abe)|honest-abe-negotiate-a-deal-with-abe|pnr
+Unfinished Business|unfinished-business
+Pay Abe's Fee (capitolo 5)|pay-abes-fee-walkthrough-chapter-5
+Protective Custody (Meet with Abe)|protective-custody
+The End of the Road|the-end-of-the-road

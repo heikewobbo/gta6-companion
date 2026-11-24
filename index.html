@@ -5,6 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#0e3b40">
+<meta name="apple-mobile-web-app-title" content="Leonida">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="manifest" href="manifest.webmanifest">
 <title>Leonida Companion</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -592,6 +597,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
 		}
 	}
 :root{color-scheme:light dark;--bg:light-dark(#ffffff,#0b2427);--panel:light-dark(#ffffff,#0e2f33);--soft:light-dark(#eef6f6,#133d42);--line:light-dark(#d5e3e3,#21545a);--ink:light-dark(#0c1d1f,#eaf6f5);--mute:light-dark(#4b6467,#9fc0c2);--coral:#ff4f6d;--sun:#ffc24b;--sea:#2f90b0;--ok:light-dark(#0b8a5b,#3fd69a)}
+@supports not (color:light-dark(#000,#fff)){:root{--bg:#ffffff;--panel:#ffffff;--soft:#eef6f6;--line:#d5e3e3;--ink:#0c1d1f;--mute:#4b6467;--ok:#0b8a5b}}
 :root[data-theme=light]{color-scheme:light}
 :root[data-theme=dark]{color-scheme:dark}
 *{box-sizing:border-box;min-width:0}
@@ -615,13 +621,14 @@ h1{font:400 26px/1.05 Anton,Impact,sans-serif;letter-spacing:.01em;margin:0;flex
 h1 b{color:var(--coral);font-weight:400}
 #q{width:100%;font:16px Inter,sans-serif;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--soft);color:var(--ink)}
 .searchbox{padding:0 16px 8px;position:relative}
-#results{position:absolute;left:16px;right:16px;top:46px;background:var(--panel);border:1px solid var(--line);border-radius:10px;max-height:260px;overflow:auto;z-index:5;display:none}
+#results{margin-top:6px;background:var(--panel);border:1px solid var(--line);border-radius:10px;max-height:220px;overflow:auto;display:none}
 #results button{display:block;width:100%;text-align:left;padding:10px 12px;border:0;border-bottom:1px solid var(--line);background:none;color:var(--ink);font:14px Inter,sans-serif;cursor:pointer}
 #results small{color:var(--mute)}
-nav{display:flex;gap:4px;padding:0 12px;border-bottom:1px solid var(--line)}
-nav button{flex:1;border:0;background:none;color:var(--mute);font:600 13.5px Inter,sans-serif;padding:10px 2px 9px;white-space:nowrap;border-bottom:3px solid transparent;cursor:pointer;min-height:44px}
+nav{display:flex;gap:2px;padding:0 8px;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+nav button{flex:1 0 auto;border:0;background:none;color:var(--mute);font:600 13.5px Inter,sans-serif;padding:10px 7px 9px;white-space:nowrap;border-bottom:3px solid transparent;cursor:pointer;min-height:44px}
 nav button[aria-selected=true]{color:var(--ink);border-bottom-color:var(--coral)}
-nav i{font-style:normal;font-weight:500;font-size:12px;color:var(--mute)}
+nav i{display:none}
 .tab{flex:1;overflow:auto;padding:12px 16px 24px;display:none}
 .tab.on{display:block}
 h2{font:400 20px/1.1 Anton,Impact,sans-serif;margin:14px 0 8px;letter-spacing:.01em}
@@ -656,11 +663,24 @@ textarea{min-height:90px}
 .carpin.got{background:#3fb37f}
 .carpin svg{transform:rotate(45deg);width:16px;height:16px}
 .minepin{width:22px;height:22px;border-radius:50%;background:var(--sun);border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35)}
-#cross{position:fixed;z-index:900;left:50%;top:50%;width:26px;height:26px;margin:-13px 0 0 -13px;pointer-events:none;display:none}
+#cross{position:fixed;z-index:900;left:50%;top:40%;width:26px;height:26px;margin:-13px 0 0 -13px;pointer-events:none;display:none}
 #cross:before,#cross:after{content:"";position:absolute;background:var(--coral)}
 #cross:before{left:12px;top:0;width:2px;height:26px}#cross:after{top:12px;left:0;height:2px;width:26px}
-@media(min-width:760px){#cross{left:calc(50% + 196px)}}
-@media(max-width:759px){#cross{top:calc(50% - 89px)}}
+.mrow{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:4px 8px;align-items:center;padding:7px 0;border-bottom:1px solid var(--line)}
+.mrow input{width:20px;height:20px;accent-color:var(--coral)}
+.mrow .nm{font-size:14px;line-height:1.3}
+.mrow.done .nm{text-decoration:line-through;color:var(--mute)}
+.mrow .act{display:flex;gap:4px}
+.mrow .act a,.mrow .act button{font:600 12px Inter,sans-serif;padding:6px 8px;border-radius:7px;border:1px solid var(--line);background:var(--soft);color:var(--ink);text-decoration:none;cursor:pointer;min-height:32px;display:inline-flex;align-items:center}
+.tag.opt{background:var(--soft);color:var(--mute)}
+.tag.pnr{background:#1c1c1c;color:#fff}
+.tag.sf{background:#4d96ff;color:#fff}
+details.ch{margin-top:6px}
+details.ch>summary{cursor:pointer;font:400 19px/1.2 Anton,Impact,sans-serif;padding:8px 0;list-style:none}
+details.ch>summary::-webkit-details-marker{display:none}
+details.ch>summary span{font:500 13px Inter,sans-serif;color:var(--mute);margin-left:6px}
+.mispin{width:24px;height:24px;border-radius:6px;background:#4d96ff;border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35);display:grid;place-items:center;font:800 12px Inter,sans-serif;color:#fff}
+.mispin.got{background:#3fb37f}
 .links{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
 .links a{display:inline-flex;align-items:center;min-height:32px;padding:5px 10px;border-radius:8px;background:color-mix(in srgb,var(--sea) 14%,var(--panel));color:var(--ink);font:600 12.5px Inter,sans-serif;text-decoration:none;border:1px solid var(--line)}
 .links a:after{content:"↗";margin-left:5px;color:var(--mute)}
@@ -681,6 +701,7 @@ textarea{min-height:90px}
     <button role="tab" data-t="mappa" aria-selected="true">Mappa</button>
     <button role="tab" data-t="auto" aria-selected="false">Auto <i id="carCount"></i></button>
     <button role="tab" data-t="cap" aria-selected="false">Capitoli</button>
+    <button role="tab" data-t="missioni" aria-selected="false">Missioni <i id="misCount"></i></button>
     <button role="tab" data-t="segreti" aria-selected="false">Segreti</button>
     <button role="tab" data-t="miei" aria-selected="false">Pin</button>
   </nav>
@@ -709,6 +730,15 @@ textarea{min-height:90px}
     <h2>Sempre valido</h2>
     <div id="always"></div>
   </div>
+  <div class="tab" id="t-missioni">
+    <div class="row" style="margin-top:0"><label class="ck"><input type="checkbox" id="misLayer" checked> Mostra le missioni con pin sulla mappa</label></div>
+    <div class="bar"><span id="misBar"></span></div><p class="muted" id="misTxt"></p>
+    <p class="muted">Tutte le missioni dalla guida di PowerPyx, fino al capitolo scelto nella scheda Capitoli (gli altri restano nascosti per gli spoiler). I pin ci sono dove le guide indicano dove parte la missione; per le altre usa «Pin» quando la vedi sulla mappa del gioco.</p>
+    <div id="misList"></div>
+    <h2>Strangers &amp; Freaks</h2>
+    <p class="muted">Per il trofeo servono 8 catene complete. «Conta» = vale per il trofeo secondo PowerPyx.</p>
+    <div id="sfList"></div>
+  </div>
   <div class="tab" id="t-segreti">
     <div class="row" style="margin-top:0"><label class="ck"><input type="checkbox" id="eggLayer" checked> Mostra i segreti sulla mappa</label></div>
     <p class="muted">Easter egg e segreti trovati dai giocatori nei primi giorni. Dove le guide danno solo la zona il pin è indicativo: spostalo quando lo trovi.</p>
@@ -736,7 +766,7 @@ const ll = p => [(p[1] - 16384) / 32, (p[0] + 16384) / 32];
 const back = l => [Math.round(l.lng * 32 - 16384), Math.round(l.lat * 32 + 16384)];
 const $ = id => document.getElementById(id);
 
-let S = {poi:{}, cars:{}, items:{}, eggs:{}, chapter:1, later:false, cats:{}, mine:[], carLayer:true, eggLayer:true};
+let S = {poi:{}, cars:{}, items:{}, eggs:{}, mis:{}, misLayer:true, chapter:1, later:false, cats:{}, mine:[], carLayer:true, eggLayer:true};
 try { Object.assign(S, JSON.parse(localStorage.getItem(KEY) || "{}")); } catch (e) {}
 const hd = window.claude?.hot?.data; if (hd && hd.poi) Object.assign(S, hd);
 const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
@@ -749,21 +779,30 @@ L.tileLayer("tiles/{z}/{x}_{y}.jpg", {tileSize: 1024, minZoom: 0, maxZoom: 3.5, 
 L.tileLayer("big/{z}/{x}_{y}.jpg", {tileSize: 2048, minZoom: 4, maxZoom: 6, minNativeZoom: 4, maxNativeZoom: 5, noWrap: true, bounds: WB}).addTo(map);
 map.setView(ll([-600, 0]), 2.5);
 const rend = L.canvas({padding: .3});
-const poiLayer = L.layerGroup().addTo(map), carLayer = L.layerGroup(), eggLayer = L.layerGroup(), mineLayer = L.layerGroup().addTo(map);
+const poiLayer = L.layerGroup().addTo(map), carLayer = L.layerGroup(), eggLayer = L.layerGroup(), misLayer = L.layerGroup(), mineLayer = L.layerGroup().addTo(map);
 let D = null, poiMarkers = {}, carMarkers = {}, eggMarkers = {}, tmp = null;
 const lk = a => a && a.length ? '<div class="links">' + a.map(l => '<a href="' + esc(l[1]) + '" target="_blank" rel="noopener">' + esc(l[0]) + "</a>").join("") + "</div>" : "";
 
 const panel = $("panel");
-$("grab").onclick = () => panel.classList.toggle("open");
+$("grab").onclick = () => { panel.classList.toggle("open"); placeCross(); };
+const panelH = () => panel.classList.contains("open") ? innerHeight * .58 : 178;
+const aimPoint = () => { const sz = map.getSize(); return innerWidth >= 760 ? L.point((404 + sz.x) / 2, sz.y / 2) : L.point(sz.x / 2, Math.max(60, (sz.y - panelH()) / 2)); };
+const aim = () => back(map.containerPointToLatLng(aimPoint()));
+const placeCross = () => { const q = aimPoint(), c = $("cross"); c.style.left = q.x + "px"; c.style.top = q.y + "px"; };
+addEventListener("resize", placeCross); panel.addEventListener("transitionend", placeCross);
 const openPanel = () => { if (innerWidth < 760) panel.classList.add("open"); };
 const closePanel = () => { if (innerWidth < 760) panel.classList.remove("open"); };
 document.querySelectorAll("nav button").forEach(b => b.onclick = () => {
   document.querySelectorAll("nav button").forEach(x => x.setAttribute("aria-selected", x === b));
   document.querySelectorAll(".tab").forEach(t => t.classList.toggle("on", t.id === "t-" + b.dataset.t));
   $("cross").style.display = b.dataset.t === "miei" ? "block" : "none";
-  openPanel();
+  openPanel(); placeCross();
 });
-const fly = (p, z = 4.5) => { closePanel(); map.flyTo(ll(p), Math.max(map.getZoom(), z), {duration: .6}); };
+const fly = (p, z = 4.5) => {
+  closePanel(); const zz = Math.max(map.getZoom(), z);
+  const off = map.getSize().divideBy(2).subtract(aimPoint());
+  map.flyTo(map.unproject(map.project(L.latLng(ll(p)), zz).add(off), zz), zz, {duration: .6});
+};
 const flash = (p, label) => {
   if (tmp) map.removeLayer(tmp);
   tmp = L.circleMarker(ll(p), {radius: 16, color: "#ff4f6d", weight: 3, fill: false}).addTo(map).bindTooltip(esc(label), {permanent: true, direction: "top", offset: [0, -14]});
@@ -798,6 +837,7 @@ map.on("popupopen", e => {
   const box = e.popup.getElement(); if (!box) return;
   box.querySelectorAll("input[data-poi]").forEach(i => i.onchange = () => { S.poi[i.dataset.poi] = i.checked; if (!i.checked) delete S.poi[i.dataset.poi]; save(); drawPois(); });
   box.querySelectorAll("input[data-car]").forEach(i => i.onchange = () => setCar(i.dataset.car, i.dataset.k, i.checked));
+  box.querySelectorAll("input[data-mis]").forEach(i => i.onchange = () => { S.mis[i.dataset.mis] = Object.assign(S.mis[i.dataset.mis] || {}, {done: i.checked}); save(); drawMis(); });
 });
 
 const carPos = c => (S.cars[c.id] && S.cars[c.id].p) || c.p;
@@ -836,7 +876,7 @@ $("cars").onclick = e => {
   const t = e.target;
   if (t.dataset.go) { const c = D.cars.find(x => x.id === t.dataset.go); fly(carPos(c)); setTimeout(() => carMarkers[c.id]?.openPopup(), 700); }
   if (t.dataset.edit) { const st = S.cars[t.dataset.edit] = S.cars[t.dataset.edit] || {}; st.edit = !st.edit; save(); drawCars(); drawCarList(); if (st.edit) fly(carPos(D.cars.find(x => x.id === t.dataset.edit))); }
-  if (t.dataset.place) { S.cars[t.dataset.place] = Object.assign(S.cars[t.dataset.place] || {}, {p: back(map.getCenter()), edit: true}); save(); drawCars(); drawCarList(); }
+  if (t.dataset.place) { S.cars[t.dataset.place] = Object.assign(S.cars[t.dataset.place] || {}, {p: aim(), edit: true}); save(); drawCars(); drawCarList(); }
 };
 $("cars").onchange = e => { const i = e.target; if (i.dataset.cid) setCar(i.dataset.cid, i.dataset.k, i.checked); };
 $("carLayer").onchange = e => { S.carLayer = e.target.checked; save(); drawCars(); };
@@ -865,10 +905,59 @@ $("eggs").onclick = e => {
   const t = e.target, D2 = id => D.eggs.find(x => x.id === id);
   if (t.dataset.ego) { fly(eggPos(D2(t.dataset.ego))); setTimeout(() => eggMarkers[t.dataset.ego]?.openPopup(), 700); }
   if (t.dataset.eedit) { const st = S.eggs[t.dataset.eedit] = S.eggs[t.dataset.eedit] || {}; st.edit = !st.edit; save(); drawEggs(); if (st.edit) fly(eggPos(D2(t.dataset.eedit))); }
-  if (t.dataset.eplace) { S.eggs[t.dataset.eplace] = Object.assign(S.eggs[t.dataset.eplace] || {}, {p: back(map.getCenter()), edit: true}); save(); drawEggs(); }
+  if (t.dataset.eplace) { S.eggs[t.dataset.eplace] = Object.assign(S.eggs[t.dataset.eplace] || {}, {p: aim(), edit: true}); save(); drawEggs(); }
 };
 $("eggs").onchange = e => { const i = e.target; if (i.dataset.eid) { S.eggs[i.dataset.eid] = Object.assign(S.eggs[i.dataset.eid] || {}, {seen: i.checked}); save(); drawEggs(); } };
 $("eggLayer").onchange = e => { S.eggLayer = e.target.checked; save(); drawEggs(); };
+
+const misPos = id => (S.mis[id] && S.mis[id].p) || D.missions.db[id].p;
+const misIcon = got => L.divIcon({className: "", html: '<div class="mispin' + (got ? " got" : "") + '">M</div>', iconSize: [24, 24], iconAnchor: [12, 12], popupAnchor: [0, -12]});
+const visibleCh = n => n === 0 || n <= S.chapter || S.later;
+const TAGS = {opt: ["opt", "facoltativa"], miss: ["", "perdibile"], time: ["", "a tempo"], pnr: ["pnr", "punto di non ritorno"], sf: ["sf", "S&F"]};
+let misMarkers = {};
+function drawMisMap() {
+  misLayer.clearLayers(); misMarkers = {};
+  for (const [id, m] of Object.entries(D.missions.db)) {
+    const p = misPos(id); if (!p || !visibleCh(m.ch)) continue;
+    const st = S.mis[id] || {};
+    const mk = L.marker(ll(p), {icon: misIcon(st.done), draggable: !!st.edit}).bindPopup(() => '<b>' + esc(m.n) + '</b><br><span class="muted">' + (m.ch ? "Capitolo " + m.ch : "Qualsiasi capitolo") + (m.w ? " · " + esc(m.w) : "") + '</span><br><label class="ck"><input type="checkbox" data-mis="' + esc(id) + '"' + (st.done ? " checked" : "") + '> Fatta</label>' + lk([["Guida (PowerPyx)", m.u]]));
+    mk.on("dragend", () => { S.mis[id] = Object.assign(S.mis[id] || {}, {p: back(mk.getLatLng()), edit: false}); save(); drawMis(); });
+    mk.addTo(misLayer); misMarkers[id] = mk;
+  }
+  if (S.misLayer) misLayer.addTo(map); else map.removeLayer(misLayer);
+}
+function mrow(x) {
+  const m = D.missions.db[x.id], st = S.mis[x.id] || {}, pos = misPos(x.id);
+  const tags = x.f.map(f => TAGS[f] ? '<span class="tag ' + TAGS[f][0] + '">' + TAGS[f][1] + "</span>" : "").join("");
+  return '<div class="mrow' + (st.done ? " done" : "") + '"><input type="checkbox" aria-label="Fatta" data-mid="' + esc(x.id) + '"' + (st.done ? " checked" : "") + '><div class="nm">' + esc(x.n) + tags + (m.w ? '<div class="muted">' + esc(m.w) + (m.prec === "zona" ? " (zona)" : "") + "</div>" : "") + '</div><div class="act"><a href="' + esc(m.u) + '" target="_blank" rel="noopener">Guida</a>' +
+    (pos ? '<button data-mgo="' + esc(x.id) + '">Vedi</button>' + (st.edit ? '<button data-mok="' + esc(x.id) + '">Fatto</button>' : '<button data-medit="' + esc(x.id) + '" title="Correggi posizione">Sposta</button>') : '<button data-mplace="' + esc(x.id) + '">Pin</button>') + "</div></div>";
+}
+function drawMis() {
+  const ids = Object.keys(D.missions.db), done = ids.filter(i => (S.mis[i] || {}).done).length;
+  $("misCount").textContent = done + "/" + ids.length;
+  $("misBar").style.width = (done / ids.length * 100) + "%";
+  $("misTxt").textContent = done + " missioni fatte su " + ids.length + " (storia, facoltative e Strangers & Freaks).";
+  $("misList").innerHTML = D.missions.ch.filter(c => visibleCh(c.n)).map(c => {
+    const d = c.m.filter(x => (S.mis[x.id] || {}).done).length;
+    return '<details class="ch"' + (c.n === +S.chapter ? " open" : "") + '><summary>' + esc(c.t) + "<span>" + d + "/" + c.m.length + "</span></summary>" + c.m.map(mrow).join("") + "</details>";
+  }).join("") + (S.later ? "" : '<p class="muted">Capitoli successivi nascosti. Si sbloccano cambiando capitolo nella scheda Capitoli.</p>');
+  $("sfList").innerHTML = D.missions.sf.filter(g => visibleCh(g.ch)).map(g => {
+    const d = g.m.filter(x => (S.mis[x.id] || {}).done).length, tag = g.conta === "si" ? '<span class="tag sf">conta</span>' : g.conta === "no" ? '<span class="tag opt">non conta</span>' : '<span class="tag opt">non si sa</span>';
+    return '<details class="ch"><summary>' + esc(g.g) + "<span>" + (g.ch ? "cap. " + g.ch : "qualsiasi cap.") + " · " + d + "/" + g.m.length + "</span> " + tag + "</summary>" + g.m.map(x => mrow({id: x.id, n: x.n, f: []})).join("") + "</details>";
+  }).join("");
+  drawMisMap();
+}
+for (const box of ["misList", "sfList"]) {
+  $(box).onclick = e => {
+    const t = e.target.closest("button"); if (!t) return; const d = t.dataset;
+    if (d.mgo) { fly(misPos(d.mgo)); setTimeout(() => misMarkers[d.mgo]?.openPopup(), 700); }
+    if (d.medit) { S.mis[d.medit] = Object.assign(S.mis[d.medit] || {}, {edit: true}); save(); drawMis(); fly(misPos(d.medit)); }
+    if (d.mok) { S.mis[d.mok].edit = false; save(); drawMis(); }
+    if (d.mplace) { S.mis[d.mplace] = Object.assign(S.mis[d.mplace] || {}, {p: aim(), edit: true}); save(); drawMis(); }
+  };
+  $(box).onchange = e => { const i = e.target; if (i.dataset.mid) { S.mis[i.dataset.mid] = Object.assign(S.mis[i.dataset.mid] || {}, {done: i.checked}); save(); drawMis(); } };
+}
+$("misLayer").onchange = e => { S.misLayer = e.target.checked; save(); drawMisMap(); };
 
 function drawChapters() {
   $("chap").value = S.chapter; $("later").checked = S.later;
@@ -882,8 +971,8 @@ function drawChapters() {
   }).join("");
   $("always").innerHTML = D.always.map(a => '<div class="card"><h3>' + esc(a.t) + "</h3><p>" + esc(a.d) + '</p>' + lk(a.links) + '<div class="src">Fonti: ' + a.src.map(esc).join(", ") + "</div></div>").join("");
 }
-$("chap").onchange = e => { S.chapter = +e.target.value; save(); drawChapters(); };
-$("later").onchange = e => { S.later = e.target.checked; save(); drawChapters(); };
+$("chap").onchange = e => { S.chapter = +e.target.value; save(); drawChapters(); drawMis(); };
+$("later").onchange = e => { S.later = e.target.checked; save(); drawChapters(); drawMis(); };
 $("chapters").onchange = e => { const i = e.target; if (i.dataset.item) { if (i.checked) S.items[i.dataset.item] = true; else delete S.items[i.dataset.item]; save(); drawChapters(); } };
 
 let pending = null;
@@ -894,7 +983,7 @@ function drawMine() {
 }
 const askPin = p => { pending = p; $("mineF").hidden = false; $("mName").value = ""; $("mNote").value = ""; document.querySelector('nav button[data-t=miei]').click(); setTimeout(() => $("mName").focus(), 50); };
 map.on("contextmenu", e => askPin(back(e.latlng)));
-$("addC").onclick = () => askPin(back(map.getCenter()));
+$("addC").onclick = () => askPin(aim());
 $("mCancel").onclick = () => { pending = null; $("mineF").hidden = true; };
 $("mSave").onclick = () => { if (!pending) return; S.mine.push({n: $("mName").value.trim() || "Pin", note: $("mNote").value.trim(), p: pending}); pending = null; $("mineF").hidden = true; save(); drawMine(); };
 $("mine").onclick = e => { const t = e.target; if (t.dataset.mgo) fly(S.mine[+t.dataset.mgo].p); if (t.dataset.mdel) { S.mine.splice(+t.dataset.mdel, 1); save(); drawMine(); } };
@@ -908,7 +997,7 @@ $("exp").onclick = async () => {
   const name = fname(), body = JSON.stringify({app: "leonida-companion", saved: new Date().toISOString(), ...S}, null, 1);
   if (dlNS) { try { await dlNS.save({filename: name, data: body}); msg("Backup salvato: " + name + "."); } catch (e) { msg("Salvataggio annullato o non riuscito: riprova, oppure usa il testo qui sotto."); } return; }
   const file = new File([body], name, {type: "application/json"});
-  try { if (navigator.canShare && navigator.canShare({files: [file]})) { await navigator.share({files: [file], title: name}); msg("Backup pronto: salvalo in File o mandalo dove vuoi."); return; } } catch (e) { if (e && e.name === "AbortError") return; }
+  try { if (matchMedia("(pointer:coarse)").matches && navigator.canShare && navigator.canShare({files: [file]})) { await navigator.share({files: [file], title: name}); msg("Backup pronto: salvalo in File o mandalo dove vuoi."); return; } } catch (e) { if (e && e.name === "AbortError") return; }
   try { const url = URL.createObjectURL(file), a = document.createElement("a"); a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 4000); msg("Ho scaricato " + name + ". Se non lo trovi, usa il testo qui sotto."); }
   catch (e) { msg("Qui il file non si può salvare: usa il testo qui sotto."); }
 };
@@ -918,21 +1007,26 @@ $("impGo").onclick = () => { try { restore($("impX").value); msg("Ripristinato."
 
 const norm = s => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
 $("q").oninput = () => {
+  if (!D) return;
   const q = norm($("q").value.trim()), box = $("results");
   if (q.length < 2) { box.style.display = "none"; return; }
   const hits = [];
   D.cars.forEach(c => { if (carPos(c) && norm(c.n + " " + c.zona).includes(q)) hits.push(["Auto: " + c.n, c.zona, carPos(c)]); });
+  Object.entries(D.missions.db).forEach(([id, m]) => { if (visibleCh(m.ch) && misPos(id) && norm(m.n).includes(q)) hits.push(["Missione: " + m.n, m.w || ("Capitolo " + m.ch), misPos(id)]); });
   D.eggs.forEach(x => { if (eggPos(x) && norm(x.n + " " + x.zona).includes(q)) hits.push(["Segreto: " + x.n, x.zona, eggPos(x)]); });
   D.pois.forEach(p => { if (norm(p.n + " " + p.t + " " + p.w).includes(q)) hits.push([p.n, p.t + (p.w ? " · " + p.w : ""), p.p]); });
   S.mine.forEach(m => { if (norm(m.n).includes(q)) hits.push([m.n, "Mio pin", m.p]); });
   D.search.forEach(s => { if (hits.length < 40 && norm(s[0]).includes(q)) hits.push([s[0], "Luogo", [s[1], s[2]]]); });
-  box.innerHTML = hits.slice(0, 40).map((h, k) => '<button role="option" data-k="' + k + '">' + esc(h[0]) + "<br><small>" + esc(h[1]) + "</small></button>").join("") || '<button disabled>Nessun risultato</button>';
+  box.innerHTML = hits.slice(0, 40).map((h, k) => '<button role="option" data-k="' + k + '">' + esc(h[0]) + "<br><small>" + esc(h[1]) + "</small></button>").join("") || '<p class="muted" style="margin:8px 12px">Nessun risultato' + (S.later ? "" : " (le missioni dei capitoli successivi sono nascoste)") + "</p>";
   box.style.display = "block"; box._hits = hits;
 };
 $("results").onclick = e => { const b = e.target.closest("button[data-k]"); if (!b) return; const h = $("results")._hits[+b.dataset.k]; $("results").style.display = "none"; $("q").blur(); flash(h[2], h[0]); };
 $("q").onfocus = openPanel;
+document.addEventListener("click", e => { if (!e.target.closest(".searchbox")) $("results").style.display = "none"; });
+$("q").onkeydown = e => { if (e.key === "Escape") { $("results").style.display = "none"; $("q").blur(); } };
+map.on("movestart", () => { $("results").style.display = "none"; });
 
-function render() { S.eggs = S.eggs || {}; drawCats(); drawPois(); drawCars(); drawCarList(); drawEggs(); drawChapters(); drawMine(); $("carLayer").checked = S.carLayer; $("eggLayer").checked = S.eggLayer !== false; }
+function render() { S.eggs = S.eggs || {}; S.mis = S.mis || {}; if (S.misLayer === undefined) S.misLayer = true; $("misLayer").checked = S.misLayer; drawMis(); drawCats(); drawPois(); drawCars(); drawCarList(); drawEggs(); drawChapters(); drawMine(); $("carLayer").checked = S.carLayer; $("eggLayer").checked = S.eggLayer !== false; }
 function start(data) {
   D = data;
   OFF_BY_DEFAULT.forEach(c => { if (!(c in S.cats)) S.cats[c] = false; });
