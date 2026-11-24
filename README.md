@@ -1,6 +1,6 @@
 # Leonida Companion
 
-Mappa companion personale e non ufficiale per GTA 6 (PS5): negozi e servizi, auto rare e nascoste, tutte le missioni (storia, facoltative, Strangers & Freaks) con pin dove si conosce la partenza, cose da non perdere per ogni capitolo (punti di non ritorno), Easter egg e i tuoi pin. Ogni voce ha i link alle guide. Le spunte restano salvate nel browser; dal pannello «Mappa» salvi e ricarichi un file di backup (.json). Su iPhone: Safari → Condividi → «Aggiungi alla schermata Home» per averla come app con la sua icona.
+Mappa companion personale e non ufficiale per GTA 6 (PS5): negozi e servizi, auto rare e nascoste, tutte le missioni (storia, facoltative, Strangers & Freaks) con pin dove si conosce la partenza, cose da non perdere per ogni capitolo (punti di non ritorno), Easter egg e i tuoi pin. Scegli in alto il capitolo a cui sei: mappa e liste mostrano solo quello che è già sbloccato (rifugi, ricettatori, auto che richiedono strumenti dei capitoli successivi) e un riquadro elenca le novità di ogni capitolo. Ogni voce ha i link alle guide. Le spunte restano salvate nel browser; dal pannello «Mappa» salvi e ricarichi un file di backup (.json). Su iPhone: Safari → Condividi → «Aggiungi alla schermata Home» per averla come app con la sua icona.
 
 Funziona come sito statico: apri `index.html` da GitHub Pages (Settings → Pages → Deploy from a branch → `main` / root).
 

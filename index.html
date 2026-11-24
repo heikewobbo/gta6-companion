@@ -681,6 +681,27 @@ details.ch>summary::-webkit-details-marker{display:none}
 details.ch>summary span{font:500 13px Inter,sans-serif;color:var(--mute);margin-left:6px}
 .mispin{width:24px;height:24px;border-radius:6px;background:#4d96ff;border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35);display:grid;place-items:center;font:800 12px Inter,sans-serif;color:#fff}
 .mispin.got{background:#3fb37f}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.chapsel{width:auto;font:600 14px Inter,sans-serif;padding:7px 28px 7px 10px;border-radius:999px;border:0;background:var(--coral);color:#fff;min-height:36px;appearance:none;background-image:linear-gradient(45deg,transparent 50%,#fff 50%),linear-gradient(135deg,#fff 50%,transparent 50%);background-position:calc(100% - 15px) 50%,calc(100% - 10px) 50%;background-size:5px 5px;background-repeat:no-repeat}
+.prog{border-radius:14px;padding:12px 14px;background:linear-gradient(135deg,#0e3b40,#14707a);color:#eaf6f5;margin-bottom:4px}
+.prog h2{margin:0 0 6px;color:#fff}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:8px 0}
+.stats div{background:rgba(255,255,255,.1);border-radius:10px;padding:6px 4px;text-align:center}
+.stats b{display:block;font:400 22px/1.1 Anton,Impact,sans-serif;color:#ffc24b}
+.stats span{font-size:11.5px}
+.prog ul{margin:6px 0 0;padding-left:18px}
+.prog li{margin:4px 0;font-size:14px}
+.prog li span{color:#bfe0e0;font-size:13px}
+.prog .links a{background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.2)}
+.prog details{margin-top:8px;font-size:13px}
+.prog summary{cursor:pointer;color:#bfe0e0}
+.lock{color:#bfe0e0;font-size:13px;margin:8px 0 0}
+.card.locked{opacity:.62;border-style:dashed}
+.card .why{font-size:13px;font-weight:600;color:var(--coral);margin-top:4px}
+#toast{position:fixed;z-index:2000;left:50%;top:16px;transform:translateX(-50%);width:min(420px,calc(100% - 24px));background:#0e3b40;color:#eaf6f5;border-radius:16px;padding:14px 16px;box-shadow:0 10px 30px rgba(0,0,0,.35);display:none}
+#toast h3{margin:0 0 6px;font:400 22px/1.1 Anton,Impact,sans-serif;color:#ffc24b}
+#toast ul{margin:0;padding-left:18px;font-size:14px}
+#toast button{margin-top:10px}
 .links{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
 .links a{display:inline-flex;align-items:center;min-height:32px;padding:5px 10px;border-radius:8px;background:color-mix(in srgb,var(--sea) 14%,var(--panel));color:var(--ink);font:600 12.5px Inter,sans-serif;text-decoration:none;border:1px solid var(--line)}
 .links a:after{content:"↗";margin-left:5px;color:var(--mute)}
@@ -693,9 +714,10 @@ details.ch>summary span{font:500 13px Inter,sans-serif;color:var(--mute);margin-
 <body>
 <div id="map" role="application" aria-label="Mappa di Leonida"></div>
 <div id="cross" aria-hidden="true"></div>
+<div id="toast" role="status"></div>
 <section id="panel" aria-label="Pannello">
   <button id="grab" aria-label="Apri o chiudi il pannello"><span></span></button>
-  <header><h1>Leonida <b>Companion</b></h1></header>
+  <header><h1>Leonida <b>Companion</b></h1><label for="chap" class="vh">Capitolo attuale</label><select id="chap" class="chapsel" title="Il capitolo a cui sei arrivato"><option value="1">Cap. 1</option><option value="2">Cap. 2</option><option value="3">Cap. 3</option><option value="4">Cap. 4</option><option value="5">Cap. 5</option></select></header>
   <div class="searchbox"><input id="q" type="text" placeholder="Cerca un luogo, un negozio, un'auto…" autocomplete="off" aria-label="Cerca"><div id="results" role="listbox"></div></div>
   <nav role="tablist">
     <button role="tab" data-t="mappa" aria-selected="true">Mappa</button>
@@ -706,6 +728,8 @@ details.ch>summary span{font:500 13px Inter,sans-serif;color:var(--mute);margin-
     <button role="tab" data-t="miei" aria-selected="false">Pin</button>
   </nav>
   <div class="tab on" id="t-mappa">
+    <div id="prog"></div>
+    <div class="row"><label class="ck"><input type="checkbox" id="later"> Mostra tutto, anche i capitoli successivi (spoiler)</label></div>
     <h2>Cosa mostrare</h2>
     <div class="chips" id="cats"></div>
     <p class="muted">Negozi e servizi presi dalla mappa della comunità GTADB: è ancora parziale, il gioco è uscito da pochi giorni. Tocca un punto per segnarlo come visitato; tieni premuto sulla mappa per aggiungere un tuo pin.</p>
@@ -724,8 +748,7 @@ details.ch>summary span{font:500 13px Inter,sans-serif;color:var(--mute);margin-
     <div id="cars"></div>
   </div>
   <div class="tab" id="t-cap">
-    <div class="form" style="margin-top:0"><label for="chap" class="muted">Sono al capitolo</label><select id="chap"><option value="1">Capitolo 1</option><option value="2">Capitolo 2</option><option value="3">Capitolo 3</option><option value="4">Capitolo 4</option><option value="5">Capitolo 5</option></select></div>
-    <div class="row"><label class="ck"><input type="checkbox" id="later"> Mostra anche i capitoli successivi (spoiler)</label></div>
+    <p class="muted" style="margin-top:0">Il capitolo a cui sei arrivato si sceglie in alto, accanto al titolo.</p>
     <div id="chapters"></div>
     <h2>Sempre valido</h2>
     <div id="always"></div>
@@ -781,6 +804,7 @@ map.setView(ll([-600, 0]), 2.5);
 const rend = L.canvas({padding: .3});
 const poiLayer = L.layerGroup().addTo(map), carLayer = L.layerGroup(), eggLayer = L.layerGroup(), misLayer = L.layerGroup(), mineLayer = L.layerGroup().addTo(map);
 let D = null, poiMarkers = {}, carMarkers = {}, eggMarkers = {}, tmp = null;
+const avail = (ch, to) => S.later || ((ch || 1) <= S.chapter && (!to || S.chapter <= to));
 const lk = a => a && a.length ? '<div class="links">' + a.map(l => '<a href="' + esc(l[1]) + '" target="_blank" rel="noopener">' + esc(l[0]) + "</a>").join("") + "</div>" : "";
 
 const panel = $("panel");
@@ -815,19 +839,19 @@ const mineIcon = L.divIcon({className: "", html: '<div class="minepin"></div>', 
 
 function poiPopup(p) {
   const done = !!S.poi[p.id];
-  return '<b>' + esc(p.n) + '</b><br><span class="muted">' + esc(p.t) + (p.w ? " · " + esc(p.w) : "") + '</span><br><label class="ck"><input type="checkbox" data-poi="' + esc(p.id) + '"' + (done ? " checked" : "") + '> Visitato</label>';
+  return '<b>' + esc(p.n) + '</b><br><span class="muted">' + esc(p.t) + (p.w ? " · " + esc(p.w) : "") + '</span>' + (p.g ? '<br><span class="muted">' + esc(p.g) + '</span>' : "") + '<br><label class="ck"><input type="checkbox" data-poi="' + esc(p.id) + '"' + (done ? " checked" : "") + '> Visitato</label>';
 }
 function drawPois() {
   poiLayer.clearLayers(); poiMarkers = {};
   for (const p of D.pois) {
-    if (S.cats[p.c] === false) continue;
+    if (S.cats[p.c] === false || !avail(p.ch, p.to)) continue;
     const done = !!S.poi[p.id];
     const m = L.circleMarker(ll(p.p), {renderer: rend, radius: 6, weight: 2, color: done ? "#9aa" : "#fff", fillColor: CAT_COLOR[p.c] || "#999", fillOpacity: done ? .35 : 1});
     m.bindPopup(() => poiPopup(p)); m.addTo(poiLayer); poiMarkers[p.id] = m;
   }
 }
 function drawCats() {
-  const n = {}; D.pois.forEach(p => n[p.c] = (n[p.c] || 0) + 1);
+  const n = {}; D.pois.forEach(p => { if (avail(p.ch, p.to)) n[p.c] = (n[p.c] || 0) + 1; });
   $("cats").innerHTML = D.cats.map(([c, lab]) => '<button class="chip" data-c="' + c + '" aria-pressed="' + (S.cats[c] !== false) + '"><span class="dot" style="background:' + CAT_COLOR[c] + '"></span>' + esc(lab) + " <span class=\"muted\">" + (n[c] || 0) + "</span></button>").join("");
 }
 $("cats").onclick = e => { const b = e.target.closest(".chip"); if (!b) return; const c = b.dataset.c; S.cats[c] = S.cats[c] === false; save(); drawCats(); drawPois(); };
@@ -848,7 +872,7 @@ function carPopup(c) {
 function drawCars() {
   carLayer.clearLayers(); carMarkers = {};
   for (const c of D.cars) {
-    const p = carPos(c); if (!p) continue;
+    const p = carPos(c); if (!p || !avail(c.ch)) continue;
     const st = S.cars[c.id] || {};
     if (c.prec === "zona" && !(st.p)) L.circle(ll(p), {radius: 300 / 32, color: "#ff4f6d", weight: 1.5, dashArray: "4 4", fillOpacity: .08, interactive: false}).addTo(carLayer);
     const m = L.marker(ll(p), {icon: carIcon(st.found), draggable: !!st.edit}).bindPopup(() => carPopup(c));
@@ -863,14 +887,15 @@ function drawCarList() {
   $("carCount").textContent = got + "/" + D.cars.length;
   $("carBar").style.width = (got / D.cars.length * 100) + "%";
   $("carTxt").textContent = got + " trovate su " + D.cars.length + " segnalate, " + D.cars.filter(c => (S.cars[c.id] || {}).reg).length + " registrate.";
-  $("cars").innerHTML = D.cars.map(c => {
+  const open = D.cars.filter(c => avail(c.ch)), shut = D.cars.filter(c => !avail(c.ch));
+  $("cars").innerHTML = open.map(c => {
     const st = S.cars[c.id] || {}, pos = carPos(c);
     const where = st.p ? "posizione corretta da te" : c.prec === "edificio" ? "pin sull'edificio" : c.prec === "zona" ? "pin solo sulla zona" : "senza pin";
     return '<div class="card' + (st.found ? " done" : "") + '"><h3>' + esc(c.n) + '</h3><div class="muted">' + esc(c.zona) + " · " + where + '</div><p>' + esc(c.d) + '</p>' + (c.note ? '<p class="note">' + esc(c.note) + '</p>' : "") +
       '<div class="row"><label class="ck"><input type="checkbox" data-cid="' + esc(c.id) + '" data-k="found"' + (st.found ? " checked" : "") + '> Trovata</label><label class="ck"><input type="checkbox" data-cid="' + esc(c.id) + '" data-k="reg"' + (st.reg ? " checked" : "") + '> Registrata</label></div>' +
       '<div class="row">' + (pos ? '<button class="btn" data-go="' + esc(c.id) + '">Vedi sulla mappa</button><button class="btn' + (st.edit ? " hot" : "") + '" data-edit="' + esc(c.id) + '">' + (st.edit ? "Fatto" : "Correggi posizione") + "</button>" : '<button class="btn" data-place="' + esc(c.id) + '">Metti il pin al centro della mappa</button>') + '</div>' +
-      lk(c.links) + (c.src.length ? '<div class="src">Fonti: ' + c.src.map(esc).join(", ") + "</div>" : "") + "</div>";
-  }).join("");
+      (c.g && c.ch > 1 ? '<div class="why">Dal capitolo ' + c.ch + ": " + esc(c.g) + "</div>" : "") + lk(c.links) + (c.src.length ? '<div class="src">Fonti: ' + c.src.map(esc).join(", ") + "</div>" : "") + "</div>";
+  }).join("") + (shut.length ? '<h2>In arrivo</h2><p class="muted">Queste non si possono ancora prendere: compaiono sulla mappa quando arrivi al capitolo giusto.</p>' + shut.map(c => '<div class="card locked"><h3>' + esc(c.n) + '</h3><div class="muted">' + esc(c.zona) + '</div><div class="why">Dal capitolo ' + c.ch + ": " + esc(c.g) + "</div></div>").join("") : "");
 }
 $("cars").onclick = e => {
   const t = e.target;
@@ -971,8 +996,25 @@ function drawChapters() {
   }).join("");
   $("always").innerHTML = D.always.map(a => '<div class="card"><h3>' + esc(a.t) + "</h3><p>" + esc(a.d) + '</p>' + lk(a.links) + '<div class="src">Fonti: ' + a.src.map(esc).join(", ") + "</div></div>").join("");
 }
-$("chap").onchange = e => { S.chapter = +e.target.value; save(); drawChapters(); drawMis(); };
-$("later").onchange = e => { S.later = e.target.checked; save(); drawChapters(); drawMis(); };
+function ulist(arr) { return "<ul>" + arr.map(u => "<li><b>" + esc(u.t) + "</b><br><span>" + esc(u.d) + "</span>" + lk(u.links) + "</li>").join("") + "</ul>"; }
+function drawProg() {
+  const c = +S.chapter, U = D.unlocks;
+  const nP = D.pois.filter(p => avail(p.ch, p.to)).length, nC = D.cars.filter(x => avail(x.ch)).length;
+  const nM = Object.entries(D.missions.db).filter(([id, m]) => visibleCh(m.ch)).length, nE = D.eggs.filter(x => avail(x.ch)).length;
+  const prev = []; for (let i = 1; i < c; i++) prev.push(...(U[i] || []));
+  const next = U[c + 1] || [], lockedCars = D.cars.filter(x => !avail(x.ch)).length;
+  $("prog").innerHTML = '<div class="prog"><h2>' + (S.later ? "Tutto visibile" : "Capitolo " + c) + '</h2><div class="stats"><div><b>' + nP + '</b><span>negozi e luoghi</span></div><div><b>' + nC + '</b><span>auto rare</span></div><div><b>' + nM + '</b><span>missioni</span></div><div><b>' + nE + '</b><span>segreti</span></div></div>' +
+    '<details open><summary><b style="color:#fff">Novità del capitolo ' + c + " (" + (U[c] || []).length + ")</b></summary>" + ulist(U[c] || []) + "</details>" +
+    (prev.length ? "<details><summary>Già sbloccato nei capitoli precedenti (" + prev.length + ")</summary>" + ulist(prev) + "</details>" : "") +
+    (!S.later && c < 5 ? '<p class="lock">Nel capitolo ' + (c + 1) + " si sbloccano " + next.length + " novità" + (lockedCars ? " e altre auto rare" : "") + ".</p>" : "") + "</div>";
+}
+function toast(c) {
+  const U = D.unlocks[c] || []; if (!U.length) return;
+  $("toast").innerHTML = "<h3>Capitolo " + c + " sbloccato</h3><ul>" + U.map(u => "<li>" + esc(u.t) + "</li>").join("") + '</ul><button class="btn hot" id="toastOk">Ok</button>';
+  $("toast").style.display = "block"; $("toastOk").onclick = () => { $("toast").style.display = "none"; };
+}
+$("chap").onchange = e => { const old = +S.chapter; S.chapter = +e.target.value; save(); render(); if (S.chapter > old && !S.later) toast(S.chapter); };
+$("later").onchange = e => { S.later = e.target.checked; save(); render(); };
 $("chapters").onchange = e => { const i = e.target; if (i.dataset.item) { if (i.checked) S.items[i.dataset.item] = true; else delete S.items[i.dataset.item]; save(); drawChapters(); } };
 
 let pending = null;
@@ -1011,10 +1053,10 @@ $("q").oninput = () => {
   const q = norm($("q").value.trim()), box = $("results");
   if (q.length < 2) { box.style.display = "none"; return; }
   const hits = [];
-  D.cars.forEach(c => { if (carPos(c) && norm(c.n + " " + c.zona).includes(q)) hits.push(["Auto: " + c.n, c.zona, carPos(c)]); });
+  D.cars.forEach(c => { if (carPos(c) && avail(c.ch) && norm(c.n + " " + c.zona).includes(q)) hits.push(["Auto: " + c.n, c.zona, carPos(c)]); });
   Object.entries(D.missions.db).forEach(([id, m]) => { if (visibleCh(m.ch) && misPos(id) && norm(m.n).includes(q)) hits.push(["Missione: " + m.n, m.w || ("Capitolo " + m.ch), misPos(id)]); });
   D.eggs.forEach(x => { if (eggPos(x) && norm(x.n + " " + x.zona).includes(q)) hits.push(["Segreto: " + x.n, x.zona, eggPos(x)]); });
-  D.pois.forEach(p => { if (norm(p.n + " " + p.t + " " + p.w).includes(q)) hits.push([p.n, p.t + (p.w ? " · " + p.w : ""), p.p]); });
+  D.pois.forEach(p => { if (avail(p.ch, p.to) && norm(p.n + " " + p.t + " " + p.w).includes(q)) hits.push([p.n, p.t + (p.w ? " · " + p.w : ""), p.p]); });
   S.mine.forEach(m => { if (norm(m.n).includes(q)) hits.push([m.n, "Mio pin", m.p]); });
   D.search.forEach(s => { if (hits.length < 40 && norm(s[0]).includes(q)) hits.push([s[0], "Luogo", [s[1], s[2]]]); });
   box.innerHTML = hits.slice(0, 40).map((h, k) => '<button role="option" data-k="' + k + '">' + esc(h[0]) + "<br><small>" + esc(h[1]) + "</small></button>").join("") || '<p class="muted" style="margin:8px 12px">Nessun risultato' + (S.later ? "" : " (le missioni dei capitoli successivi sono nascoste)") + "</p>";
@@ -1026,7 +1068,7 @@ document.addEventListener("click", e => { if (!e.target.closest(".searchbox")) $
 $("q").onkeydown = e => { if (e.key === "Escape") { $("results").style.display = "none"; $("q").blur(); } };
 map.on("movestart", () => { $("results").style.display = "none"; });
 
-function render() { S.eggs = S.eggs || {}; S.mis = S.mis || {}; if (S.misLayer === undefined) S.misLayer = true; $("misLayer").checked = S.misLayer; drawMis(); drawCats(); drawPois(); drawCars(); drawCarList(); drawEggs(); drawChapters(); drawMine(); $("carLayer").checked = S.carLayer; $("eggLayer").checked = S.eggLayer !== false; }
+function render() { S.chapter = +S.chapter || 1; $("chap").value = S.chapter; $("later").checked = !!S.later; drawProg(); S.eggs = S.eggs || {}; S.mis = S.mis || {}; if (S.misLayer === undefined) S.misLayer = true; $("misLayer").checked = S.misLayer; drawMis(); drawCats(); drawPois(); drawCars(); drawCarList(); drawEggs(); drawChapters(); drawMine(); $("carLayer").checked = S.carLayer; $("eggLayer").checked = S.eggLayer !== false; }
 function start(data) {
   D = data;
   OFF_BY_DEFAULT.forEach(c => { if (!(c in S.cats)) S.cats[c] = false; });

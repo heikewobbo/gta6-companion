@@ -387,7 +387,81 @@ for k, v in mdb.items():
 missing = [k for k in MPIN if k not in mdb]
 assert not missing, missing
 
-data = {"missions": {"ch": mission_ch, "sf": sf, "db": mdb}, "cats": cats, "pois": pois, "cars": cars, "chapters": chapters, "always": always, "eggs": eggs, "search": search}
+# --- Sblocco per capitolo (verificato su guide/wiki) ---
+POI_GATE = {
+    "L266": (1, 1, "Rifugio solo nel capitolo 1"),
+    "L304": (2, 2, "Rifugio solo nel capitolo 2 (fino a Checking Out)"),
+    "L475": (3, 3, "Probabile rifugio del capitolo 3 a Vice City (non confermato)"),
+    "L16": (4, None, "Probabile base del capitolo 4 (non confermato)"),
+    "L348": (2, None, "Officina di Moses: registrazione auto, Slim Jim e vendita auto dal capitolo 2"),
+    "L286": (2, None, "Ricettatori di Port Gellhorn: dal capitolo 2"),
+    "L1104": (2, None, "Ricettatori di Port Gellhorn: dal capitolo 2"),
+    "L539": (3, None, "Ricettatori di Vice City: dal capitolo 3"),
+    "L910": (3, None, "Ricettatori di Vice City: dal capitolo 3"),
+    "L1009": (3, None, "Ricettatori di Vice City: dal capitolo 3"),
+    "L1117": (1, None, "Quando si sblocchi non è verificato"),
+    "L415": (1, None, "Riverniciatura da subito; vendita e registrazione di auto con localizzatore dal capitolo 3"),
+}
+for p_ in pois:
+    g = POI_GATE.get(p_["id"])
+    if g:
+        p_["ch"], p_["to"], p_["g"] = g
+    if p_["id"] == "L348":
+        p_["n"] = "Officina di Moses (Watkins Auto Parts)"
+CAR_GATE = {
+    "infernus": (3, "Va consegnata a Randy: la sua lista si apre nel capitolo 3"),
+    "vitello": (3, "Serve il Key Cloner (capitolo 3, Clonin' Keys, Makin' GS)"),
+    "mamba": (3, "È nella missione di Randy ¡Dale Mamba! (capitolo 3)"),
+    "jugular": (3, "Serve il Key Cloner (capitolo 3)"),
+    "sanchez": (3, "Serve il Cut-Off Tool (capitolo 3, Meet the Heders)"),
+    "picador": (3, "I container gialli Scoop si aprono solo con la smerigliatrice (capitolo 3, Meet the Heders)"),
+    "pixel-elegy": (3, "I container gialli Scoop si aprono solo con la smerigliatrice (capitolo 3, Meet the Heders)"),
+    "emerus-purple": (3, "Legata a un furto del capitolo 3"),
+}
+for c in cars:
+    g = CAR_GATE.get(c["id"])
+    c["ch"], c["g"] = (g if g else (1, ""))
+for e in eggs:
+    e["ch"] = 1
+S_NE = "nerdism.com"; S_S4 = "space4games.com"; S_BB = "beebom.com"; S_GU = "gamersuniverse.eu"; S_GW = "gta.wiki"; S_BX = "bloxodes.com"
+L_NE = ("Cosa si sblocca e quando (Nerdism)", "https://nerdism.com/gta-6-progress-guide-what-unlocks-when/")
+L_S4 = ("Strumenti e quando li ottieni (Space4Games)", "https://space4games.com/en/games-en/gta-6-gadgets-tools-unlock-guide/")
+L_BB = ("Tutti i ricettatori (Beebom)", "https://beebom.com/gta-6-fence-locations/")
+L_EQ = ("Le 12 attrezzature (TheClick)", "https://www.theclick.gg/gta-6-equipment-list/")
+unlocks = {
+ 1: [
+  {"t": "Mappa tutta esplorabile", "d": "Puoi girare tutta Leonida da subito, ma la storia resta nelle Leonida Keys per circa il primo 30%.", "src": ["fanboydestroy.com", "yahoo.com"], "links": [("Perché le Keys ti tengono lì (FanboyDestroy)", "https://fanboydestroy.com/games/gta-6-leonida-map-keys-early-game-limitation/")]},
+  {"t": "Prima arma e Ammu-Nation", "d": "Gear Up ti dà la prima pistola; le armerie vendono armi, giubbotti e munizioni.", "src": [S_NE], "links": [L_NE]},
+  {"t": "Conto BuckMe", "d": "Con Buck Me apri il conto in banca; sopra i $1.000 si paga dall'app.", "src": [S_NE], "links": [L_NE]},
+  {"t": "Attrezzi del capitolo 1", "d": "Binocolo (Gone Fishing), scanner della polizia (Unwanted Attention), metal detector per i dobloni (Island Dreams), app WAiNK per scansionare le auto.", "src": [S_S4], "links": [L_S4, L_EQ]},
+  {"t": "Ricettatori: Brian e Donnie", "d": "Brian (sud di Key Lento) dopo Lab Fees, fino a fine capitolo; Donnie (rimorchio nel nord di Key Lento) fino a Swamped.", "src": [S_BB, "thegameswiki.com"], "links": [L_BB]},
+  {"t": "Carte collezionabili", "d": "Si possono raccogliere dopo Gone Fishing.", "src": [S_GW], "links": [("Set di carte (gta.wiki)", "https://gta.wiki/w/Collectible_Card_Sets")]},
+  {"t": "Auto: guidi tutto, tieni solo quella di Jason", "d": "Puoi rubare qualsiasi auto, ma non puoi ancora registrarla.", "src": [S_NE, "alcasthq.com"], "links": [L_REG]},
+ ],
+ 2: [
+  {"t": "Moses: registrazione auto e Slim Jim", "d": "Con la missione Moses registri le auto senza localizzatore (la prima è gratis), ricevi lo Slim Jim per aprirle senza allarme e l'app Scooter Bros che ti porta l'auto.", "src": [S_NE, "pcgamer.com"], "links": [L_MOSES, L_NE]},
+  {"t": "Garage in vendita", "d": "Dopo Daily Driver l'app Vice City Real Estate vende 8 garage (da $4.000 a $40.000). Sono l'unica proprietà acquistabile.", "src": [S_BX, S_GU], "links": [("Si possono comprare case? (Bloxodes)", "https://bloxodes.com/articles/gta-6-can-you-buy-houses")]},
+  {"t": "Cambio libero Jason/Lucia", "d": "Dopo Coffee Break puoi passare da un personaggio all'altro in giro libero.", "src": [S_GU, "powerpyx.com"], "links": []},
+  {"t": "Ricettatori di Port Gellhorn", "d": "Moses (auto) e il rimorchio di Dunk.", "src": [S_BB], "links": [L_BB]},
+  {"t": "Altri attrezzi", "d": "Piede di porco (in un covo dei Kolt & Associates).", "src": [S_S4], "links": [L_S4]},
+ ],
+ 3: [
+  {"t": "Pay 'n' Spray per le auto con localizzatore", "d": "In ogni Pay 'n' Spray vendi le auto rubate e registri quelle con localizzatore standard.", "src": [S_NE, S_BX], "links": [L_NE]},
+  {"t": "Key Cloner e lista di Randy", "d": "Clonin' Keys, Makin' GS ti dà il Key Cloner per le auto senza chiave e apre la lista di Randy (circa $30.000 a consegna).", "src": [S_NE, "theclick.gg"], "links": [L_KEY, L_RANDY]},
+  {"t": "Yasmani: gioiellerie e Snap Gun", "d": "Colpi alle gioiellerie e Snap Gun per aprire le porte in silenzio (l'allarme resta attivo). Da Yasmani puoi anche scegliere il ricettatore dal garage.", "src": [S_NE, "pcgamer.com", S_BB], "links": [L_NE]},
+  {"t": "Attrezzi per container e casse", "d": "Meet the Heders: pry bar, Cut-Off Tool e smerigliatrice (apre i container gialli Scoop). Credit Check: Dye Pack Jammer per vendere le banconote segnate.", "src": [S_S4, "theclick.gg", "xboxplay.games", S_BX], "links": [L_S4, L_EQ]},
+  {"t": "Rapine a prestiti e banche", "d": "Payday loans e banche (banconote segnate) si sbloccano nel capitolo 3.", "src": ["powerpyx.com"], "links": [("Tutti i ricettatori (PowerPyx)", PP + "370548")]},
+ ],
+ 4: [
+  {"t": "Caveau delle banche", "d": "Si aprono con la missione facoltativa That's Where The Money Is, verso la fine del capitolo 4 (una fonte dice capitolo 5). Un caveau grande vale fino a $205.000 e ti dà subito 4 stelle.", "src": [S_NE, "metaforge.app", "powerpyx.com"], "links": [L_NE]},
+  {"t": "Furgoni portavalori", "d": "Yasmani ti dà le soffiate dopo la missione dei caveau.", "src": [S_NE], "links": [L_NE]},
+ ],
+ 5: [
+  {"t": "Dopo il finale", "d": "Giro libero, trucchi (disattivano i trofei nella sessione) e la checklist del 100% in Progressi → Statistiche.", "src": [S_NE, "gmtreks.com"], "links": [L_NE]},
+ ],
+}
+
+data = {"unlocks": unlocks, "missions": {"ch": mission_ch, "sf": sf, "db": mdb}, "cats": cats, "pois": pois, "cars": cars, "chapters": chapters, "always": always, "eggs": eggs, "search": search}
 json.dump(data, open(out, "w"), ensure_ascii=False, separators=(",", ":"))
 print(len(pois), len(search), len(cars), sum(len(c["items"]) for c in chapters))
 print({k: v for k, v in A.items()})
