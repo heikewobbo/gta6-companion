@@ -4,17 +4,20 @@ Mappa companion personale e non ufficiale per GTA 6 (PS5): negozi e servizi, aut
 
 Funziona come sito statico: apri `index.html` da GitHub Pages (Settings → Pages → Deploy from a branch → `main` / root).
 
-## Trofei automatici dal PSN (per più persone)
+## Trofei automatici (PlayStation e Xbox)
 
-Uno script su GitHub Actions legge ogni ora i trofei di GTA VI degli ID PSN elencati e li salva in `psn/<ID>.json`. Nell'app, scheda Trofei, ognuno sceglie il proprio ID e i trofei si spuntano da soli. I trofei si leggono con l'account PSN di chi gestisce il repo, quindi serve un solo token.
+Ognuno scrive nell'app (scheda Trofei) il proprio ID PSN o gamertag Xbox e i trofei si spuntano da soli. A leggerli è un piccolo Cloudflare Worker gratuito (`worker/trofei-worker.js`) che tiene al sicuro i segreti e chiede i dati a Sony e, per Xbox, a OpenXBL. Le risposte restano in memoria 10 minuti.
 
-1. **Token**: accedi a https://www.playstation.com dal browser, poi apri https://ca.account.sony.com/api/v1/ssocookie e copia il valore `npsso` (64 caratteri). Vale come una password: non metterlo mai nei file del repo.
-2. **Segreto**: nel repo vai su Settings → Secrets and variables → Actions → New repository secret, nome `PSN_NPSSO`, valore il token.
-3. **Giocatori**: modifica `psn/players.json` con gli ID PSN, per esempio `["MioID", "IDAmico"]`.
-4. **Privacy**: ogni giocatore deve avere i trofei visibili (PS5 → Impostazioni → Utenti e account → Privacy → «Giochi | Trofei» su «Chiunque», oppure amico del tuo account).
-5. **Prova**: Actions → Trofei PSN → Run workflow. Poi gira da solo ogni ora.
+1. Crea un account gratuito su https://dash.cloudflare.com.
+2. Workers & Pages → Create → Create Worker, nome `leonida-trofei` → Deploy → Edit code: incolla tutto `worker/trofei-worker.js` → Deploy.
+3. Nel Worker: Settings → Variables and Secrets → Add:
+   - `PSN_NPSSO` (tipo Secret): il token npsso da https://ca.account.sony.com/api/v1/ssocookie (dopo l'accesso su playstation.com, nello stesso browser);
+   - `XBL_KEY` (tipo Secret, solo per Xbox): la chiave API di https://xbl.io (accesso con un account Microsoft, piano gratuito);
+   - `ALLOWED_ORIGIN` (tipo Text): `https://heikewobbo.github.io`.
+4. Copia l'indirizzo del Worker (es. `https://leonida-trofei.NOME.workers.dev`) e scrivilo in `psn/config.json`: `{"api": "https://leonida-trofei.NOME.workers.dev/"}`.
+5. Prova: apri `https://leonida-trofei.NOME.workers.dev/?id=TuoIDPSN` (o `?xbox=Gamertag`): deve rispondere con l'elenco dei trofei.
 
-Il token scade dopo circa due mesi: quando nell'app compare un errore, ripeti i punti 1 e 2. Usa un'interfaccia non ufficiale di Sony (libreria psn-api), solo in lettura. I file in `psn/` sono pubblici come il resto del repo.
+Ogni giocatore deve avere trofei/obiettivi visibili a tutti nelle impostazioni privacy. Il token PSN scade dopo circa due mesi: quando l'app segnala «token PSN non valido o scaduto», ripeti il punto 3 per `PSN_NPSSO`. Sony e OpenXBL sono interfacce non ufficiali, usate solo in lettura.
 
 ## Contenuto
 
@@ -22,7 +25,7 @@ Il token scade dopo circa due mesi: quando nell'app compare un errore, ripeti i 
 - `data.json` – negozi, auto, capitoli, Easter egg, indice di ricerca
 - `tiles/` (livelli 0–3, blocchi 1024 px) e `big/` (livelli 4–5, blocchi 2048 px) – la mappa
 - `sw.js`, `tiles.json` – funzionamento offline (mappa salvabile dal pannello Mappa)
-- `psn/`, `tools/psn-sync.mjs`, `.github/workflows/trofei-psn.yml` – trofei automatici dal PSN
+- `worker/trofei-worker.js`, `psn/config.json` – trofei automatici da PSN e Xbox (Cloudflare Worker)
 - `icons/`, `manifest.webmanifest` – icona e dati per l'installazione sulla schermata Home
 - `tools/` – script per rigenerare tile e dati dal repository di GTADB, elenchi missioni, sorgente dell'icona
 
