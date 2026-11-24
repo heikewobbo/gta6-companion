@@ -756,7 +756,7 @@ details.ch>summary span{font:500 13px Inter,sans-serif;color:var(--mute);margin-
   <div class="tab" id="t-missioni">
     <div class="row" style="margin-top:0"><label class="ck"><input type="checkbox" id="misLayer" checked> Mostra le missioni con pin sulla mappa</label></div>
     <div class="bar"><span id="misBar"></span></div><p class="muted" id="misTxt"></p>
-    <p class="muted">Tutte le missioni dalla guida di PowerPyx, fino al capitolo scelto nella scheda Capitoli (gli altri restano nascosti per gli spoiler). I pin ci sono dove le guide indicano dove parte la missione; per le altre usa «Pin» quando la vedi sulla mappa del gioco.</p>
+    <p class="muted">Tutte le missioni dalla guida di PowerPyx, fino al capitolo scelto nella scheda Capitoli (gli altri restano nascosti per gli spoiler). Hanno un pin solo le missioni che partono da un punto fisso indicato dalle guide; per le altre segui l'indicatore del gioco.</p>
     <div id="misList"></div>
     <h2>Strangers &amp; Freaks</h2>
     <p class="muted">Per il trofeo servono 8 catene complete. «Conta» = vale per il trofeo secondo PowerPyx.</p>
@@ -935,7 +935,7 @@ $("eggs").onclick = e => {
 $("eggs").onchange = e => { const i = e.target; if (i.dataset.eid) { S.eggs[i.dataset.eid] = Object.assign(S.eggs[i.dataset.eid] || {}, {seen: i.checked}); save(); drawEggs(); } };
 $("eggLayer").onchange = e => { S.eggLayer = e.target.checked; save(); drawEggs(); };
 
-const misPos = id => (S.mis[id] && S.mis[id].p) || D.missions.db[id].p;
+const misPos = id => D.missions.db[id].p ? ((S.mis[id] && S.mis[id].p) || D.missions.db[id].p) : null;
 const misIcon = got => L.divIcon({className: "", html: '<div class="mispin' + (got ? " got" : "") + '">M</div>', iconSize: [24, 24], iconAnchor: [12, 12], popupAnchor: [0, -12]});
 const visibleCh = n => n === 0 || n <= S.chapter || S.later;
 const TAGS = {opt: ["opt", "facoltativa"], miss: ["", "perdibile"], time: ["", "a tempo"], pnr: ["pnr", "punto di non ritorno"], sf: ["sf", "S&F"]};
@@ -955,7 +955,7 @@ function mrow(x) {
   const m = D.missions.db[x.id], st = S.mis[x.id] || {}, pos = misPos(x.id);
   const tags = x.f.map(f => TAGS[f] ? '<span class="tag ' + TAGS[f][0] + '">' + TAGS[f][1] + "</span>" : "").join("");
   return '<div class="mrow' + (st.done ? " done" : "") + '"><input type="checkbox" aria-label="Fatta" data-mid="' + esc(x.id) + '"' + (st.done ? " checked" : "") + '><div class="nm">' + esc(x.n) + tags + (m.w ? '<div class="muted">' + esc(m.w) + (m.prec === "zona" ? " (zona)" : "") + "</div>" : "") + '</div><div class="act"><a href="' + esc(m.u) + '" target="_blank" rel="noopener">Guida</a>' +
-    (pos ? '<button data-mgo="' + esc(x.id) + '">Vedi</button>' + (st.edit ? '<button data-mok="' + esc(x.id) + '">Fatto</button>' : '<button data-medit="' + esc(x.id) + '" title="Correggi posizione">Sposta</button>') : '<button data-mplace="' + esc(x.id) + '">Pin</button>') + "</div></div>";
+    (pos ? '<button data-mgo="' + esc(x.id) + '">Vedi</button>' + (st.edit ? '<button data-mok="' + esc(x.id) + '">Fatto</button>' : '<button data-medit="' + esc(x.id) + '" title="Correggi posizione">Sposta</button>') : "") + "</div></div>";
 }
 function drawMis() {
   const ids = Object.keys(D.missions.db), done = ids.filter(i => (S.mis[i] || {}).done).length;
@@ -979,7 +979,6 @@ for (const box of ["misList", "sfList"]) {
     if (d.mgo) { fly(misPos(d.mgo)); setTimeout(() => misMarkers[d.mgo]?.openPopup(), 700); }
     if (d.medit) { S.mis[d.medit] = Object.assign(S.mis[d.medit] || {}, {edit: true}); save(); drawMis(); fly(misPos(d.medit)); }
     if (d.mok) { S.mis[d.mok].edit = false; save(); drawMis(); }
-    if (d.mplace) { S.mis[d.mplace] = Object.assign(S.mis[d.mplace] || {}, {p: aim(), edit: true}); save(); drawMis(); }
   };
   $(box).onchange = e => { const i = e.target; if (i.dataset.mid) { S.mis[i.dataset.mid] = Object.assign(S.mis[i.dataset.mid] || {}, {done: i.checked}); save(); drawMis(); } };
 }
@@ -1078,7 +1077,7 @@ document.addEventListener("click", e => { if (!e.target.closest(".searchbox")) $
 $("q").onkeydown = e => { if (e.key === "Escape") { $("results").style.display = "none"; $("q").blur(); } };
 map.on("movestart", () => { $("results").style.display = "none"; });
 
-function render() { S.mis = S.mis || {}; S.items = S.items || {}; syncItems(); S.chapter = +S.chapter || 1; $("chap").value = S.chapter; $("later").checked = !!S.later; drawProg(); S.eggs = S.eggs || {}; S.mis = S.mis || {}; if (S.misLayer === undefined) S.misLayer = true; $("misLayer").checked = S.misLayer; drawMis(); drawCats(); drawPois(); drawCars(); drawCarList(); drawEggs(); drawChapters(); drawMine(); $("carLayer").checked = S.carLayer; $("eggLayer").checked = S.eggLayer !== false; }
+function render() { S.mis = S.mis || {}; { let ch = false; for (const [k, v] of Object.entries(S.mis)) if (v && v.p && !(D.missions.db[k] || {}).p) { delete v.p; delete v.edit; ch = true; } if (ch) save(); } S.items = S.items || {}; syncItems(); S.chapter = +S.chapter || 1; $("chap").value = S.chapter; $("later").checked = !!S.later; drawProg(); S.eggs = S.eggs || {}; S.mis = S.mis || {}; if (S.misLayer === undefined) S.misLayer = true; $("misLayer").checked = S.misLayer; drawMis(); drawCats(); drawPois(); drawCars(); drawCarList(); drawEggs(); drawChapters(); drawMine(); $("carLayer").checked = S.carLayer; $("eggLayer").checked = S.eggLayer !== false; }
 function start(data) {
   D = data;
   OFF_BY_DEFAULT.forEach(c => { if (!(c in S.cats)) S.cats[c] = false; });
