@@ -9,13 +9,14 @@ Funziona come sito statico: apri `index.html` da GitHub Pages (Settings → Page
 Ognuno scrive nell'app (scheda Trofei) il proprio ID PSN o gamertag Xbox e i trofei si spuntano da soli. A leggerli è un piccolo Cloudflare Worker gratuito (`worker/trofei-worker.js`) che tiene al sicuro i segreti e chiede i dati a Sony e, per Xbox, a OpenXBL. Le risposte restano in memoria 10 minuti.
 
 1. Crea un account gratuito su https://dash.cloudflare.com.
-2. Workers & Pages → Create → Create Worker, nome `leonida-trofei` → Deploy → Edit code: incolla tutto `worker/trofei-worker.js` → Deploy.
-3. Nel Worker: Settings → Variables and Secrets → Add:
-   - `PSN_NPSSO` (tipo Secret): il token npsso da https://ca.account.sony.com/api/v1/ssocookie (dopo l'accesso su playstation.com, nello stesso browser);
-   - `XBL_KEY` (tipo Secret, solo per Xbox): la chiave API di https://xbl.io (accesso con un account Microsoft, piano gratuito);
-   - `ALLOWED_ORIGIN` (tipo Text): `https://heikewobbo.github.io`.
-4. Copia l'indirizzo del Worker (es. `https://leonida-trofei.NOME.workers.dev`) e scrivilo in `psn/config.json`: `{"api": "https://leonida-trofei.NOME.workers.dev/"}`.
-5. Prova: apri `https://leonida-trofei.NOME.workers.dev/?id=TuoIDPSN` (o `?xbox=Gamertag`): deve rispondere con l'elenco dei trofei.
+2. Workers & Pages → Create application → GitHub (autorizza l'accesso) → scegli `gta6-companion`.
+3. Configurazione: nome del progetto `leonida-trofei` (deve essere uguale a `name` in `worker/wrangler.jsonc`), Build command vuoto, Deploy command `npx wrangler deploy`, **Root directory `worker`** (nelle impostazioni avanzate). Poi Save and Deploy. Da ora ogni modifica alla cartella `worker` sul repo viene pubblicata da sola.
+4. Nel Worker: Settings → Variables and Secrets → Add, tipo **Secret**:
+   - `PSN_NPSSO`: il token npsso da https://ca.account.sony.com/api/v1/ssocookie (dopo l'accesso su playstation.com, nello stesso browser);
+   - `XBL_KEY` (solo per Xbox): la chiave API di https://xbl.io (accesso con un account Microsoft, piano gratuito).
+   `ALLOWED_ORIGIN` è già in `worker/wrangler.jsonc`.
+5. Copia l'indirizzo del Worker (es. `https://leonida-trofei.NOME.workers.dev`) e scrivilo in `psn/config.json`: `{"api": "https://leonida-trofei.NOME.workers.dev/"}`.
+6. Prova: apri `https://leonida-trofei.NOME.workers.dev/?id=TuoIDPSN` (o `?xbox=Gamertag`): deve rispondere con l'elenco dei trofei.
 
 Ogni giocatore deve avere trofei/obiettivi visibili a tutti nelle impostazioni privacy. Il token PSN scade dopo circa due mesi: quando l'app segnala «token PSN non valido o scaduto», ripeti il punto 3 per `PSN_NPSSO`. Sony e OpenXBL sono interfacce non ufficiali, usate solo in lettura.
 

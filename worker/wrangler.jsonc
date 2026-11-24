@@ -1,0 +1,12 @@
+// Configurazione del Worker dei trofei (Cloudflare Workers Builds, cartella radice: worker)
+{
+  "name": "leonida-trofei",
+  "main": "trofei-worker.js",
+  "compatibility_date": "2026-11-01",
+  "workers_dev": true,
+  // Variabile normale: il sito che può usare il Worker.
+  // I segreti PSN_NPSSO e XBL_KEY NON vanno qui: si mettono nel pannello di Cloudflare.
+  "vars": {
+    "ALLOWED_ORIGIN": "https://heikewobbo.github.io"
+  }
+}
