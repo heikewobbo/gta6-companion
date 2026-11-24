@@ -10,11 +10,11 @@ Ognuno scrive nell'app (scheda Trofei) il proprio ID PSN o gamertag Xbox e i tro
 
 1. Crea un account gratuito su https://dash.cloudflare.com.
 2. Workers & Pages → Create application → GitHub (autorizza l'accesso) → scegli `gta6-companion`.
-3. Configurazione: nome del progetto `leonida-trofei` (deve essere uguale a `name` in `worker/wrangler.jsonc`), Build command vuoto, Deploy command `npx wrangler deploy`, **Root directory `worker`** (nelle impostazioni avanzate). Poi Save and Deploy. Da ora ogni modifica alla cartella `worker` sul repo viene pubblicata da sola.
+3. Configurazione: nome del progetto `leonida-trofei` (deve essere uguale a `name` in `wrangler.jsonc`), Build command vuoto, Deploy command `npx wrangler deploy`. Poi Deploy. Da ora ogni modifica sul repo ripubblica il Worker da sola.
 4. Nel Worker: Settings → Variables and Secrets → Add, tipo **Secret**:
    - `PSN_NPSSO`: il token npsso da https://ca.account.sony.com/api/v1/ssocookie (dopo l'accesso su playstation.com, nello stesso browser);
    - `XBL_KEY` (solo per Xbox): la chiave API di https://xbl.io (accesso con un account Microsoft, piano gratuito).
-   `ALLOWED_ORIGIN` è già in `worker/wrangler.jsonc`.
+   `ALLOWED_ORIGIN` è già in `wrangler.jsonc`.
 5. Copia l'indirizzo del Worker (es. `https://leonida-trofei.NOME.workers.dev`) e scrivilo in `psn/config.json`: `{"api": "https://leonida-trofei.NOME.workers.dev/"}`.
 6. Prova: apri `https://leonida-trofei.NOME.workers.dev/?id=TuoIDPSN` (o `?xbox=Gamertag`): deve rispondere con l'elenco dei trofei.
 

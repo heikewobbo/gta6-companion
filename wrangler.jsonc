@@ -1,7 +1,7 @@
-// Configurazione del Worker dei trofei (Cloudflare Workers Builds, cartella radice: worker)
+// Configurazione del Worker dei trofei (Cloudflare Workers Builds). Il codice è in worker/.
 {
   "name": "leonida-trofei",
-  "main": "trofei-worker.js",
+  "main": "worker/trofei-worker.js",
   "compatibility_date": "2026-11-01",
   "workers_dev": true,
   // Variabile normale: il sito che può usare il Worker.
