@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0e3b40">
+<title>Leonida Companion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* VOICE everyday: a tool he keeps open on the phone next to the PS5
+   IDEA the folded road map of Leonida you keep on the couch, with your own marks on it
+   PICTURE the in-game Leonida map itself, full bleed, with coloured pins
+   COLOUR sea teal map, deep lagoon panel at night / white by day, sunset coral accent, sun yellow support
+   TYPE Anton for names and titles, Inter for text
+   LAYOUT laptop: map full screen with a 380px panel on the left; phone: map with a bottom sheet */
+
+.leaflet-pane,
+.leaflet-tile,
+.leaflet-marker-icon,
+.leaflet-marker-shadow,
+.leaflet-tile-container,
+.leaflet-pane > svg,
+.leaflet-pane > canvas,
+.leaflet-zoom-box,
+.leaflet-image-layer,
+.leaflet-layer {
+	position: absolute;
+	left: 0;
+	top: 0;
+	}
+.leaflet-container {
+	overflow: hidden;
+	}
+.leaflet-tile,
+.leaflet-marker-icon,
+.leaflet-marker-shadow {
+	-webkit-user-select: none;
+	   -moz-user-select: none;
+	        user-select: none;
+	  -webkit-user-drag: none;
+	}
+.leaflet-tile::selection {
+	background: transparent;
+}
+.leaflet-safari .leaflet-tile {
+	image-rendering: -webkit-optimize-contrast;
+	}
+.leaflet-safari .leaflet-tile-container {
+	width: 1600px;
+	height: 1600px;
+	-webkit-transform-origin: 0 0;
+	}
+.leaflet-marker-icon,
+.leaflet-marker-shadow {
+	display: block;
+	}
+.leaflet-container .leaflet-overlay-pane svg {
+	max-width: none !important;
+	max-height: none !important;
+	}
+.leaflet-container .leaflet-marker-pane img,
+.leaflet-container .leaflet-shadow-pane img,
+.leaflet-container .leaflet-tile-pane img,
+.leaflet-container img.leaflet-image-layer,
+.leaflet-container .leaflet-tile {
+	max-width: none !important;
+	max-height: none !important;
+	width: auto;
+	padding: 0;
+	}
+.leaflet-container img.leaflet-tile {
+	mix-blend-mode: plus-lighter;
+}
+.leaflet-container.leaflet-touch-zoom {
+	-ms-touch-action: pan-x pan-y;
+	touch-action: pan-x pan-y;
+	}
+.leaflet-container.leaflet-touch-drag {
+	-ms-touch-action: pinch-zoom;
+	touch-action: none;
+	touch-action: pinch-zoom;
+}
+.leaflet-container.leaflet-touch-drag.leaflet-touch-zoom {
+	-ms-touch-action: none;
+	touch-action: none;
+}
+.leaflet-container {
+	-webkit-tap-highlight-color: transparent;
+}
+.leaflet-container a {
+	-webkit-tap-highlight-color: rgba(51, 181, 229, 0.4);
+}
+.leaflet-tile {
+	filter: inherit;
+	visibility: hidden;
+	}
+.leaflet-tile-loaded {
+	visibility: inherit;
+	}
+.leaflet-zoom-box {
+	width: 0;
+	height: 0;
+	-moz-box-sizing: border-box;
+	     box-sizing: border-box;
+	z-index: 800;
+	}
+.leaflet-overlay-pane svg {
+	-moz-user-select: none;
+	}
+.leaflet-pane         { z-index: 400; }
+.leaflet-tile-pane    { z-index: 200; }
+.leaflet-overlay-pane { z-index: 400; }
+.leaflet-shadow-pane  { z-index: 500; }
+.leaflet-marker-pane  { z-index: 600; }
+.leaflet-tooltip-pane   { z-index: 650; }
+.leaflet-popup-pane   { z-index: 700; }
+.leaflet-map-pane canvas { z-index: 100; }
+.leaflet-map-pane svg    { z-index: 200; }
+.leaflet-vml-shape {
+	width: 1px;
+	height: 1px;
+	}
+.lvml {
+	display: inline-block;
+	position: absolute;
+	}
+.leaflet-control {
+	position: relative;
+	z-index: 800;
+	pointer-events: visiblePainted; 
+	pointer-events: auto;
+	}
+.leaflet-top,
+.leaflet-bottom {
+	position: absolute;
+	z-index: 1000;
+	pointer-events: none;
+	}
+.leaflet-top {
+	top: 0;
+	}
+.leaflet-right {
+	right: 0;
+	}
+.leaflet-bottom {
+	bottom: 0;
+	}
+.leaflet-left {
+	left: 0;
+	}
+.leaflet-control {
+	float: left;
+	clear: both;
+	}
+.leaflet-right .leaflet-control {
+	float: right;
+	}
+.leaflet-top .leaflet-control {
+	margin-top: 10px;
+	}
+.leaflet-bottom .leaflet-control {
+	margin-bottom: 10px;
+	}
+.leaflet-left .leaflet-control {
+	margin-left: 10px;
+	}
+.leaflet-right .leaflet-control {
+	margin-right: 10px;
+	}
+.leaflet-fade-anim .leaflet-popup {
+	opacity: 0;
+	-webkit-transition: opacity 0.2s linear;
+	   -moz-transition: opacity 0.2s linear;
+	        transition: opacity 0.2s linear;
+	}
+.leaflet-fade-anim .leaflet-map-pane .leaflet-popup {
+	opacity: 1;
+	}
+.leaflet-zoom-animated {
+	-webkit-transform-origin: 0 0;
+	    -ms-transform-origin: 0 0;
+	        transform-origin: 0 0;
+	}
+svg.leaflet-zoom-animated {
+	will-change: transform;
+}
+.leaflet-zoom-anim .leaflet-zoom-animated {
+	-webkit-transition: -webkit-transform 0.25s cubic-bezier(0,0,0.25,1);
+	   -moz-transition:    -moz-transform 0.25s cubic-bezier(0,0,0.25,1);
+	        transition:         transform 0.25s cubic-bezier(0,0,0.25,1);
+	}
+.leaflet-zoom-anim .leaflet-tile,
+.leaflet-pan-anim .leaflet-tile {
+	-webkit-transition: none;
+	   -moz-transition: none;
+	        transition: none;
+	}
+.leaflet-zoom-anim .leaflet-zoom-hide {
+	visibility: hidden;
+	}
+.leaflet-interactive {
+	cursor: pointer;
+	}
+.leaflet-grab {
+	cursor: -webkit-grab;
+	cursor:    -moz-grab;
+	cursor:         grab;
+	}
+.leaflet-crosshair,
+.leaflet-crosshair .leaflet-interactive {
+	cursor: crosshair;
+	}
+.leaflet-popup-pane,
+.leaflet-control {
+	cursor: auto;
+	}
+.leaflet-dragging .leaflet-grab,
+.leaflet-dragging .leaflet-grab .leaflet-interactive,
+.leaflet-dragging .leaflet-marker-draggable {
+	cursor: move;
+	cursor: -webkit-grabbing;
+	cursor:    -moz-grabbing;
+	cursor:         grabbing;
+	}
+.leaflet-marker-icon,
+.leaflet-marker-shadow,
+.leaflet-image-layer,
+.leaflet-pane > svg path,
+.leaflet-tile-container {
+	pointer-events: none;
+	}
+.leaflet-marker-icon.leaflet-interactive,
+.leaflet-image-layer.leaflet-interactive,
+.leaflet-pane > svg path.leaflet-interactive,
+svg.leaflet-image-layer.leaflet-interactive path {
+	pointer-events: visiblePainted; 
+	pointer-events: auto;
+	}
+.leaflet-container {
+	background: #ddd;
+	outline-offset: 1px;
+	}
+.leaflet-container a {
+	color: #0078A8;
+	}
+.leaflet-zoom-box {
+	border: 2px dotted #38f;
+	background: rgba(255,255,255,0.5);
+	}
+.leaflet-container {
+	font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-size: 0.75rem;
+	line-height: 1.5;
+	}
+.leaflet-bar {
+	box-shadow: 0 1px 5px rgba(0,0,0,0.65);
+	border-radius: 4px;
+	}
+.leaflet-bar a {
+	background-color: #fff;
+	border-bottom: 1px solid #ccc;
+	width: 26px;
+	height: 26px;
+	line-height: 26px;
+	display: block;
+	text-align: center;
+	text-decoration: none;
+	color: black;
+	}
+.leaflet-bar a,
+.leaflet-control-layers-toggle {
+	background-position: 50% 50%;
+	background-repeat: no-repeat;
+	display: block;
+	}
+.leaflet-bar a:hover,
+.leaflet-bar a:focus {
+	background-color: #f4f4f4;
+	}
+.leaflet-bar a:first-child {
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
+	}
+.leaflet-bar a:last-child {
+	border-bottom-left-radius: 4px;
+	border-bottom-right-radius: 4px;
+	border-bottom: none;
+	}
+.leaflet-bar a.leaflet-disabled {
+	cursor: default;
+	background-color: #f4f4f4;
+	color: #bbb;
+	}
+.leaflet-touch .leaflet-bar a {
+	width: 30px;
+	height: 30px;
+	line-height: 30px;
+	}
+.leaflet-touch .leaflet-bar a:first-child {
+	border-top-left-radius: 2px;
+	border-top-right-radius: 2px;
+	}
+.leaflet-touch .leaflet-bar a:last-child {
+	border-bottom-left-radius: 2px;
+	border-bottom-right-radius: 2px;
+	}
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out {
+	font: bold 18px 'Lucida Console', Monaco, monospace;
+	text-indent: 1px;
+	}
+.leaflet-touch .leaflet-control-zoom-in, .leaflet-touch .leaflet-control-zoom-out  {
+	font-size: 22px;
+	}
+.leaflet-control-layers {
+	box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+	background: #fff;
+	border-radius: 5px;
+	}
+.leaflet-control-layers-toggle {
+	width: 36px;
+	height: 36px;
+	}
+.leaflet-retina .leaflet-control-layers-toggle {
+	background-size: 26px 26px;
+	}
+.leaflet-touch .leaflet-control-layers-toggle {
+	width: 44px;
+	height: 44px;
+	}
+.leaflet-control-layers .leaflet-control-layers-list,
+.leaflet-control-layers-expanded .leaflet-control-layers-toggle {
+	display: none;
+	}
+.leaflet-control-layers-expanded .leaflet-control-layers-list {
+	display: block;
+	position: relative;
+	}
+.leaflet-control-layers-expanded {
+	padding: 6px 10px 6px 6px;
+	color: #333;
+	background: #fff;
+	}
+.leaflet-control-layers-scrollbar {
+	overflow-y: scroll;
+	overflow-x: hidden;
+	padding-right: 5px;
+	}
+.leaflet-control-layers-selector {
+	margin-top: 2px;
+	position: relative;
+	top: 1px;
+	}
+.leaflet-control-layers label {
+	display: block;
+	font-size: 13px;
+	font-size: 1.08333em;
+	}
+.leaflet-control-layers-separator {
+	height: 0;
+	border-top: 1px solid #ddd;
+	margin: 5px -10px 5px -6px;
+	}
+.leaflet-default-icon-path { 
+	}
+.leaflet-container .leaflet-control-attribution {
+	background: #fff;
+	background: rgba(255, 255, 255, 0.8);
+	margin: 0;
+	}
+.leaflet-control-attribution,
+.leaflet-control-scale-line {
+	padding: 0 5px;
+	color: #333;
+	line-height: 1.4;
+	}
+.leaflet-control-attribution a {
+	text-decoration: none;
+	}
+.leaflet-control-attribution a:hover,
+.leaflet-control-attribution a:focus {
+	text-decoration: underline;
+	}
+.leaflet-attribution-flag {
+	display: inline !important;
+	vertical-align: baseline !important;
+	width: 1em;
+	height: 0.6669em;
+	}
+.leaflet-left .leaflet-control-scale {
+	margin-left: 5px;
+	}
+.leaflet-bottom .leaflet-control-scale {
+	margin-bottom: 5px;
+	}
+.leaflet-control-scale-line {
+	border: 2px solid #777;
+	border-top: none;
+	line-height: 1.1;
+	padding: 2px 5px 1px;
+	white-space: nowrap;
+	-moz-box-sizing: border-box;
+	     box-sizing: border-box;
+	background: rgba(255, 255, 255, 0.8);
+	text-shadow: 1px 1px #fff;
+	}
+.leaflet-control-scale-line:not(:first-child) {
+	border-top: 2px solid #777;
+	border-bottom: none;
+	margin-top: -2px;
+	}
+.leaflet-control-scale-line:not(:first-child):not(:last-child) {
+	border-bottom: 2px solid #777;
+	}
+.leaflet-touch .leaflet-control-attribution,
+.leaflet-touch .leaflet-control-layers,
+.leaflet-touch .leaflet-bar {
+	box-shadow: none;
+	}
+.leaflet-touch .leaflet-control-layers,
+.leaflet-touch .leaflet-bar {
+	border: 2px solid rgba(0,0,0,0.2);
+	background-clip: padding-box;
+	}
+.leaflet-popup {
+	position: absolute;
+	text-align: center;
+	margin-bottom: 20px;
+	}
+.leaflet-popup-content-wrapper {
+	padding: 1px;
+	text-align: left;
+	border-radius: 12px;
+	}
+.leaflet-popup-content {
+	margin: 13px 24px 13px 20px;
+	line-height: 1.3;
+	font-size: 13px;
+	font-size: 1.08333em;
+	min-height: 1px;
+	}
+.leaflet-popup-content p {
+	margin: 17px 0;
+	margin: 1.3em 0;
+	}
+.leaflet-popup-tip-container {
+	width: 40px;
+	height: 20px;
+	position: absolute;
+	left: 50%;
+	margin-top: -1px;
+	margin-left: -20px;
+	overflow: hidden;
+	pointer-events: none;
+	}
+.leaflet-popup-tip {
+	width: 17px;
+	height: 17px;
+	padding: 1px;
+	margin: -10px auto 0;
+	pointer-events: auto;
+	-webkit-transform: rotate(45deg);
+	   -moz-transform: rotate(45deg);
+	    -ms-transform: rotate(45deg);
+	        transform: rotate(45deg);
+	}
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+	background: white;
+	color: #333;
+	box-shadow: 0 3px 14px rgba(0,0,0,0.4);
+	}
+.leaflet-container a.leaflet-popup-close-button {
+	position: absolute;
+	top: 0;
+	right: 0;
+	border: none;
+	text-align: center;
+	width: 24px;
+	height: 24px;
+	font: 16px/24px Tahoma, Verdana, sans-serif;
+	color: #757575;
+	text-decoration: none;
+	background: transparent;
+	}
+.leaflet-container a.leaflet-popup-close-button:hover,
+.leaflet-container a.leaflet-popup-close-button:focus {
+	color: #585858;
+	}
+.leaflet-popup-scrolled {
+	overflow: auto;
+	}
+.leaflet-oldie .leaflet-popup-content-wrapper {
+	-ms-zoom: 1;
+	}
+.leaflet-oldie .leaflet-popup-tip {
+	width: 24px;
+	margin: 0 auto;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678)";
+	filter: progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678);
+	}
+.leaflet-oldie .leaflet-control-zoom,
+.leaflet-oldie .leaflet-control-layers,
+.leaflet-oldie .leaflet-popup-content-wrapper,
+.leaflet-oldie .leaflet-popup-tip {
+	border: 1px solid #999;
+	}
+.leaflet-div-icon {
+	background: #fff;
+	border: 1px solid #666;
+	}
+.leaflet-tooltip {
+	position: absolute;
+	padding: 6px;
+	background-color: #fff;
+	border: 1px solid #fff;
+	border-radius: 3px;
+	color: #222;
+	white-space: nowrap;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	pointer-events: none;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+	}
+.leaflet-tooltip.leaflet-interactive {
+	cursor: pointer;
+	pointer-events: auto;
+	}
+.leaflet-tooltip-top:before,
+.leaflet-tooltip-bottom:before,
+.leaflet-tooltip-left:before,
+.leaflet-tooltip-right:before {
+	position: absolute;
+	pointer-events: none;
+	border: 6px solid transparent;
+	background: transparent;
+	content: "";
+	}
+.leaflet-tooltip-bottom {
+	margin-top: 6px;
+}
+.leaflet-tooltip-top {
+	margin-top: -6px;
+}
+.leaflet-tooltip-bottom:before,
+.leaflet-tooltip-top:before {
+	left: 50%;
+	margin-left: -6px;
+	}
+.leaflet-tooltip-top:before {
+	bottom: 0;
+	margin-bottom: -12px;
+	border-top-color: #fff;
+	}
+.leaflet-tooltip-bottom:before {
+	top: 0;
+	margin-top: -12px;
+	margin-left: -6px;
+	border-bottom-color: #fff;
+	}
+.leaflet-tooltip-left {
+	margin-left: -6px;
+}
+.leaflet-tooltip-right {
+	margin-left: 6px;
+}
+.leaflet-tooltip-left:before,
+.leaflet-tooltip-right:before {
+	top: 50%;
+	margin-top: -6px;
+	}
+.leaflet-tooltip-left:before {
+	right: 0;
+	margin-right: -12px;
+	border-left-color: #fff;
+	}
+.leaflet-tooltip-right:before {
+	left: 0;
+	margin-left: -12px;
+	border-right-color: #fff;
+	}
+@media print {
+	.leaflet-control {
+		-webkit-print-color-adjust: exact;
+		print-color-adjust: exact;
+		}
+	}
+:root{color-scheme:light dark;--bg:light-dark(#ffffff,#0b2427);--panel:light-dark(#ffffff,#0e2f33);--soft:light-dark(#eef6f6,#133d42);--line:light-dark(#d5e3e3,#21545a);--ink:light-dark(#0c1d1f,#eaf6f5);--mute:light-dark(#4b6467,#9fc0c2);--coral:#ff4f6d;--sun:#ffc24b;--sea:#2f90b0;--ok:light-dark(#0b8a5b,#3fd69a)}
+:root[data-theme=light]{color-scheme:light}
+:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--ink);font:15px/1.45 Inter,system-ui,-apple-system,sans-serif;overflow:hidden}
+#map{position:fixed;inset:0;background:#2f90b0}
+.leaflet-container{font:inherit;background:#2f90b0}
+.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:var(--panel);color:var(--ink);border-radius:12px}
+.leaflet-popup-content{margin:12px 14px;font-size:14px;line-height:1.4}
+.leaflet-control-attribution{font-size:11px;background:color-mix(in srgb,var(--panel) 85%,transparent)!important;color:var(--mute)}
+.leaflet-control-attribution a{color:var(--mute)}
+.leaflet-bar a{background:var(--panel);color:var(--ink);border-color:var(--line)}
+#panel{position:fixed;z-index:1000;background:var(--panel);display:flex;flex-direction:column;box-shadow:0 0 0 1px var(--line)}
+@media(min-width:760px){#panel{top:12px;left:12px;bottom:12px;width:380px;border-radius:16px;overflow:hidden}.leaflet-left{left:400px}#grab{display:none}}
+@media(max-width:759px){#panel{left:0;right:0;bottom:0;height:calc(178px + env(safe-area-inset-bottom,0px));border-radius:18px 18px 0 0;transition:height .25s ease;padding-bottom:env(safe-area-inset-bottom,0px)}#panel.open{height:58svh}.leaflet-bottom{bottom:calc(178px + env(safe-area-inset-bottom,0px))}}
+@media(prefers-reduced-motion:reduce){#panel{transition:none}}
+#grab{border:0;background:none;padding:8px 0 2px;width:100%;cursor:pointer}
+#grab span{display:block;width:44px;height:5px;border-radius:3px;background:var(--line);margin:0 auto}
+header{padding:10px 16px 8px;display:flex;align-items:center;gap:10px}
+h1{font:400 26px/1.05 Anton,Impact,sans-serif;letter-spacing:.01em;margin:0;flex:1}
+h1 b{color:var(--coral);font-weight:400}
+#q{width:100%;font:16px Inter,sans-serif;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--soft);color:var(--ink)}
+.searchbox{padding:0 16px 8px;position:relative}
+#results{position:absolute;left:16px;right:16px;top:46px;background:var(--panel);border:1px solid var(--line);border-radius:10px;max-height:260px;overflow:auto;z-index:5;display:none}
+#results button{display:block;width:100%;text-align:left;padding:10px 12px;border:0;border-bottom:1px solid var(--line);background:none;color:var(--ink);font:14px Inter,sans-serif;cursor:pointer}
+#results small{color:var(--mute)}
+nav{display:flex;gap:4px;padding:0 12px;border-bottom:1px solid var(--line)}
+nav button{flex:1;border:0;background:none;color:var(--mute);font:600 13.5px Inter,sans-serif;padding:10px 2px 9px;white-space:nowrap;border-bottom:3px solid transparent;cursor:pointer;min-height:44px}
+nav button[aria-selected=true]{color:var(--ink);border-bottom-color:var(--coral)}
+nav i{font-style:normal;font-weight:500;font-size:12px;color:var(--mute)}
+.tab{flex:1;overflow:auto;padding:12px 16px 24px;display:none}
+.tab.on{display:block}
+h2{font:400 20px/1.1 Anton,Impact,sans-serif;margin:14px 0 8px;letter-spacing:.01em}
+h2:first-child{margin-top:2px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;padding:7px 11px;font:500 13px Inter,sans-serif;cursor:pointer;min-height:36px}
+.chip[aria-pressed=false]{opacity:.45}
+.dot{width:11px;height:11px;border-radius:50%;flex:none;border:2px solid #fff}
+.muted{color:var(--mute);font-size:13px}
+.card{border:1px solid var(--line);border-radius:12px;padding:11px 12px;margin-bottom:8px;background:var(--panel)}
+.card.done{background:var(--soft)}
+.card h3{margin:0;font:600 15px/1.3 Inter,sans-serif}
+.card.done h3{text-decoration:line-through;text-decoration-color:var(--mute)}
+.card p{margin:4px 0 0;font-size:14px}
+.card .note{color:var(--mute);font-size:13px}
+.row{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;align-items:center}
+.btn{border:1px solid var(--line);background:var(--soft);color:var(--ink);border-radius:8px;padding:7px 10px;font:600 13px Inter,sans-serif;cursor:pointer;min-height:36px}
+.btn.hot{background:var(--coral);border-color:var(--coral);color:#fff}
+.btn[disabled]{opacity:.4}
+label.ck{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;cursor:pointer;min-height:36px;padding-right:6px}
+label.ck input{width:20px;height:20px;accent-color:var(--coral)}
+.tag{display:inline-block;font:600 11px Inter,sans-serif;padding:2px 7px;border-radius:6px;background:var(--sun);color:#3a2a00;margin-left:4px;vertical-align:2px;white-space:nowrap}
+.tag.trophy{background:var(--coral);color:#fff}
+.src{font-size:12px;color:var(--mute);margin-top:6px}
+.pnr{border-left:4px solid var(--coral);background:color-mix(in srgb,var(--coral) 12%,var(--panel));padding:10px 12px;border-radius:0 10px 10px 0;font-size:14px;margin-bottom:10px}
+.bar{height:8px;border-radius:4px;background:var(--soft);overflow:hidden;margin:6px 0 2px}
+.bar span{display:block;height:100%;background:var(--coral)}
+select,input[type=text],textarea{font:16px Inter,sans-serif;padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:var(--soft);color:var(--ink);width:100%}
+textarea{min-height:90px}
+.form{display:grid;gap:8px;margin-top:8px}
+.carpin{width:30px;height:30px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:var(--coral);border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35);display:grid;place-items:center}
+.carpin.got{background:#3fb37f}
+.carpin svg{transform:rotate(45deg);width:16px;height:16px}
+.minepin{width:22px;height:22px;border-radius:50%;background:var(--sun);border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35)}
+#cross{position:fixed;z-index:900;left:50%;top:50%;width:26px;height:26px;margin:-13px 0 0 -13px;pointer-events:none;display:none}
+#cross:before,#cross:after{content:"";position:absolute;background:var(--coral)}
+#cross:before{left:12px;top:0;width:2px;height:26px}#cross:after{top:12px;left:0;height:2px;width:26px}
+@media(min-width:760px){#cross{left:calc(50% + 196px)}}
+@media(max-width:759px){#cross{top:calc(50% - 89px)}}
+.links{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.links a{display:inline-flex;align-items:center;min-height:32px;padding:5px 10px;border-radius:8px;background:color-mix(in srgb,var(--sea) 14%,var(--panel));color:var(--ink);font:600 12.5px Inter,sans-serif;text-decoration:none;border:1px solid var(--line)}
+.links a:after{content:"↗";margin-left:5px;color:var(--mute)}
+.eggpin{width:26px;height:26px;border-radius:50%;background:var(--sun);border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35);display:grid;place-items:center;font:700 13px Inter,sans-serif;color:#3a2a00}
+.eggpin.got{background:#3fb37f;color:#fff}
+.credits{font-size:12px;color:var(--mute);margin-top:18px}
+.credits a{color:inherit}
+</style>
+</head>
+<body>
+<div id="map" role="application" aria-label="Mappa di Leonida"></div>
+<div id="cross" aria-hidden="true"></div>
+<section id="panel" aria-label="Pannello">
+  <button id="grab" aria-label="Apri o chiudi il pannello"><span></span></button>
+  <header><h1>Leonida <b>Companion</b></h1></header>
+  <div class="searchbox"><input id="q" type="text" placeholder="Cerca un luogo, un negozio, un'auto…" autocomplete="off" aria-label="Cerca"><div id="results" role="listbox"></div></div>
+  <nav role="tablist">
+    <button role="tab" data-t="mappa" aria-selected="true">Mappa</button>
+    <button role="tab" data-t="auto" aria-selected="false">Auto <i id="carCount"></i></button>
+    <button role="tab" data-t="cap" aria-selected="false">Capitoli</button>
+    <button role="tab" data-t="segreti" aria-selected="false">Segreti</button>
+    <button role="tab" data-t="miei" aria-selected="false">Pin</button>
+  </nav>
+  <div class="tab on" id="t-mappa">
+    <h2>Cosa mostrare</h2>
+    <div class="chips" id="cats"></div>
+    <p class="muted">Negozi e servizi presi dalla mappa della comunità GTADB: è ancora parziale, il gioco è uscito da pochi giorni. Tocca un punto per segnarlo come visitato; tieni premuto sulla mappa per aggiungere un tuo pin.</p>
+    <div class="row"><button class="btn" id="allOn">Mostra tutto</button><button class="btn" id="allOff">Nascondi tutto</button></div>
+    <h2>Backup dei progressi</h2>
+    <p class="muted">Le spunte restano salvate in questo browser. Copia il backup ogni tanto, così non le perdi se cambi telefono.</p>
+    <div class="row"><button class="btn" id="exp">Copia backup</button><button class="btn" id="impT">Incolla backup</button></div>
+    <div class="form" id="impF" hidden><textarea id="impX" aria-label="Testo del backup"></textarea><div class="row"><button class="btn hot" id="impGo">Ripristina</button><span class="muted" id="impMsg"></span></div></div>
+    <p class="credits">Mappa e luoghi: <a href="https://map.gtadb.org">GTA VI Map Tiles e GTA VI Landmarks Data — map.gtadb.org</a>, gtadb.org e contributori, licenza <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. Grafica della mappa: Rockstar Games. Le tile sono state ricomposte in blocchi più grandi. App non ufficiale, senza legami con Rockstar.</p>
+  </div>
+  <div class="tab" id="t-auto">
+    <div class="row" style="margin-top:0"><label class="ck"><input type="checkbox" id="carLayer" checked> Mostra le auto sulla mappa</label></div>
+    <div class="bar"><span id="carBar"></span></div><p class="muted" id="carTxt"></p>
+    <p class="muted">Posizioni dalle guide uscite nei primi giorni: molte sono indicate solo per zona e alcune fonti non sono d'accordo. Quando trovi un'auto, usa «Correggi posizione» e trascina il pin dove si trova davvero.</p>
+    <div id="cars"></div>
+  </div>
+  <div class="tab" id="t-cap">
+    <div class="form" style="margin-top:0"><label for="chap" class="muted">Sono al capitolo</label><select id="chap"><option value="1">Capitolo 1</option><option value="2">Capitolo 2</option><option value="3">Capitolo 3</option><option value="4">Capitolo 4</option><option value="5">Capitolo 5</option></select></div>
+    <div class="row"><label class="ck"><input type="checkbox" id="later"> Mostra anche i capitoli successivi (spoiler)</label></div>
+    <div id="chapters"></div>
+    <h2>Sempre valido</h2>
+    <div id="always"></div>
+  </div>
+  <div class="tab" id="t-segreti">
+    <div class="row" style="margin-top:0"><label class="ck"><input type="checkbox" id="eggLayer" checked> Mostra i segreti sulla mappa</label></div>
+    <p class="muted">Easter egg e segreti trovati dai giocatori nei primi giorni. Dove le guide danno solo la zona il pin è indicativo: spostalo quando lo trovi.</p>
+    <div id="eggs"></div>
+  </div>
+  <div class="tab" id="t-miei">
+    <p class="muted" style="margin-top:0">Tieni premuto sulla mappa, oppure centra la mappa sul mirino e premi il pulsante.</p>
+    <div class="row" style="margin-top:0"><button class="btn hot" id="addC">Aggiungi pin al centro</button></div>
+    <div class="form" id="mineF" hidden>
+      <input type="text" id="mName" placeholder="Nome (es. Garage con Infernus)" aria-label="Nome del pin">
+      <input type="text" id="mNote" placeholder="Nota (facoltativa)" aria-label="Nota">
+      <div class="row"><button class="btn hot" id="mSave">Salva</button><button class="btn" id="mCancel">Annulla</button></div>
+    </div>
+    <div id="mine" style="margin-top:10px"></div>
+  </div>
+</section>
+<script src="leaflet.js"></script>
+<script>
+{
+const KEY = "leonida-companion-v1";
+const CAT_COLOR = {armi:"#e5383b",vestiti:"#c86bfa",barbiere:"#ff8fb1",officina:"#ff9f1c",benzina:"#f4d35e",negozi:"#2ec4b6",ricettatori:"#8d6e63",cibo:"#ff6b35",rifugi:"#ffffff",attivita:"#06d6a0",servizi:"#4d96ff",trasporti:"#6c7a89"};
+const OFF_BY_DEFAULT = ["trasporti"];
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+const ll = p => [(p[1] - 16384) / 32, (p[0] + 16384) / 32];
+const back = l => [Math.round(l.lng * 32 - 16384), Math.round(l.lat * 32 + 16384)];
+const $ = id => document.getElementById(id);
+
+let S = {poi:{}, cars:{}, items:{}, eggs:{}, chapter:1, later:false, cats:{}, mine:[], carLayer:true, eggLayer:true};
+try { Object.assign(S, JSON.parse(localStorage.getItem(KEY) || "{}")); } catch (e) {}
+const hd = window.claude?.hot?.data; if (hd && hd.poi) Object.assign(S, hd);
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
+window.claude?.hot?.snapshot?.(() => S);
+
+const map = L.map("map", {crs: L.CRS.Simple, minZoom: 0, maxZoom: 6, zoomSnap: .5, zoomControl: true, attributionControl: true, maxBounds: [[-1024, 0], [0, 1024]], maxBoundsViscosity: .8, tapHold: true});
+const WB = [[-1024, 0], [0, 1024]];
+L.tileLayer("tiles/{z}/{x}_{y}.jpg", {tileSize: 1024, minZoom: 0, maxZoom: 3.5, maxNativeZoom: 3, noWrap: true, bounds: WB,
+  attribution: 'Mappa: <a href="https://map.gtadb.org">GTADB.ORG</a> (CC BY 4.0), grafica Rockstar Games'}).addTo(map);
+L.tileLayer("big/{z}/{x}_{y}.jpg", {tileSize: 2048, minZoom: 4, maxZoom: 6, minNativeZoom: 4, maxNativeZoom: 5, noWrap: true, bounds: WB}).addTo(map);
+map.setView(ll([-600, 0]), 2.5);
+const rend = L.canvas({padding: .3});
+const poiLayer = L.layerGroup().addTo(map), carLayer = L.layerGroup(), eggLayer = L.layerGroup(), mineLayer = L.layerGroup().addTo(map);
+let D = null, poiMarkers = {}, carMarkers = {}, eggMarkers = {}, tmp = null;
+const lk = a => a && a.length ? '<div class="links">' + a.map(l => '<a href="' + esc(l[1]) + '" target="_blank" rel="noopener">' + esc(l[0]) + "</a>").join("") + "</div>" : "";
+
+const panel = $("panel");
+$("grab").onclick = () => panel.classList.toggle("open");
+const openPanel = () => { if (innerWidth < 760) panel.classList.add("open"); };
+const closePanel = () => { if (innerWidth < 760) panel.classList.remove("open"); };
+document.querySelectorAll("nav button").forEach(b => b.onclick = () => {
+  document.querySelectorAll("nav button").forEach(x => x.setAttribute("aria-selected", x === b));
+  document.querySelectorAll(".tab").forEach(t => t.classList.toggle("on", t.id === "t-" + b.dataset.t));
+  $("cross").style.display = b.dataset.t === "miei" ? "block" : "none";
+  openPanel();
+});
+const fly = (p, z = 4.5) => { closePanel(); map.flyTo(ll(p), Math.max(map.getZoom(), z), {duration: .6}); };
+const flash = (p, label) => {
+  if (tmp) map.removeLayer(tmp);
+  tmp = L.circleMarker(ll(p), {radius: 16, color: "#ff4f6d", weight: 3, fill: false}).addTo(map).bindTooltip(esc(label), {permanent: true, direction: "top", offset: [0, -14]});
+  fly(p);
+};
+
+const carSvg = '<svg viewBox="0 0 24 24" fill="#fff"><path d="M5 11l1.6-4.2A2 2 0 0 1 8.5 5.5h7a2 2 0 0 1 1.9 1.3L19 11a2 2 0 0 1 1.5 2v4h-2v2h-3v-2h-7v2h-3v-2h-2v-4A2 2 0 0 1 5 11zm2.2 0h9.6l-1.2-3.4a.6.6 0 0 0-.6-.4H9a.6.6 0 0 0-.6.4zM6.5 15a1.2 1.2 0 1 0 0-2.4 1.2 1.2 0 0 0 0 2.4zm11 0a1.2 1.2 0 1 0 0-2.4 1.2 1.2 0 0 0 0 2.4z"/></svg>';
+const carIcon = got => L.divIcon({className: "", html: '<div class="carpin' + (got ? " got" : "") + '">' + carSvg + "</div>", iconSize: [30, 30], iconAnchor: [15, 30], popupAnchor: [0, -28]});
+const mineIcon = L.divIcon({className: "", html: '<div class="minepin"></div>', iconSize: [22, 22], iconAnchor: [11, 11]});
+
+function poiPopup(p) {
+  const done = !!S.poi[p.id];
+  return '<b>' + esc(p.n) + '</b><br><span class="muted">' + esc(p.t) + (p.w ? " · " + esc(p.w) : "") + '</span><br><label class="ck"><input type="checkbox" data-poi="' + esc(p.id) + '"' + (done ? " checked" : "") + '> Visitato</label>';
+}
+function drawPois() {
+  poiLayer.clearLayers(); poiMarkers = {};
+  for (const p of D.pois) {
+    if (S.cats[p.c] === false) continue;
+    const done = !!S.poi[p.id];
+    const m = L.circleMarker(ll(p.p), {renderer: rend, radius: 6, weight: 2, color: done ? "#9aa" : "#fff", fillColor: CAT_COLOR[p.c] || "#999", fillOpacity: done ? .35 : 1});
+    m.bindPopup(() => poiPopup(p)); m.addTo(poiLayer); poiMarkers[p.id] = m;
+  }
+}
+function drawCats() {
+  const n = {}; D.pois.forEach(p => n[p.c] = (n[p.c] || 0) + 1);
+  $("cats").innerHTML = D.cats.map(([c, lab]) => '<button class="chip" data-c="' + c + '" aria-pressed="' + (S.cats[c] !== false) + '"><span class="dot" style="background:' + CAT_COLOR[c] + '"></span>' + esc(lab) + " <span class=\"muted\">" + (n[c] || 0) + "</span></button>").join("");
+}
+$("cats").onclick = e => { const b = e.target.closest(".chip"); if (!b) return; const c = b.dataset.c; S.cats[c] = S.cats[c] === false; save(); drawCats(); drawPois(); };
+$("allOn").onclick = () => { D.cats.forEach(([c]) => S.cats[c] = true); save(); drawCats(); drawPois(); };
+$("allOff").onclick = () => { D.cats.forEach(([c]) => S.cats[c] = false); save(); drawCats(); drawPois(); };
+map.on("popupopen", e => {
+  const box = e.popup.getElement(); if (!box) return;
+  box.querySelectorAll("input[data-poi]").forEach(i => i.onchange = () => { S.poi[i.dataset.poi] = i.checked; if (!i.checked) delete S.poi[i.dataset.poi]; save(); drawPois(); });
+  box.querySelectorAll("input[data-car]").forEach(i => i.onchange = () => setCar(i.dataset.car, i.dataset.k, i.checked));
+});
+
+const carPos = c => (S.cars[c.id] && S.cars[c.id].p) || c.p;
+function carPopup(c) {
+  const st = S.cars[c.id] || {};
+  return '<b>' + esc(c.n) + '</b><br><span class="muted">' + esc(c.zona) + '</span><p style="margin:6px 0 0">' + esc(c.d) + '</p><label class="ck"><input type="checkbox" data-car="' + esc(c.id) + '" data-k="found"' + (st.found ? " checked" : "") + '> Trovata</label> <label class="ck"><input type="checkbox" data-car="' + esc(c.id) + '" data-k="reg"' + (st.reg ? " checked" : "") + '> Registrata</label>' + lk((c.links || []).slice(0, 1));
+}
+function drawCars() {
+  carLayer.clearLayers(); carMarkers = {};
+  for (const c of D.cars) {
+    const p = carPos(c); if (!p) continue;
+    const st = S.cars[c.id] || {};
+    if (c.prec === "zona" && !(st.p)) L.circle(ll(p), {radius: 300 / 32, color: "#ff4f6d", weight: 1.5, dashArray: "4 4", fillOpacity: .08, interactive: false}).addTo(carLayer);
+    const m = L.marker(ll(p), {icon: carIcon(st.found), draggable: !!st.edit}).bindPopup(() => carPopup(c));
+    m.on("dragend", () => { S.cars[c.id] = Object.assign(S.cars[c.id] || {}, {p: back(m.getLatLng())}); save(); drawCars(); });
+    m.addTo(carLayer); carMarkers[c.id] = m;
+  }
+  if (S.carLayer) carLayer.addTo(map); else map.removeLayer(carLayer);
+}
+function setCar(id, k, v) { S.cars[id] = Object.assign(S.cars[id] || {}, {[k]: v}); save(); drawCars(); drawCarList(); }
+function drawCarList() {
+  const got = D.cars.filter(c => (S.cars[c.id] || {}).found).length;
+  $("carCount").textContent = got + "/" + D.cars.length;
+  $("carBar").style.width = (got / D.cars.length * 100) + "%";
+  $("carTxt").textContent = got + " trovate su " + D.cars.length + " segnalate, " + D.cars.filter(c => (S.cars[c.id] || {}).reg).length + " registrate.";
+  $("cars").innerHTML = D.cars.map(c => {
+    const st = S.cars[c.id] || {}, pos = carPos(c);
+    const where = st.p ? "posizione corretta da te" : c.prec === "edificio" ? "pin sull'edificio" : c.prec === "zona" ? "pin solo sulla zona" : "senza pin";
+    return '<div class="card' + (st.found ? " done" : "") + '"><h3>' + esc(c.n) + '</h3><div class="muted">' + esc(c.zona) + " · " + where + '</div><p>' + esc(c.d) + '</p>' + (c.note ? '<p class="note">' + esc(c.note) + '</p>' : "") +
+      '<div class="row"><label class="ck"><input type="checkbox" data-cid="' + esc(c.id) + '" data-k="found"' + (st.found ? " checked" : "") + '> Trovata</label><label class="ck"><input type="checkbox" data-cid="' + esc(c.id) + '" data-k="reg"' + (st.reg ? " checked" : "") + '> Registrata</label></div>' +
+      '<div class="row">' + (pos ? '<button class="btn" data-go="' + esc(c.id) + '">Vedi sulla mappa</button><button class="btn' + (st.edit ? " hot" : "") + '" data-edit="' + esc(c.id) + '">' + (st.edit ? "Fatto" : "Correggi posizione") + "</button>" : '<button class="btn" data-place="' + esc(c.id) + '">Metti il pin al centro della mappa</button>') + '</div>' +
+      lk(c.links) + (c.src.length ? '<div class="src">Fonti: ' + c.src.map(esc).join(", ") + "</div>" : "") + "</div>";
+  }).join("");
+}
+$("cars").onclick = e => {
+  const t = e.target;
+  if (t.dataset.go) { const c = D.cars.find(x => x.id === t.dataset.go); fly(carPos(c)); setTimeout(() => carMarkers[c.id]?.openPopup(), 700); }
+  if (t.dataset.edit) { const st = S.cars[t.dataset.edit] = S.cars[t.dataset.edit] || {}; st.edit = !st.edit; save(); drawCars(); drawCarList(); if (st.edit) fly(carPos(D.cars.find(x => x.id === t.dataset.edit))); }
+  if (t.dataset.place) { S.cars[t.dataset.place] = Object.assign(S.cars[t.dataset.place] || {}, {p: back(map.getCenter()), edit: true}); save(); drawCars(); drawCarList(); }
+};
+$("cars").onchange = e => { const i = e.target; if (i.dataset.cid) setCar(i.dataset.cid, i.dataset.k, i.checked); };
+$("carLayer").onchange = e => { S.carLayer = e.target.checked; save(); drawCars(); };
+
+const eggPos = e => (S.eggs[e.id] && S.eggs[e.id].p) || e.p;
+const eggIcon = got => L.divIcon({className: "", html: '<div class="eggpin' + (got ? " got" : "") + '">★</div>', iconSize: [26, 26], iconAnchor: [13, 13], popupAnchor: [0, -12]});
+function drawEggs() {
+  eggLayer.clearLayers(); eggMarkers = {};
+  for (const e of D.eggs) {
+    const p = eggPos(e); if (!p) continue;
+    const st = S.eggs[e.id] || {};
+    const m = L.marker(ll(p), {icon: eggIcon(st.seen), draggable: !!st.edit}).bindPopup(() => '<b>' + esc(e.n) + '</b><br><span class="muted">' + esc(e.zona) + '</span><p style="margin:6px 0 0">' + esc(e.d) + '</p>' + lk(e.links.slice(0, 1)));
+    m.on("dragend", () => { S.eggs[e.id] = Object.assign(S.eggs[e.id] || {}, {p: back(m.getLatLng())}); save(); drawEggs(); });
+    m.addTo(eggLayer); eggMarkers[e.id] = m;
+  }
+  if (S.eggLayer) eggLayer.addTo(map); else map.removeLayer(eggLayer);
+  $("eggs").innerHTML = D.eggs.map(e => {
+    const st = S.eggs[e.id] || {}, pos = eggPos(e);
+    const where = st.p ? "posizione corretta da te" : e.prec === "edificio" ? "pin sull'edificio" : e.prec === "zona" ? "pin indicativo" : "senza pin";
+    return '<div class="card' + (st.seen ? " done" : "") + '"><h3>' + esc(e.n) + '</h3><div class="muted">' + esc(e.zona) + " · " + where + '</div><p>' + esc(e.d) + '</p>' + (e.note ? '<p class="note">' + esc(e.note) + '</p>' : "") +
+      '<div class="row"><label class="ck"><input type="checkbox" data-eid="' + esc(e.id) + '"' + (st.seen ? " checked" : "") + '> Visto</label>' + (pos ? '<button class="btn" data-ego="' + esc(e.id) + '">Vedi sulla mappa</button><button class="btn' + (st.edit ? " hot" : "") + '" data-eedit="' + esc(e.id) + '">' + (st.edit ? "Fatto" : "Correggi posizione") + "</button>" : '<button class="btn" data-eplace="' + esc(e.id) + '">Metti il pin al centro</button>') + '</div>' +
+      lk(e.links) + '<div class="src">Fonti: ' + e.src.map(esc).join(", ") + "</div></div>";
+  }).join("");
+}
+$("eggs").onclick = e => {
+  const t = e.target, D2 = id => D.eggs.find(x => x.id === id);
+  if (t.dataset.ego) { fly(eggPos(D2(t.dataset.ego))); setTimeout(() => eggMarkers[t.dataset.ego]?.openPopup(), 700); }
+  if (t.dataset.eedit) { const st = S.eggs[t.dataset.eedit] = S.eggs[t.dataset.eedit] || {}; st.edit = !st.edit; save(); drawEggs(); if (st.edit) fly(eggPos(D2(t.dataset.eedit))); }
+  if (t.dataset.eplace) { S.eggs[t.dataset.eplace] = Object.assign(S.eggs[t.dataset.eplace] || {}, {p: back(map.getCenter()), edit: true}); save(); drawEggs(); }
+};
+$("eggs").onchange = e => { const i = e.target; if (i.dataset.eid) { S.eggs[i.dataset.eid] = Object.assign(S.eggs[i.dataset.eid] || {}, {seen: i.checked}); save(); drawEggs(); } };
+$("eggLayer").onchange = e => { S.eggLayer = e.target.checked; save(); drawEggs(); };
+
+function drawChapters() {
+  $("chap").value = S.chapter; $("later").checked = S.later;
+  const list = D.chapters.filter(c => c.n === +S.chapter || (S.later && c.n > S.chapter) || c.n < S.chapter);
+  $("chapters").innerHTML = list.map(c => {
+    const done = c.items.filter(i => S.items[i.id]).length;
+    const past = c.n < S.chapter;
+    const body = '<div class="pnr">' + esc(c.pnr) + lk(c.links) + '</div>' + c.items.map(i => '<div class="card' + (S.items[i.id] ? " done" : "") + '"><label class="ck" style="align-items:flex-start"><input type="checkbox" data-item="' + esc(i.id) + '"' + (S.items[i.id] ? " checked" : "") + '><span><b>' + esc(i.t) + '</b>' + (i.tr ? '<span class="tag trophy">trofei</span>' : "") + '</span></label>' + (i.d ? "<p>" + esc(i.d) + "</p>" : "") + (i.n ? '<p class="note">' + esc(i.n) + "</p>" : "") + lk(i.links) + (i.src.length ? '<div class="src">Fonti: ' + i.src.map(esc).join(", ") + "</div>" : "") + "</div>").join("");
+    return past ? '<details class="card"><summary><b>' + esc(c.titolo) + '</b> <span class="muted">' + done + "/" + c.items.length + ' · già passato</span></summary>' + body + "</details>"
+      : '<h2>' + esc(c.titolo) + '</h2><div class="bar"><span style="width:' + (done / c.items.length * 100) + '%"></span></div><p class="muted">' + done + " fatte su " + c.items.length + "</p>" + body;
+  }).join("");
+  $("always").innerHTML = D.always.map(a => '<div class="card"><h3>' + esc(a.t) + "</h3><p>" + esc(a.d) + '</p>' + lk(a.links) + '<div class="src">Fonti: ' + a.src.map(esc).join(", ") + "</div></div>").join("");
+}
+$("chap").onchange = e => { S.chapter = +e.target.value; save(); drawChapters(); };
+$("later").onchange = e => { S.later = e.target.checked; save(); drawChapters(); };
+$("chapters").onchange = e => { const i = e.target; if (i.dataset.item) { if (i.checked) S.items[i.dataset.item] = true; else delete S.items[i.dataset.item]; save(); drawChapters(); } };
+
+let pending = null;
+function drawMine() {
+  mineLayer.clearLayers();
+  S.mine.forEach((m, k) => L.marker(ll(m.p), {icon: mineIcon}).bindPopup("<b>" + esc(m.n) + "</b>" + (m.note ? "<br>" + esc(m.note) : "")).addTo(mineLayer));
+  $("mine").innerHTML = S.mine.length ? S.mine.map((m, k) => '<div class="card"><h3>' + esc(m.n) + "</h3>" + (m.note ? '<p class="note">' + esc(m.note) + "</p>" : "") + '<div class="row"><button class="btn" data-mgo="' + k + '">Vedi</button><button class="btn" data-mdel="' + k + '">Elimina</button></div></div>').join("") : '<p class="muted">Nessun pin ancora.</p>';
+}
+const askPin = p => { pending = p; $("mineF").hidden = false; $("mName").value = ""; $("mNote").value = ""; document.querySelector('nav button[data-t=miei]').click(); setTimeout(() => $("mName").focus(), 50); };
+map.on("contextmenu", e => askPin(back(e.latlng)));
+$("addC").onclick = () => askPin(back(map.getCenter()));
+$("mCancel").onclick = () => { pending = null; $("mineF").hidden = true; };
+$("mSave").onclick = () => { if (!pending) return; S.mine.push({n: $("mName").value.trim() || "Pin", note: $("mNote").value.trim(), p: pending}); pending = null; $("mineF").hidden = true; save(); drawMine(); };
+$("mine").onclick = e => { const t = e.target; if (t.dataset.mgo) fly(S.mine[+t.dataset.mgo].p); if (t.dataset.mdel) { S.mine.splice(+t.dataset.mdel, 1); save(); drawMine(); } };
+
+$("exp").onclick = async () => { try { await navigator.clipboard.writeText(JSON.stringify(S)); $("exp").textContent = "Copiato"; } catch (e) { $("impF").hidden = false; $("impX").value = JSON.stringify(S); $("impMsg").textContent = "Copia tu il testo qui sopra."; } };
+$("impT").onclick = () => { $("impF").hidden = !$("impF").hidden; };
+$("impGo").onclick = () => { try { const o = JSON.parse($("impX").value); if (!o || typeof o !== "object" || !("poi" in o)) throw 0; S = Object.assign(S, o); save(); render(); $("impMsg").textContent = "Ripristinato."; } catch (e) { $("impMsg").textContent = "Il testo non è un backup valido."; } };
+
+const norm = s => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+$("q").oninput = () => {
+  const q = norm($("q").value.trim()), box = $("results");
+  if (q.length < 2) { box.style.display = "none"; return; }
+  const hits = [];
+  D.cars.forEach(c => { if (carPos(c) && norm(c.n + " " + c.zona).includes(q)) hits.push(["Auto: " + c.n, c.zona, carPos(c)]); });
+  D.eggs.forEach(x => { if (eggPos(x) && norm(x.n + " " + x.zona).includes(q)) hits.push(["Segreto: " + x.n, x.zona, eggPos(x)]); });
+  D.pois.forEach(p => { if (norm(p.n + " " + p.t + " " + p.w).includes(q)) hits.push([p.n, p.t + (p.w ? " · " + p.w : ""), p.p]); });
+  S.mine.forEach(m => { if (norm(m.n).includes(q)) hits.push([m.n, "Mio pin", m.p]); });
+  D.search.forEach(s => { if (hits.length < 40 && norm(s[0]).includes(q)) hits.push([s[0], "Luogo", [s[1], s[2]]]); });
+  box.innerHTML = hits.slice(0, 40).map((h, k) => '<button role="option" data-k="' + k + '">' + esc(h[0]) + "<br><small>" + esc(h[1]) + "</small></button>").join("") || '<button disabled>Nessun risultato</button>';
+  box.style.display = "block"; box._hits = hits;
+};
+$("results").onclick = e => { const b = e.target.closest("button[data-k]"); if (!b) return; const h = $("results")._hits[+b.dataset.k]; $("results").style.display = "none"; $("q").blur(); flash(h[2], h[0]); };
+$("q").onfocus = openPanel;
+
+function render() { S.eggs = S.eggs || {}; drawCats(); drawPois(); drawCars(); drawCarList(); drawEggs(); drawChapters(); drawMine(); $("carLayer").checked = S.carLayer; $("eggLayer").checked = S.eggLayer !== false; }
+function start(data) {
+  D = data;
+  OFF_BY_DEFAULT.forEach(c => { if (!(c in S.cats)) S.cats[c] = false; });
+  render();
+}
+fetch("data.json").then(r => r.json()).then(start).catch(() => { $("t-mappa").insertAdjacentHTML("afterbegin", '<p class="pnr">Non riesco a caricare i dati della mappa. Ricarica la pagina.</p>'); });
+}
+</script>
+</body>
+</html>
