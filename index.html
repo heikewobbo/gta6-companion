@@ -898,6 +898,18 @@ body.mapmode #snack{bottom:calc(var(--tab) + var(--sheet) + 12px)}
 #snack span{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 #snack button{border:0;background:none;color:#ff6b84;font:600 15px var(--sf);padding:6px 8px;cursor:pointer}
 @media(min-width:760px){#snack{left:404px;right:auto;width:360px;bottom:24px!important}}
+.irow .nm{font-size:15.5px}
+.mrow{align-items:start}
+.mrow>input{margin-top:1px!important}
+.mrow.wide{grid-template-columns:auto minmax(0,1fr)}
+.mrow.wide .act{margin-top:8px;flex-wrap:wrap}
+.irow.during{margin-left:36px;grid-template-columns:auto minmax(0,1fr) auto}
+.kick{display:block;font:700 11px var(--sf);text-transform:uppercase;letter-spacing:.04em;color:var(--mute);margin-bottom:1px}
+.anyh{font:700 12px var(--sf);text-transform:uppercase;letter-spacing:.04em;color:var(--tint);padding:14px 0 4px;border-top:.5px solid var(--sep)}
+.anyh+.mrow{border-top:0}
+.inote{font-size:13px;color:var(--mute);margin-top:3px;font-style:italic}
+.mrow .tag{margin-left:6px}
+details.ch .pnr{margin:0 0 6px}
 </style>
 </head>
 <body class="mapmode">
@@ -926,22 +938,15 @@ body.mapmode #snack{bottom:calc(var(--tab) + var(--sheet) + 12px)}
     <div class="row"><button class="btn" id="allOn">Mostra tutto</button><button class="btn" id="allOff">Nascondi tutto</button></div>
   </div>
 
-  <div class="tab" id="t-cap">
-    <div class="nb"><span></span><span class="nbt">Capitoli</span><span class="slot"></span></div>
-    <h1 class="lt">Capitoli</h1>
-    <p class="sub">Cosa fare prima di andare avanti. Il capitolo si cambia in alto a destra.</p>
-    <div id="chapters"></div>
-    <h2>Sempre valido</h2>
-    <div id="always"></div>
-  </div>
-
-  <div class="tab" id="t-missioni">
-    <div class="nb"><span></span><span class="nbt">Missioni</span><span class="slot"></span></div>
-    <h1 class="lt">Missioni</h1>
+  <div class="tab" id="t-storia">
+    <div class="nb"><span></span><span class="nbt">Storia</span><span class="slot"></span></div>
+    <h1 class="lt">Storia</h1>
+    <p class="sub">Missioni e cose da non perdere, nell'ordine del gioco.</p>
     <div class="group noi"><label class="cell"><span class="cl">Missioni con pin sulla mappa</span><input type="checkbox" id="misLayer" class="sw" checked></label></div>
     <div class="bar"><span id="misBar"></span></div><p class="muted" id="misTxt"></p><i id="misCount" hidden></i>
-    <p class="muted">Tutte le missioni dalla guida di PowerPyx, fino al capitolo scelto in alto (le altre restano nascoste per gli spoiler). Hanno un pin solo quelle che partono da un punto fisso; per le altre segui l'indicatore del gioco.</p>
-    <div id="misList"></div>
+    <div id="story"></div>
+    <h2>Sempre valido</h2>
+    <div id="always"></div>
     <h2>Strangers &amp; Freaks</h2>
     <p class="muted">Per il trofeo servono 8 catene complete. «Conta» = vale per il trofeo secondo PowerPyx.</p>
     <div id="sfList"></div>
@@ -976,6 +981,7 @@ body.mapmode #snack{bottom:calc(var(--tab) + var(--sheet) + 12px)}
     <h2>Impostazioni</h2>
     <div class="group">
       <label class="cell"><span class="ico" style="background:#5856d6"><svg viewBox="0 0 24 24" fill="#fff" fill-rule="evenodd"><path d="M12 5.5c-5.2 0-8.7 4.5-9.5 6.5.8 2 4.3 6.5 9.5 6.5s8.7-4.5 9.5-6.5c-.8-2-4.3-6.5-9.5-6.5zm0 10.3a3.8 3.8 0 1 1 0-7.6 3.8 3.8 0 0 1 0 7.6zm0-2a1.8 1.8 0 1 0 0-3.6 1.8 1.8 0 0 0 0 3.6z"/></svg></span><span class="cl">Mostra i capitoli successivi<small>Spoiler: anche ciò che si sblocca più avanti</small></span><input type="checkbox" id="later" class="sw"></label>
+      <label class="cell"><span class="ico" style="background:#af52de"><svg viewBox="0 0 24 24" fill="#fff"><path d="M12 2.5 14.6 8l6 .7-4.5 4.1 1.2 5.9L12 15.8l-5.3 2.9 1.2-5.9-4.5-4.1 6-.7z"/></svg></span><span class="cl">Ho la Ultimate Edition<small>Spento: nasconde moto, kayak e barca dell'edizione</small></span><input type="checkbox" id="ue" class="sw" checked></label>
       <button class="cell" data-push="dati"><span class="ico" style="background:#0a84ff"><svg viewBox="0 0 24 24" fill="#fff" fill-rule="evenodd"><path d="M3.5 4.5h17v4.2h-17zM4.8 10h14.4v8.8a1.2 1.2 0 0 1-1.2 1.2H6a1.2 1.2 0 0 1-1.2-1.2zm4.6 2.4h5.2v1.8H9.4z"/></svg></span><span class="cl">Backup e salvataggi</span><span class="chev"></span></button>
     </div>
     <p class="muted" id="installTip" hidden>Per averla come app: in Safari tocca Condividi, poi «Aggiungi alla schermata Home».</p>
@@ -1034,8 +1040,7 @@ body.mapmode #snack{bottom:calc(var(--tab) + var(--sheet) + 12px)}
 </section>
 <nav id="tabbar" role="tablist" aria-label="Sezioni">
   <button role="tab" data-t="mappa" aria-selected="true"><svg class="off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M3.5 6.3 8.8 4.2l6.4 2.3 5.3-2.1v13.3l-5.3 2.1-6.4-2.3-5.3 2.1zM8.8 4.2v13.3M15.2 6.5v13.3"/></svg><svg class="on" viewBox="0 0 24 24" fill="currentColor"><path d="M2.8 6.1 8 4v13.6l-5.2 2.1zM9.6 4.1l4.8 1.7v13.6l-4.8-1.7zM16 5.9l5.2-2v13.6L16 19.6z"/></svg>Mappa</button>
-  <button role="tab" data-t="cap" aria-selected="false"><svg class="off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M12 6.2C10 4.8 7 4.4 3.8 5v13.4c3.2-.6 6.2-.2 8.2 1.2 2-1.4 5-1.8 8.2-1.2V5C17 4.4 14 4.8 12 6.2zM12 6.2v13.4"/></svg><svg class="on" viewBox="0 0 24 24" fill="currentColor"><path d="M11.2 5.6C9.2 4.3 6.4 3.9 3.2 4.5v14.2c3-.5 5.8-.1 8 1.1zM12.8 5.6c2-1.3 4.8-1.7 8-1.1v14.2c-3-.5-5.8-.1-8 1.1z"/></svg>Capitoli</button>
-  <button role="tab" data-t="missioni" aria-selected="false"><svg class="off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 21V3.8M5.5 4.6c2.2-1.2 4.4-1.2 6.6 0s4.4 1.2 6.4 0v9.2c-2 1.2-4.2 1.2-6.4 0s-4.4-1.2-6.6 0"/></svg><svg class="on" viewBox="0 0 24 24" fill="currentColor"><path d="M5.5 21V3.8" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" fill="none"/><path d="M5.5 4.6c2.2-1.2 4.4-1.2 6.6 0s4.4 1.2 6.4 0v9.2c-2 1.2-4.2 1.2-6.4 0s-4.4-1.2-6.6 0z"/></svg>Missioni</button>
+  <button role="tab" data-t="storia" aria-selected="false"><svg class="off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M12 6.2C10 4.8 7 4.4 3.8 5v13.4c3.2-.6 6.2-.2 8.2 1.2 2-1.4 5-1.8 8.2-1.2V5C17 4.4 14 4.8 12 6.2zM12 6.2v13.4"/></svg><svg class="on" viewBox="0 0 24 24" fill="currentColor"><path d="M11.2 5.6C9.2 4.3 6.4 3.9 3.2 4.5v14.2c3-.5 5.8-.1 8 1.1zM12.8 5.6c2-1.3 4.8-1.7 8-1.1v14.2c-3-.5-5.8-.1-8 1.1z"/></svg>Storia</button>
   <button role="tab" data-t="trofei" aria-selected="false"><svg class="off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 4h9v5.5a4.5 4.5 0 0 1-9 0zM7.5 6H4.5v1.2a3.3 3.3 0 0 0 3.3 3.3M16.5 6h3v1.2a3.3 3.3 0 0 1-3.3 3.3M12 14v3.5M8.5 20.5h7M9.6 20.5l.4-3h4l.4 3"/></svg><svg class="on" viewBox="0 0 24 24" fill="currentColor"><path d="M7 3.5h10v6a5 5 0 0 1-10 0zM11 13.8h2v3.4h-2zM9.9 17h4.2l.5 3h1.5v1.3H7.9V20h1.5z"/><path d="M7.3 6H4.5v1.2a3.3 3.3 0 0 0 3.3 3.3M16.7 6h2.8v1.2a3.3 3.3 0 0 1-3.3 3.3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Trofei</button>
   <button role="tab" data-t="altro" aria-selected="false"><svg class="off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><g fill="currentColor" stroke="none"><circle cx="7.8" cy="12" r="1.35"/><circle cx="12" cy="12" r="1.35"/><circle cx="16.2" cy="12" r="1.35"/></g></svg><svg class="on" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.6" fill="currentColor"/><g style="fill:light-dark(#fff,#1e1e20)"><circle cx="7.8" cy="12" r="1.45"/><circle cx="12" cy="12" r="1.45"/><circle cx="16.2" cy="12" r="1.45"/></g></svg>Altro</button>
 </nav>
@@ -1286,37 +1291,55 @@ function drawMisMap() {
   }
   if (S.misLayer) misLayer.addTo(map); else map.removeLayer(misLayer);
 }
-function mrow(x) {
+const visItem = i => S.ue !== false || !i.ue;
+const itemTags = i => (i.tr ? '<span class="tag trophy">trofei</span>' : "") + (i.ue ? '<span class="tag opt">Ultimate</span>' : "");
+const itemBody = i => (i.d ? '<div class="muted">' + esc(i.d) + "</div>" : "") + (i.n ? '<div class="inote">' + esc(i.n) + "</div>" : "");
+function mrow(x, merged) {
   const m = D.missions.db[x.id], st = S.mis[x.id] || {}, pos = misPos(x.id);
-  const tags = x.f.map(f => TAGS[f] ? '<span class="tag ' + TAGS[f][0] + '">' + TAGS[f][1] + "</span>" : "").join("");
-  return '<div class="mrow' + (st.done ? " done" : "") + '"><input type="checkbox" aria-label="Fatta" data-mid="' + esc(x.id) + '"' + (st.done ? " checked" : "") + '><div class="nm">' + esc(m.it || x.n) + tags + (m.it ? '<div class="en">' + esc(x.n) + "</div>" : "") + (m.w ? '<div class="muted">' + esc(m.w) + (m.prec === "zona" ? " (zona)" : "") + "</div>" : "") + '</div><div class="act"><a href="' + esc(m.u) + '" target="_blank" rel="noopener">Guida</a>' +
-    (pos ? '<button data-mgo="' + esc(x.id) + '">Vedi</button>' + (st.edit ? '<button data-mok="' + esc(x.id) + '">Fatto</button>' : '<button data-medit="' + esc(x.id) + '" title="Correggi posizione">Sposta</button>') : "") + "</div></div>";
+  const tags = x.f.map(f => TAGS[f] ? '<span class="tag ' + TAGS[f][0] + '">' + TAGS[f][1] + "</span>" : "").join("") + (merged || []).map(i => (x.f.includes("miss") ? "" : '<span class="tag">da non perdere</span>') + itemTags(i)).join("");
+  const acts = '<div class="act"><a href="' + esc(m.u) + '" target="_blank" rel="noopener">Guida</a>' + (pos ? '<button data-mgo="' + esc(x.id) + '">Vedi sulla mappa</button>' + (st.edit ? '<button data-mok="' + esc(x.id) + '">Fatto</button>' : '<button data-medit="' + esc(x.id) + '" title="Correggi posizione">Sposta il pin</button>') : "") + "</div>";
+  return '<div class="mrow' + (st.done ? " done" : "") + (pos ? " wide" : "") + '"><input type="checkbox" aria-label="Fatta" data-mid="' + esc(x.id) + '"' + (st.done ? " checked" : "") + '><div class="nm">' + esc(m.it || x.n) + tags + (m.it ? '<div class="en">' + esc(x.n) + "</div>" : "") + (m.w ? '<div class="muted">' + esc(m.w) + (m.prec === "zona" ? " (zona)" : "") + "</div>" : "") + (merged || []).map(itemBody).join("") + (pos ? acts : "") + "</div>" + (pos ? "" : acts) + "</div>";
+}
+function irow(i, kind) {
+  const dn = itemDone(i), g = (i.links || [])[0];
+  return '<div class="mrow irow ' + kind + (dn ? " done" : "") + '"><input type="checkbox" aria-label="Fatto" data-item="' + esc(i.id) + '"' + (dn ? " checked" : "") + '><div class="nm">' + (kind === "during" ? '<span class="kick">Durante la missione</span>' : "") + esc(i.t) + '<span class="tag">da non perdere</span>' + itemTags(i) + itemBody(i) + '</div><div class="act">' + (g ? '<a href="' + esc(g[1]) + '" target="_blank" rel="noopener">Guida</a>' : "") + "</div></div>";
+}
+function storyChapter(c) {
+  const cc = D.chapters.find(x => x.n === c.n) || {items: [], pnr: "", links: []}, its = cc.items.filter(visItem);
+  const by = {before: {}, during: {}, after: {}, merge: {}}, any = [];
+  for (const i of its) { if (i.pos === "any" || !i.at || !by[i.pos]) any.push(i); else (by[i.pos][i.at] = by[i.pos][i.at] || []).push(i); }
+  const story = c.m.filter(x => !x.f.includes("opt")), pnrM = c.m.find(x => x.f.includes("pnr")), anyAt = (pnrM || story[story.length - 1] || {}).id;
+  let rows = "";
+  for (const x of c.m) {
+    if (x.id === anyAt && any.length) rows += '<div class="anyh">In qualsiasi momento del capitolo</div>' + any.map(i => irow(i, "any")).join("");
+    rows += (by.before[x.id] || []).map(i => irow(i, "before")).join("") + mrow(x, by.merge[x.id]) + (by.during[x.id] || []).map(i => irow(i, "during")).join("") + (by.after[x.id] || []).map(i => irow(i, "after")).join("");
+  }
+  const free = its.filter(i => i.pos !== "merge" || !c.m.some(x => x.id === i.at));
+  const tot = c.m.length + free.length, done = c.m.filter(x => mDone(x.id)).length + free.filter(itemDone).length;
+  return '<details class="ch"' + (c.n === +S.chapter ? " open" : "") + '><summary>' + esc(cc.titolo || c.t) + "<span>" + done + "/" + tot + "</span></summary>" +
+    (cc.pnr ? '<div class="pnr">' + esc(cc.pnr) + lk(cc.links) + "</div>" : "") + rows + "</details>";
 }
 function drawMis() {
   const ids = Object.keys(D.missions.db), done = ids.filter(i => (S.mis[i] || {}).done).length;
   $("misCount").textContent = done + "/" + ids.length;
   $("misBar").style.width = (done / ids.length * 100) + "%";
   $("misTxt").textContent = done + " missioni fatte su " + ids.length + " (storia, facoltative e Strangers & Freaks).";
-  $("misList").innerHTML = D.missions.ch.filter(c => visibleCh(c.n)).map(c => {
-    const d = c.m.filter(x => (S.mis[x.id] || {}).done).length;
-    return '<details class="ch"' + (c.n === +S.chapter ? " open" : "") + '><summary>' + esc(c.t) + "<span>" + d + "/" + c.m.length + "</span></summary>" + c.m.map(mrow).join("") + "</details>";
-  }).join("") + (S.later ? "" : '<p class="muted">Capitoli successivi nascosti. Si sbloccano cambiando capitolo in alto.</p>');
+  $("story").innerHTML = D.missions.ch.filter(c => visibleCh(c.n)).map(storyChapter).join("") + (S.later ? "" : '<p class="muted">Capitoli successivi nascosti. Si sbloccano andando avanti nella storia.</p>');
   $("sfList").innerHTML = D.missions.sf.filter(g => visibleCh(g.ch)).map(g => {
     const d = g.m.filter(x => (S.mis[x.id] || {}).done).length, tag = g.conta === "si" ? '<span class="tag sf">conta</span>' : g.conta === "no" ? '<span class="tag opt">non conta</span>' : '<span class="tag opt">non si sa</span>';
     return '<details class="ch"><summary>' + esc(g.g) + "<span>" + (g.ch ? "cap. " + g.ch : "qualsiasi cap.") + " · " + d + "/" + g.m.length + "</span> " + tag + "</summary>" + g.m.map(x => mrow({id: x.id, n: x.n, f: []})).join("") + "</details>";
   }).join("");
-  drawMisMap(); drawNext();
-  if (typeof drawChapters === "function" && $("chapters")) drawChapters();
+  drawMisMap(); drawNext(); drawChapters();
   if (D && D.tro) drawTro();
 }
-for (const box of ["misList", "sfList"]) {
+for (const box of ["story", "sfList"]) {
   $(box).onclick = e => {
     const t = e.target.closest("button"); if (!t) return; const d = t.dataset;
     if (d.mgo) { fly(misPos(d.mgo)); setTimeout(() => misMarkers[d.mgo]?.openPopup(), 700); }
     if (d.medit) { const id = d.medit; S.mis[id] = Object.assign(S.mis[id] || {}, {edit: true}); save(); drawMis(); startPick("Trascina il pin dove parte davvero", "Fatto", () => { (S.mis[id] || {}).edit = false; save(); drawMis(); }, {cross: false, noCancel: true}); fly(misPos(id)); }
     if (d.mok) { S.mis[d.mok].edit = false; save(); drawMis(); }
   };
-  $(box).onchange = e => { const i = e.target; if (i.dataset.mid) markMis(i.dataset.mid, i.checked); };
+  $(box).onchange = e => { const i = e.target; if (i.dataset.mid) markMis(i.dataset.mid, i.checked); if (i.dataset.item) for (const c of D.chapters) for (const it of c.items) if (it.id === i.dataset.item) setItem(it, i.checked); };
 }
 $("misLayer").onchange = e => { S.misLayer = e.target.checked; save(); drawMisMap(); };
 
@@ -1436,15 +1459,7 @@ function syncItems() {
   for (const c of D.chapters) for (const i of c.items) if (i.mis && S.items[i.id]) { S.mis[i.mis] = Object.assign(S.mis[i.mis] || {}, {done: true}); delete S.items[i.id]; }
 }
 function drawChapters() {
-  $("chap").value = S.chapter; $("later").checked = S.later;
-  const list = D.chapters.filter(c => c.n === +S.chapter || (S.later && c.n > S.chapter) || c.n < S.chapter);
-  $("chapters").innerHTML = list.map(c => {
-    const done = c.items.filter(itemDone).length;
-    const past = c.n < S.chapter;
-    const body = '<div class="pnr">' + esc(c.pnr) + lk(c.links) + '</div>' + c.items.map(i => '<div class="card' + (itemDone(i) ? " done" : "") + '"><label class="ck" style="align-items:flex-start"><input type="checkbox" data-item="' + esc(i.id) + '"' + (itemDone(i) ? " checked" : "") + '><span><b>' + esc(i.t) + '</b>' + (i.tr ? '<span class="tag trophy">trofei</span>' : "") + (i.mis ? '<span class="tag opt">anche in Missioni</span>' : "") + '</span></label>' + (i.d ? "<p>" + esc(i.d) + "</p>" : "") + (i.n ? '<p class="note">' + esc(i.n) + "</p>" : "") + lk(i.links) + (i.src.length ? '<div class="src">Fonti: ' + i.src.map(esc).join(", ") + "</div>" : "") + "</div>").join("");
-    return past ? '<details class="card"><summary><b>' + esc(c.titolo) + '</b> <span class="muted">' + done + "/" + c.items.length + ' · già passato</span></summary>' + body + "</details>"
-      : '<h2>' + esc(c.titolo) + '</h2><div class="bar"><span style="width:' + (done / c.items.length * 100) + '%"></span></div><p class="muted">' + done + " fatte su " + c.items.length + "</p>" + body;
-  }).join("");
+  $("chap").value = S.chapter; $("later").checked = S.later; $("ue").checked = S.ue !== false;
   $("always").innerHTML = D.always.map(a => '<div class="card"><h3>' + esc(a.t) + "</h3><p>" + esc(a.d) + '</p>' + lk(a.links) + '<div class="src">Fonti: ' + a.src.map(esc).join(", ") + "</div></div>").join("");
 }
 function ulist(arr) { return "<ul>" + arr.map(u => "<li><b>" + esc(u.t) + "</b><br><span>" + esc(u.d) + "</span>" + lk(u.links) + "</li>").join("") + "</ul>"; }
@@ -1466,7 +1481,7 @@ function toast(c) {
 }
 $("chap").onchange = e => { const old = +S.chapter; S.chapter = +e.target.value; save(); render(); if (S.chapter > old && !S.later) toast(S.chapter); };
 $("later").onchange = e => { S.later = e.target.checked; save(); render(); };
-$("chapters").onchange = e => { const t = e.target; if (!t.dataset.item) return; for (const c of D.chapters) for (const i of c.items) if (i.id === t.dataset.item) setItem(i, t.checked); };
+$("ue").onchange = e => { S.ue = e.target.checked; save(); render(); };
 
 let pending = null;
 function drawMine() {
@@ -1556,7 +1571,7 @@ function nextStep() {
 }
 function pendingOf(ch) {
   const out = [], c = D.chapters.find(x => x.n === ch), linked = new Set();
-  if (c) for (const i of c.items) { if (i.mis) linked.add(i.mis); if (!itemDone(i)) out.push({t: i.t, item: i.id, mis: i.mis || ""}); }
+  if (c) for (const i of c.items.filter(visItem)) { if (i.mis) linked.add(i.mis); if (!itemDone(i)) out.push({t: i.t, item: i.id, mis: i.mis || ""}); }
   const mc = D.missions.ch.find(x => x.n === ch);
   if (mc) for (const x of mc.m) if (x.f.includes("miss") && !linked.has(x.id) && !mDone(x.id)) out.push({t: mName(x.id), mis: x.id});
   return out;
@@ -1575,8 +1590,8 @@ function drawNext() {
   box.innerHTML = '<button class="go" data-nxopen="1"><span class="k">' + (n.pnr ? "Punto di non ritorno" : "Prossimo passo") + " · Cap. " + n.ch + " · " + n.pos + "/" + n.tot + '</span><span class="t">' + esc(m.it || m.n) + "</span>" + (m.it ? '<span class="en" style="display:block">' + esc(m.n) + "</span>" : "") + '</button><button class="nxok" data-nxok="' + esc(n.id) + '" aria-label="Segna come fatta">' + chk + "</button>";
   const list = pend.slice(0, 6).map(p => '<div class="mrow"><input type="checkbox" aria-label="Fatto" ' + (p.mis ? 'data-pmis="' + esc(p.mis) + '"' : 'data-pitem="' + esc(p.item) + '"') + '><div class="nm">' + esc(p.t) + "</div><div></div></div>").join("");
   card.innerHTML = (n.pnr && pend.length ? '<div class="warn"><b>Attenzione</b>«' + esc(m.it || m.n) + "» è un punto di non ritorno: dopo non potrai più fare le cose qui sotto.</div>" : "") +
-    '<div class="row" style="margin:0 0 10px"><a class="btn" href="' + esc(m.u) + '" target="_blank" rel="noopener">Guida ↗</a>' + (pos ? '<button class="btn" data-nxsee="' + esc(n.id) + '">Vedi sulla mappa</button>' : "") + '<button class="btn" data-nxgo="missioni">Tutte le missioni</button></div>' +
-    (pend.length ? '<h2 style="margin-top:4px">Prima di andare avanti <span class="muted" style="font-weight:400">(' + pend.length + ")</span></h2><div class=\"group\">" + list + "</div>" + (pend.length > 6 ? '<div class="row" style="margin-top:0"><button class="btn" data-nxgo="cap">Vedi tutte in Capitoli</button></div>' : "") : "");
+    '<div class="row" style="margin:0 0 10px"><a class="btn" href="' + esc(m.u) + '" target="_blank" rel="noopener">Guida ↗</a>' + (pos ? '<button class="btn" data-nxsee="' + esc(n.id) + '">Vedi sulla mappa</button>' : "") + '<button class="btn" data-nxgo="storia">Tutta la storia</button></div>' +
+    (pend.length ? '<h2 style="margin-top:4px">Prima di andare avanti <span class="muted" style="font-weight:400">(' + pend.length + ")</span></h2><div class=\"group\">" + list + "</div>" + (pend.length > 6 ? '<div class="row" style="margin-top:0"><button class="btn" data-nxgo="storia">Vedi tutte nella Storia</button></div>' : "") : "");
   sizeSheet();
 }
 function sizeSheet() {
@@ -1625,7 +1640,7 @@ function markMis(id, v, sure) {
   if (n && n.pnr && c === prevCh && (!before || before.id !== n.id)) {
     const pend = pendingOf(n.ch);
     if (pend.length) ask({title: "Attenzione", text: "La prossima missione, «" + mName(n.id) + "», è un punto di non ritorno. Prima ti conviene fare:", list: pend.map(p => p.t),
-      buttons: [{label: "Ok", bold: true}, {label: "Apri Capitoli", fn: () => show("cap")}]});
+      buttons: [{label: "Ok", bold: true}, {label: "Apri la Storia", fn: () => show("storia")}]});
   }
 }
 $("next").onclick = e => {

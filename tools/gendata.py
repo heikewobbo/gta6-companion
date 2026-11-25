@@ -502,7 +502,16 @@ def _walk(o, key=None):
     if isinstance(o, dict): return {k: _walk(v, k) for k, v in o.items()}
     return o
 chapters = _walk(chapters); always = _walk(always); unlocks = {k: _walk(v) for k, v in unlocks.items()}; cars = _walk(cars); eggs = _walk(eggs)
+from anchors import anchors as _anchors
+for _c in chapters:
+    for _i in _c["items"]:
+        if "Ultimate Edition" in _i["t"]: _i["ue"] = True
+_A = _anchors(chapters, mission_ch, mdb)
+for _c in chapters:
+    for _i in _c["items"]:
+        s, p = _A.get(_i["id"], (None, "any")); _i["at"] = s or ""; _i["pos"] = p
 for t in TRO["trophies"]:
+    t["tip"] = t["tip"].replace("scheda Missioni", "scheda Storia")
     for f in ("d", "tip"): t[f] = _it(t[f])
     if t.get("links"): t["links"] = _walk(t["links"])
 for h in TRO["hundred"]: h["n"] = _it(h["n"])
